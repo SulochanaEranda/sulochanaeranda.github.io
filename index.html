@@ -554,7 +554,7 @@
     <script src="js/main.js"></script>
 
 
-    <style>
+<style>
   #snowflakeContainer {
     position: absolute;
     left: 0px;
@@ -563,15 +563,18 @@
   }
 
   .snowflake {
-  position: fixed;
-  user-select: none;
-  z-index: 1000;
-  pointer-events: none;
-  width: 15px;
+    position: fixed;
+    background-color: #FFFFFF;
+    user-select: none;
+    z-index: 1000;
+    pointer-events: none;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
   }
 </style>
 <div id="snowflakeContainer">
-  <img class="snowflake" src="https://www.kirupa.com/icon/2744.svg">
+  <span class="snowflake"></span>
 </div>
 
 <script>
@@ -583,7 +586,7 @@
   let browserHeight;
 
   // Specify the number of snowflakes you want visible
-  let numberOfSnowflakes = 100;
+  let numberOfSnowflakes = 50;
 
   // Flag to reset the position of the snowflakes
   let resetPosition = false;
