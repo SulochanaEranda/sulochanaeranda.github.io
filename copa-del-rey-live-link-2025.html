@@ -36,89 +36,125 @@
   <meta name="twitter:url" content="https://sulochanaeranda.xyz/copa-del-rey-live-link-2025.html" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image:src" content="https://sulochanaeranda.xyz/favicon.png" />
-  <meta name="twitter:image:alt" content="Copa del Rey Final 2025 - Barcelona vs Real Madrid" />
-
-  <!-- Tailwind & Styles -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="twitter:image:alt" content="Copa del Rey Final 2025 - Barcelona vs Real Madrid" />  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
     };
   </script>
   <style>
-    body {
-      transition: background 0.5s ease, color 0.5s ease;
+    body.loading #main {
+      display: none;
     }
-    .fade-in {
-      animation: fadeIn 1s ease-in-out;
+
+    /* Loader */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to right, #ff0000 33.3%, #000000 33.3%, #000000 66.6%, #0044cc 66.6%, #0044cc 100%);
     }
+
+    .logo-container {
+      position: relative;
+      display: flex;
+      gap: 3rem;
+      z-index: 10;
+    }
+
+    .pulse-ring {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 9999px;
+      border: 4px solid rgba(255, 255, 255, 0.4);
+      animation: pulse 1.5s infinite;
+    }
+
+    .pulse-ring:nth-child(1) { animation-delay: 0s; }
+    .pulse-ring:nth-child(2) { animation-delay: 0.5s; }
+    .pulse-ring:nth-child(3) { animation-delay: 1s; }
+
+    @keyframes pulse {
+      0% { transform: scale(0.8); opacity: 1; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
+
+    .fade-in { animation: fadeIn 1s ease-in-out; }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
     .ball-hover:hover {
       animation: bounce 1s infinite;
     }
+
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
     }
   </style>
-
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "r4mwnb2wrr");
-</script>
-  
 </head>
 
-<body class="bg-gray-900 text-white dark:bg-white dark:text-black bg-cover bg-center transition-all" id="body">
-  <div class="min-h-screen backdrop-blur-sm bg-black/65 dark:bg-white/30 flex flex-col items-center justify-center px-4 fade-in">
+<body class="loading bg-gray-900 text-white dark:bg-white dark:text-black bg-cover bg-center transition-all" id="body">
 
-    <!-- 🏆 Title -->
-    <h1 class="text-4xl md:text-6xl font-bold text-center mb-4 flex items-center justify-center">
-      🔥Copa del Rey Final 2025
-      <img src="favicon.png" alt="Icon" class="w-16 h-16 ml-2" />
-    </h1>
-
-    <!-- Match Info -->
-    <h2 class="text-xl md:text-3xl font-semibold mb-2 text-center">Barcelona 🆚 Real Madrid</h2>
-    <h3 class="text-lg md:text-xl mb-6 text-center">El Clásico – Saturday, April 26, 2025, at 8:00 PM UTC.</h3>
-    <h3 class="text-lg md:text-xl mb-6 text-center">El Clásico – April 27, 2025 at 1:30 AM SL🇱🇰 Time</h3>
-    <h3 class="text-lg md:text-xl mb-6 text-center">
-      <a href="https://www1.footybite.cc/" 
-         class="font-bold text-blue-400 underline drop-shadow-[0_0_10px_rgba(0,0,255,0.7)] hover:text-blue-300 transition duration-300">
-        Live Link 🔗
-      </a>
-    </h3>
-
-    <!-- ⚽ Logos -->
-    <div class="flex justify-center items-center gap-10 mb-6">
-      <img src="YOUR_BARCA_LOGO.png" alt="Barça Logo" class="w-20 h-20 md:w-28 md:h-28 object-contain" />
-      <span class="text-3xl font-bold">VS</span>
-      <img src="YOUR_RMA_LOGO.png" alt="Real Madrid Logo" class="w-20 h-20 md:w-28 md:h-28 object-contain" />
+  <!-- Loader -->
+  <div id="loader">
+    <div class="relative flex flex-col items-center justify-center">
+      <div class="pulse-ring"></div>
+      <div class="pulse-ring"></div>
+      <div class="pulse-ring"></div>
+      <div class="logo-container">
+        <img src="YOUR_BARCA_LOGO.png" alt="Barça" class="w-20 h-20 md:w-28 md:h-28" />
+        <img src="YOUR_RMA_LOGO.png" alt="Real" class="w-20 h-20 md:w-28 md:h-28" />
+      </div>
     </div>
-
-    <!-- ⏱ Countdown -->
-    <div id="countdown" class="text-4xl md:text-6xl font-extrabold font-mono mb-8 text-black drop-shadow-[0_0_10px_white] text-center"></div>
-
-    <!-- ⚽ Hover Ball -->
-    <img src="ball.png" alt="ball" class="w-24 md:w-32 ball-hover" />
-
-    <!-- 🖋 Footer -->
-    <footer class="mt-10 text-sm md:text-base font-semibold text-center">
-      Designed by 
-      <a href="https://sulochanaeranda.xyz/" 
-         class="font-bold text-blue-400 underline drop-shadow-[0_0_10px_rgba(0,0,255,0.7)] hover:text-blue-300 transition duration-300">
-        Sulochana Eranda
-      </a>
-    </footer>
   </div>
 
-  <!-- ⏱ JS -->
+  <!-- Main Content -->
+  <div id="main">
+    <div class="min-h-screen backdrop-blur-sm bg-black/75 dark:bg-white/20 flex flex-col items-center justify-center px-4 fade-in">
+
+      <h1 class="text-4xl md:text-6xl font-bold text-center mb-4 flex items-center justify-center">
+        🔥Copa del Rey Final 2025
+        <img src="favicon.png" alt="Icon" class="w-16 h-16 ml-2" />
+      </h1>
+
+      <h2 class="text-xl md:text-3xl font-semibold mb-2 text-center">Barcelona 🆚 Real Madrid</h2>
+      <h3 class="text-lg md:text-xl mb-6 text-center">El Clásico – Saturday, April 26, 2025, at 8:00 PM UTC.</h3>
+      <h3 class="text-lg md:text-xl mb-6 text-center">El Clásico – April 27, 2025 at 1:30 AM SL🇱🇰 Time</h3>
+      <h3 class="text-lg md:text-xl mb-6 text-center">
+        <a href="https://www1.footybite.cc/" 
+           class="font-bold text-blue-400 underline drop-shadow-[0_0_10px_rgba(0,0,255,0.7)] hover:text-blue-300 transition duration-300">
+          Live Link 🔗
+        </a>
+      </h3>
+
+      <div class="flex justify-center items-center gap-10 mb-6">
+        <img src="YOUR_BARCA_LOGO.png" alt="Barça Logo" class="w-20 h-20 md:w-28 md:h-28 object-contain" />
+        <span class="text-3xl font-bold">VS</span>
+        <img src="YOUR_RMA_LOGO.png" alt="Real Madrid Logo" class="w-20 h-20 md:w-28 md:h-28 object-contain" />
+      </div>
+
+      <div id="countdown" class="text-4xl md:text-6xl font-extrabold font-mono mb-8 text-black drop-shadow-[0_0_10px_white] text-center"></div>
+
+      <img src="ball.png" alt="ball" class="w-24 md:w-32 ball-hover" />
+
+      <footer class="mt-10 text-sm md:text-base font-semibold text-center">
+        Designed by 
+        <a href="https://sulochanaeranda.xyz/" 
+           class="font-bold text-blue-400 underline drop-shadow-[0_0_10px_rgba(0,0,255,0.7)] hover:text-blue-300 transition duration-300">
+          Sulochana Eranda
+        </a>
+      </footer>
+    </div>
+  </div>
+
   <script>
     const matchDate = new Date("April 26, 2025 20:00:00 GMT+0000").getTime();
     const bgImages = ['bg1.jpg', 'bg2.jpg', 'bg3.jpg'];
@@ -156,11 +192,17 @@
     }
 
     window.onload = () => {
+      setTimeout(() => {
+        document.body.classList.remove("loading");
+        document.getElementById("loader").style.display = "none";
+      }, 3000);
+
       changeBackground();
       updateCountdown();
       setInterval(changeBackground, 2000);
       setInterval(updateCountdown, 1000);
     };
   </script>
+
 </body>
 </html>
