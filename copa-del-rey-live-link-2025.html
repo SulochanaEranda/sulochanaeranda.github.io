@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -39,13 +39,9 @@
   <meta name="twitter:image:src" content="https://sulochanaeranda.xyz/favicon.png" />
   <meta name="twitter:image:alt" content="Copa del Rey Final 2025 - Barcelona vs Real Madrid" />
 
-  <!-- Tailwind & Styles -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-    };
-  </script>
+
   <style>
     body {
       transition: background 0.5s ease, color 0.5s ease;
@@ -67,8 +63,8 @@
   </style>
 </head>
 
-<body class="bg-gray-900 text-white dark:bg-white dark:text-black bg-cover bg-center transition-all" id="body">
-  <div class="min-h-screen backdrop-blur-sm bg-black/90 dark:bg-white/30 flex flex-col items-center justify-center px-4 fade-in">
+<body class="bg-black text-white bg-cover bg-center transition-all" id="body">
+  <div class="min-h-screen backdrop-blur-sm bg-black/90 flex flex-col items-center justify-center px-4 fade-in">
 
     <!-- 🏆 Title -->
     <h1 class="text-4xl md:text-6xl font-bold text-center mb-4 flex items-center justify-center">
@@ -95,13 +91,13 @@
     </div>
 
     <!-- ⏱ Countdown -->
-    <div id="countdown" class="text-4xl md:text-6xl font-extrabold font-mono mb-8 text-black drop-shadow-[0_0_10px_white] text-center"></div>
+    <div id="countdown" class="text-4xl md:text-6xl font-extrabold font-mono mb-8 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.7)] text-center"></div>
 
     <!-- ⚽ Hover Ball -->
     <img src="ball.png" alt="ball" class="w-24 md:w-32 ball-hover" />
 
     <!-- 🖋 Footer -->
-    <footer class="mt-10 text-sm md:text-base font-semibold text-center">
+    <footer class="mt-10 text-sm md:text-base font-semibold text-center text-gray-400">
       Designed by 
       <a href="https://sulochanaeranda.xyz/" 
          class="font-bold text-blue-400 underline drop-shadow-[0_0_10px_rgba(0,0,255,0.7)] hover:text-blue-300 transition duration-300">
@@ -141,7 +137,6 @@
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
       countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
       countdown.classList.remove("countdown-animate");
       void countdown.offsetWidth;
       countdown.classList.add("countdown-animate");
