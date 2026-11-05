@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Study Time Tracker</title>
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg1:#dfe7ff;--bg2:#f3e4ff;--bg3:#d8f5ec;--card:rgba(255,255,255,.5);--cb:rgba(255,255,255,.7);--tx:#1b1f2a;--mu:#5d6577;--ac:#5b5bf0;--ac2:#10b981;--grid:rgba(90,100,130,.18);--in:rgba(255,255,255,.6);--sh:0 8px 30px rgba(60,70,120,.12)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#12142a;--bg2:#241338;--bg3:#0e2a2a;--card:rgba(30,34,52,.5);--cb:rgba(255,255,255,.1);--tx:#eceef6;--mu:#a3abc0;--ac:#8b8cff;--ac2:#34d399;--grid:rgba(200,210,255,.14);--in:rgba(255,255,255,.07);--sh:0 8px 30px rgba(0,0,0,.35)}}
+:root[data-theme="dark"]{--bg1:#12142a;--bg2:#241338;--bg3:#0e2a2a;--card:rgba(30,34,52,.5);--cb:rgba(255,255,255,.1);--tx:#eceef6;--mu:#a3abc0;--ac:#8b8cff;--ac2:#34d399;--grid:rgba(200,210,255,.14);--in:rgba(255,255,255,.07);--sh:0 8px 30px rgba(0,0,0,.35)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.4;background:radial-gradient(circle at 12% 8%,var(--bg1),transparent 55%),radial-gradient(circle at 90% 20%,var(--bg2),transparent 50%),radial-gradient(circle at 50% 95%,var(--bg3),transparent 55%),var(--bg1);background-attachment:fixed}
+.w{max-width:920px;margin:0 auto;padding:16px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+h1{font-size:1.4rem;margin:8px 0 2px}h2{font-size:1rem;margin:0 0 10px}
+.sub{color:var(--mu);font-size:.9rem;margin-bottom:14px}
+.card,.st{background:var(--card);border:1px solid var(--cb);border-radius:18px;padding:16px;margin-bottom:14px;backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);box-shadow:var(--sh)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+label{display:flex;flex-direction:column;font-size:.8rem;color:var(--mu);gap:4px}
+input,.dbtn{font:inherit;padding:9px 10px;border:1px solid var(--cb);border-radius:11px;background:var(--in);color:var(--tx);width:100px}
+button{font:inherit;border:0;border-radius:11px;padding:10px 18px;background:var(--ac);color:#fff;cursor:pointer}
+button.g{background:transparent;color:var(--mu);padding:4px 8px}
+.tg{background:var(--card);color:var(--tx);border:1px solid var(--cb);backdrop-filter:blur(12px);font-size:1.1rem;padding:8px 12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.st{margin:0}.st b{display:block;font-size:1.45rem}.st span{color:var(--mu);font-size:.8rem}
+.bar{height:8px;background:var(--grid);border-radius:99px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:var(--ac2)}
+.cd{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}
+.cd div{background:var(--in);border-radius:14px;padding:12px 4px}.cd b{display:block;font-size:1.8rem}.cd span{font-size:.75rem;color:var(--mu)}
+svg{width:100%;height:auto;display:block}.sc{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{text-align:left;padding:7px 4px;border-bottom:1px solid var(--grid)}th{color:var(--mu);font-weight:500}
+.empty{color:var(--mu);text-align:center;padding:20px}
+.cw{position:relative}.dl{display:flex;flex-direction:column;font-size:.8rem;color:var(--mu);gap:4px}.dbtn{width:170px;text-align:left;cursor:pointer}
+.pop{display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:20;width:290px;padding:12px;border-radius:18px;background:var(--card);border:1px solid var(--cb);backdrop-filter:blur(22px) saturate(1.5);-webkit-backdrop-filter:blur(22px) saturate(1.5);box-shadow:var(--sh)}
+.pop.o{display:block}.pop{background:#fff!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border-color:rgba(120,130,160,.35)}:root[data-theme="dark"] .pop{background:#1e2234!important}.gr button:hover{background:rgba(120,130,200,.22)}
+.ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:600}
+.ch button{padding:5px 11px;background:var(--in);color:var(--tx)}
+.gr{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
+.gr small{color:var(--mu);font-size:.7rem;padding:4px 0}
+.gr button{padding:0;height:34px;background:transparent;color:var(--tx);border-radius:50%;position:relative}
+.gr button:hover{background:var(--in)}.gr .t{outline:1.5px solid var(--ac)}.gr .s{background:var(--ac);color:#fff}
+.gr .dis{opacity:.3;cursor:default}.gr .h::after{content:"";position:absolute;bottom:3px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--ac2)}
+#lg{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}#lg .card{max-width:360px;text-align:center;margin:0}body.auth #lg{display:none}body:not(.auth) .w{display:none}
+.top{position:relative;z-index:40}.av{width:40px;height:40px;padding:0;border-radius:50%;overflow:hidden;border:1px solid var(--cb);background:var(--card);color:var(--tx);font-weight:600}.av img{width:100%;height:100%;object-fit:cover;display:none}.ls{max-height:165px;overflow-y:auto;padding-right:4px}
+</style></head><body><div id="lg"><div class="card"><h1>📚 Study Time Tracker</h1><div class="sub">Sign in with your Google account to continue. Your data stays private to you.</div><button id="lgb">Sign in with Google</button><div class="sub" id="lm" style="margin:12px 0 0"></div></div></div><div class="w">
+<div class="top"><div><h1>📚 Study Time Tracker</h1><div class="sub">Log your daily study time. Totals and progress charts update automatically.</div></div><div style="display:flex;gap:8px;align-items:center"><button class="tg" id="tg" title="Toggle dark / light">🌙</button><div class="cw"><button class="av" id="av" title="Account"><img id="avi" alt="" referrerpolicy="no-referrer"><span id="avl"></span></button><div class="pop" id="am" style="width:230px;left:auto;right:0;text-align:center"><div id="an" style="font-weight:600"></div><div class="sub" id="ae" style="margin:0 0 10px;word-break:break-all"></div><button id="so">Sign out</button></div></div></div></div>
+
+
+
+<div class="card" style="position:relative;z-index:30"><h2>Add study time</h2>
+<div class="row">
+<div class="dl"><span>Date</span><div class="cw"><button class="dbtn" id="db" type="button"></button><div class="pop" id="pop"></div></div></div>
+<label>Hours<input type="number" id="h" min="0" max="24" placeholder="0"></label>
+<label>Minutes<input type="number" id="m" min="0" max="59" placeholder="0"></label>
+<button id="add">Save</button></div>
+<div class="sub" id="msg" style="margin:8px 0 0"></div></div>
+
+<div class="stats">
+<div class="st"><b id="s1">0h 0m</b><span>This week (Mon–Sun)</span></div>
+<div class="st"><b id="s2">0h 0m</b><span>Last week</span></div>
+<div class="st"><b id="s3">0h 0m</b><span>Daily average (this week)</span></div>
+<div class="st"><b id="s4">0 days</b><span>Current streak</span></div>
+<div class="st"><b id="s5">0h 0m</b><span>All-time total</span></div>
+
+</div>
+
+<div class="card" style="margin-top:14px"><h2>This week, day by day</h2><div class="sc"><svg id="c1" viewBox="0 0 700 260"></svg></div></div>
+<div class="card"><h2>This week, trend line</h2><div class="sc"><svg id="c4" viewBox="0 0 700 260"></svg></div></div>
+<div class="card"><h2>Last 30 days (hours per day)</h2><div class="sc"><svg id="c2" viewBox="0 0 700 260"></svg></div></div>
+<div class="card"><h2>Weekly progress since you started</h2><div class="sc"><svg id="c3" viewBox="0 0 700 260"></svg></div></div>
+
+<div class="card"><h2>⏳ Countdown to Exam (1 August 2027)</h2>
+<div class="cd"><div><b id="cd1">0</b><span>days</span></div><div><b id="cd2">0</b><span>hours</span></div><div><b id="cd3">0</b><span>minutes</span></div><div><b id="cd4">0</b><span>seconds</span></div></div>
+<div class="sub" id="cdi" style="margin:10px 0 0"></div></div>
+<div class="card"><h2>Log</h2><div style="margin-bottom:6px"><button class="g" id="bk">⬇ Download backup</button><button class="g" id="rs">Restore backup</button><button class="g" id="im">Import pasted data</button><input type="file" id="rf" accept=".json,application/json" hidden></div><div id="log"></div></div>
+<div class="sub" style="text-align:center;margin:18px 0 8px">Made by SulochanaEranda</div>
+</div>
+<script>
+const K='studytracker.v1',TK='studytracker.theme';let data={},goal=0,sel=null,view=null;
+
+function save(){window.cloudSave&&window.cloudSave(data)}
+const $=id=>document.getElementById(id);
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const parse=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
+const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const monday=d=>{const x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate()-((x.getDay()+6)%7));return x};
+const fmt=m=>Math.floor(m/60)+'h '+Math.round(m%60)+'m';
+const val=d=>data[iso(d)]||0;
+const sumRange=(a,n)=>{let t=0;for(let i=0;i<n;i++)t+=val(addD(a,i));return t};
+const todayD=()=>{const t=new Date();t.setHours(0,0,0,0);return t};
+// theme
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);$('tg').textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem(TK,t)}catch(e){}}
+let th=null;try{th=localStorage.getItem(TK)}catch(e){}
+setTheme(th||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+$('tg').onclick=()=>setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');
+// countdown (device clock + device time zone)
+const EXAM=new Date(2027,7,1,0,0,0);
+function tick(){const now=new Date(),ms=EXAM-now;
+ if(ms<=0){['cd1','cd2','cd3','cd4'].forEach(i=>$(i).textContent='0');$('cdi').textContent='Exam day is here. Good luck! 🍀';return}
+ const s=Math.floor(ms/1000);$('cd1').textContent=Math.floor(s/86400);$('cd2').textContent=Math.floor(s%86400/3600);$('cd3').textContent=Math.floor(s%3600/60);$('cd4').textContent=s%60;
+ const z=Intl.DateTimeFormat().resolvedOptions().timeZone;
+ $('cdi').textContent=Math.floor(s/604800)+' weeks left · now '+now.toLocaleString([], {dateStyle:'medium',timeStyle:'short'})+' ('+z+')'}
+tick();setInterval(tick,1000);document.addEventListener('visibilitychange',tick);
+// charts
+const NS='http://www.w3.org/2000/svg';
+function chart(id,labels,vals,type,hl){
+ const s=$(id),W=700,H=260,L=44,R=14,T=14,B=34;s.innerHTML='';
+ const mx=Math.max(1,Math.ceil(Math.max(...vals)/60));
+ const el=(n,a,t)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(t!=null)e.textContent=t;s.appendChild(e);return e};
+ for(let i=0;i<=4;i++){const y=T+(H-T-B)*(1-i/4);el('line',{x1:L,x2:W-R,y1:y,y2:y,stroke:'var(--grid)'});el('text',{x:L-6,y:y+4,'text-anchor':'end','font-size':11,fill:'var(--mu)'},(mx*i/4).toFixed(mx<4?1:0)+'h')}
+ const n=vals.length,pw=(W-L-R)/n,py=v=>T+(H-T-B)*(1-v/60/mx),every=n>14?Math.ceil(n/8):1;
+ labels.forEach((l,i)=>{if(i%every===0||i===n-1)el('text',{x:L+pw*i+pw/2,y:H-12,'text-anchor':'middle','font-size':11,fill:'var(--mu)'},l)});
+ if(type==='bar'){vals.forEach((v,i)=>{const y=py(v),bw=Math.min(50,pw*.6);
+  el('rect',{x:L+pw*i+(pw-bw)/2,y:y,width:bw,height:Math.max(0,H-B-y),rx:6,fill:i===hl?'var(--ac2)':'var(--ac)'});
+  if(v)el('text',{x:L+pw*i+pw/2,y:y-4,'text-anchor':'middle','font-size':11,fill:'var(--tx)'},fmt(v))})}
+ else{const pts=vals.map((v,i)=>[L+pw*i+pw/2,py(v)]);
+  el('path',{d:'M'+pts[0][0]+','+(H-B)+' L'+pts.map(p=>p.join(',')).join(' L')+' L'+pts[n-1][0]+','+(H-B)+'Z',fill:'var(--ac)',opacity:.14});
+  el('polyline',{points:pts.map(p=>p.join(',')).join(' '),fill:'none',stroke:'var(--ac)','stroke-width':2.5,'stroke-linejoin':'round'});
+  pts.forEach((p,i)=>{const c=el('circle',{cx:p[0],cy:p[1],r:n>20?2.5:4.5,fill:'var(--ac)'});const t=document.createElementNS(NS,'title');t.textContent=labels[i]+': '+fmt(vals[i]);c.appendChild(t)})}
+}
+function render(){
+ const today=todayD(),wk=monday(today),tw=sumRange(wk,7),lw=sumRange(addD(wk,-7),7),dn=Math.floor((today-wk)/864e5)+1;
+ $('s1').textContent=fmt(tw);$('s2').textContent=fmt(lw);$('s3').textContent=fmt(tw/dn);
+ let all=0;for(const k in data)all+=data[k];$('s5').textContent=fmt(all);
+ let st=0,d=new Date(today);if(!val(d))d=addD(d,-1);while(val(d)>0){st++;d=addD(d,-1)}
+ $('s4').textContent=st+(st===1?' day':' days');
+ 
+ 
+ const dl=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+ chart('c1',dl,dl.map((_,i)=>val(addD(wk,i))),'bar',dn-1);
+ chart('c4',dl.slice(0,dn),dl.slice(0,dn).map((_,i)=>val(addD(wk,i))),'line');
+ const ds=[...Array(30)].map((_,i)=>addD(today,i-29));
+ chart('c2',ds.map(x=>(x.getMonth()+1)+'/'+x.getDate()),ds.map(val),'line');
+ const ks=Object.keys(data).sort();
+ const first=ks.length?monday(parse(ks[0])):wk,cnt=Math.max(1,Math.round((wk-first)/6048e5)+1);
+ const ws=[...Array(cnt)].map((_,i)=>addD(first,i*7));
+ chart('c3',ws.map(x=>(x.getMonth()+1)+'/'+x.getDate()),ws.map(x=>sumRange(x,7)),'line');
+ $('log').innerHTML=ks.length?'<div class="ls"><table><tr><th>Date</th><th>Time</th><th></th></tr>'+ks.slice().reverse().map(k=>'<tr><td>'+parse(k).toDateString()+'</td><td>'+fmt(data[k])+'</td><td><button class="g" data-k="'+k+'">Delete</button></td></tr>').join('')+'</table></div>':'<div class="empty">No entries yet. Add your first day above.</div>';
+ drawCal()}
+// calendar
+sel=todayD();view=new Date(sel.getFullYear(),sel.getMonth(),1);
+function drawCal(){
+ $('db').textContent='📅 '+sel.toLocaleDateString([], {weekday:'short',day:'numeric',month:'short',year:'numeric'});
+ const p=$('pop'),y=view.getFullYear(),mo=view.getMonth(),off=(new Date(y,mo,1).getDay()+6)%7,dim=new Date(y,mo+1,0).getDate(),t=todayD();
+ let h='<div class="ch"><button type="button" data-n="-1">‹</button><span>'+view.toLocaleDateString([], {month:'long',year:'numeric'})+'</span><button type="button" data-n="1">›</button></div><div class="gr">'+['M','T','W','T','F','S','S'].map(x=>'<small>'+x+'</small>').join('');
+ for(let i=0;i<off;i++)h+='<span></span>';
+ for(let d=1;d<=dim;d++){const c=new Date(y,mo,d),k=iso(c);
+  h+='<button type="button" data-d="'+k+'" class="'+(c>t?'dis ':'')+(+c===+t?'t ':'')+(+c===+sel?'s ':'')+(data[k]?'h':'')+'">'+d+'</button>'}
+ p.innerHTML=h+'</div><div style="text-align:center;margin-top:8px"><button type="button" class="g" data-today="1">Jump to today</button></div>'}
+$('db').onclick=e=>{e.stopPropagation();$('pop').classList.toggle('o')};
+$('pop').onclick=e=>{e.stopPropagation();const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.n){view=new Date(view.getFullYear(),view.getMonth()+ +b.dataset.n,1)}
+ else if(b.dataset.today){sel=todayD();view=new Date(sel.getFullYear(),sel.getMonth(),1);$('pop').classList.remove('o')}
+ else if(b.dataset.d&&!b.classList.contains('dis')){sel=parse(b.dataset.d);$('pop').classList.remove('o')}
+ drawCal()};
+document.addEventListener('click',()=>$('pop').classList.remove('o'));
+$('add').onclick=()=>{const k=iso(sel),h=+$('h').value||0,m=+$('m').value||0,t=h*60+m;
+ if(t<=0){$('msg').textContent='Enter some study time first.';return}
+ const had=data[k];data[k]=t;save();$('msg').textContent=(had?'Updated ':'Saved ')+fmt(t)+' for '+sel.toDateString()+'.';$('h').value='';$('m').value='';render()};
+$('log').onclick=e=>{const k=e.target.dataset&&e.target.dataset.k;if(k){delete data[k];save();render()}};
+
+function imp(t){try{const o=JSON.parse(t);if(typeof o!=='object'||!o)throw 0;for(const k in o){if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&+o[k]>0)data[k]=+o[k]}save();render();alert('Imported!')}catch(e){alert('That data was not valid.')}}
+$('im').onclick=()=>{const t=prompt('Paste the data you copied from your old tracker:');if(t)imp(t)};
+$('rs').onclick=()=>$('rf').click();
+$('rf').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(imp);e.target.value=''};
+$('bk').onclick=()=>{const b=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='study-backup-'+iso(new Date())+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+window.setData=d=>{data=d||{};render()};window.getData=()=>data;
+render();
+</script>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
+import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
+import {getFirestore,doc,getDoc,setDoc,updateDoc,onSnapshot,deleteField,FieldPath} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
+const app=initializeApp({apiKey:"AIzaSyB_rkKpFM142C2VbaFu9SAUHtFrPpM4dg0",authDomain:"study-tracker-e985c.firebaseapp.com",projectId:"study-tracker-e985c",storageBucket:"study-tracker-e985c.firebasestorage.app",messagingSenderId:"530715315161",appId:"1:530715315161:web:9f34749eb4733248fe27c8"});
+const auth=getAuth(app),db=getFirestore(app),OWNER='sulochanaeranda@gmail.com',old=doc(db,'tracker','main');
+let ref=null,remote={},unsub=null;
+const g=id=>document.getElementById(id),say=t=>g('lm').textContent=t;
+g('lgb').onclick=async()=>{say('');try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){say('Sign-in failed: '+(e.code||e.message))}};
+g('so').onclick=()=>signOut(auth);
+g('av').onclick=e=>{e.stopPropagation();g('am').classList.toggle('o')};
+g('am').onclick=e=>e.stopPropagation();
+document.addEventListener('click',()=>g('am').classList.remove('o'));
+onAuthStateChanged(auth,async u=>{
+ if(unsub){unsub();unsub=null}
+ if(!u){document.body.classList.remove('auth');ref=null;remote={};window.setData({});return}
+ ref=doc(db,'users',u.uid);say('Loading your data…');
+ g('an').textContent=u.displayName||'Signed in';g('ae').textContent=u.email||'';
+ if(u.photoURL){g('avi').src=u.photoURL;g('avi').style.display='block';g('avl').textContent=''}
+ else{g('avi').style.display='none';g('avl').textContent=(u.displayName||u.email||'?')[0].toUpperCase()}
+ try{
+  const s=await getDoc(ref);
+  if(!s.exists()){let d={};
+   if((u.email||'').toLowerCase()===OWNER){try{const o=await getDoc(old);if(o.exists())d=o.data().data||{}}catch(e){}}
+   await setDoc(ref,{data:d})}
+  unsub=onSnapshot(ref,snap=>{remote=(snap.data()||{}).data||{};window.setData({...remote});document.body.classList.add('auth');say('')},e=>say('Sync error: '+(e.code||e.message)));
+ }catch(e){say('Could not load data: '+(e.code||e.message))}
+});
+window.cloudSave=async d=>{if(!ref)return;const a=[];
+ for(const k in d)if(d[k]!==remote[k])a.push(new FieldPath('data',k),d[k]);
+ for(const k in remote)if(!(k in d))a.push(new FieldPath('data',k),deleteField());
+ if(!a.length)return;
+ try{await updateDoc(ref,...a)}catch(e){alert('Save failed: '+(e.code||e.message))}};
+</script></body></html>
