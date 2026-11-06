@@ -88,6 +88,13 @@ table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{text-align:left;
 .tm button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;color:var(--tx);padding:9px 10px;border-radius:10px}
 .tm button:hover{background:var(--in)}.tm button.a{box-shadow:inset 0 0 0 1.5px var(--ac)}.tm hr{border:0;border-top:1px solid var(--grid);margin:6px 0}
 .lgo{width:34px;height:34px;vertical-align:-9px;margin-right:8px;border-radius:9px}.lgo.big{width:72px;height:72px;display:block;margin:0 auto 10px;border-radius:18px}
+.bdg{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:10px}
+.bd{text-align:center;padding:12px 6px;border-radius:14px;background:var(--in)}
+.bd .ic{width:54px;height:54px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;border:3px solid var(--rc);background:var(--card)}
+.bd b{display:block;font-size:.8rem}.bd span{font-size:.7rem;color:var(--mu)}
+.bd.lk{opacity:.5}.bd.lk .ic{filter:grayscale(1);border-color:var(--grid)}
+#bt{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,40px);opacity:0;pointer-events:none;z-index:200;max-width:92vw;padding:14px 18px;border-radius:16px;background:var(--pop,#fff);border:1px solid var(--cb);box-shadow:var(--sh);color:var(--tx);transition:all .4s;text-align:center;font-size:.9rem}
+#bt.s{opacity:1;transform:translate(-50%,0)}
 </style></head><body><div id="lg"><div class="card"><img class="lgo big" src="str/images/study-time-tracker-logo.svg" alt="Study Time Tracker logo"><h1>Study Time Tracker</h1><div class="sub">Sign in with your Google account to continue. Your data stays private to you.</div><p class="sub">Log your daily study hours, see weekly progress charts, and count down to your exam.</p><button id="lgb">Sign in with Google</button><div class="sub" id="lm" style="margin:12px 0 0"></div></div></div><div class="w">
 <div class="top"><div><h1><img class="lgo" src="str/images/study-time-tracker-logo.svg" alt="">Study Time Tracker</h1><div class="sub">Log your daily study time. Totals and progress charts update automatically.</div></div><div style="display:flex;gap:8px;align-items:center"><div class="cw"><button class="tg" id="tg" title="Change theme">🎨</button><div class="pop tm" id="tm" style="left:auto;right:0;width:210px"><button data-t="light">☀️ Light</button><button data-t="dark">🌙 Dark</button><button data-t="football">⚽ Football</button><button data-t="movie">🎬 Movie</button><button data-t="song">🎵 Song</button><hr><button data-t="image">🖼️ My image</button><button id="ci">📷 Choose / change image</button><input type="file" id="bgf" accept="image/*" hidden></div></div><div class="cw"><button class="av" id="av" title="Account"><img id="avi" alt="" referrerpolicy="no-referrer"><span id="avl"></span></button><div class="pop" id="am" style="width:230px;left:auto;right:0;text-align:center"><div id="an" style="font-weight:600"></div><div class="sub" id="ae" style="margin:0 0 10px;word-break:break-all"></div><button id="so">Sign out</button></div></div></div></div>
 
@@ -116,6 +123,7 @@ table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{text-align:left;
 <div class="card"><h2>Last 30 days (hours per day)</h2><div class="sc"><svg id="c2" viewBox="0 0 700 260"></svg></div></div>
 <div class="card"><h2>Weekly progress since you started</h2><div class="sc"><svg id="c3" viewBox="0 0 700 260"></svg></div></div>
 <div class="card"><div class="lb">All-time total</div><div class="bn" id="s5"></div><div class="si" id="s5i"></div></div>
+<div class="card"><h2 style="display:flex;justify-content:space-between;align-items:baseline;margin:0"><span>🏅 Badges</span><span class="sub" id="bc" style="margin:0"></span></h2><div class="bdg" id="bgd"></div></div>
 
 <div class="card"><h2>⏳ Countdown to Exam (1 August 2027)</h2>
 <div class="cd"><div><b id="cd1">0</b><span>days</span></div><div><b id="cd2">0</b><span>hours</span></div><div><b id="cd3">0</b><span>minutes</span></div><div><b id="cd4">0</b><span>seconds</span></div></div>
@@ -123,6 +131,7 @@ table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{text-align:left;
 <div class="card"><h2>Log</h2><div style="margin-bottom:6px"><button class="g" id="bk">⬇ Download backup</button><button class="g" id="rs">Restore backup</button><button class="g" id="im">Import pasted data</button><input type="file" id="rf" accept=".json,application/json" hidden></div><div id="log"></div></div>
 <div class="sub" style="text-align:center;margin:18px 0 8px">Made by SulochanaEranda</div>
 </div>
+<div id="bt"></div>
 <script>
 const K='studytracker.v1',TK='studytracker.theme';let data={},goal=0,sel=null,view=null;
 
@@ -209,10 +218,50 @@ function renderStats(){
  $('gt').innerHTML=!gm?'Set a weekly goal below to start tracking.':done?'<span class="gdone">🎉 Weekly goal completed!</span> '+fmt(tw)+' of '+goal+'h':'of your '+goal+'h weekly goal · '+fmt(gm-tw)+' to go';
 }
 window.setGoal=g=>{goal=+g||0;if(document.activeElement!==$('goal'))$('goal').value=goal||'';renderStats()};
-$('goal').onchange=()=>{goal=Math.max(0,Math.floor(+$('goal').value)||0);$('goal').value=goal||'';renderStats();if(window.saveGoal)window.saveGoal(goal)};
+$('goal').onchange=()=>{goal=Math.max(0,Math.floor(+$('goal').value)||0);$('goal').value=goal||'';renderStats();renderBadges();if(window.saveGoal)window.saveGoal(goal)};
+let bsaved=null,bsilent=false,btt=0;
+window.setBadges=b=>{if(bsaved===null){bsaved=b?{...b}:{};bsilent=!b}else if(b)Object.assign(bsaved,b)};
+window.resetBadges=()=>{bsaved=null};
+const BD=[
+['s3','Spark','✨','bronze','3-day streak',x=>x.best>=3],
+['s7','On Fire','🔥','bronze','7-day streak',x=>x.best>=7],
+['s14','Two Weeks Strong','💪','silver','14-day streak',x=>x.best>=14],
+['s30','Monthly Master','🏅','gold','30-day streak',x=>x.best>=30],
+['s60','Unstoppable','⚡','gold','60-day streak',x=>x.best>=60],
+['s100','Centurion','👑','diamond','100-day streak',x=>x.best>=100],
+['s150','Iron Will','🛡️','diamond','150-day streak',x=>x.best>=150],
+['s200','Double Centurion','🌟','diamond','200-day streak',x=>x.best>=200],
+['h10','First Steps','🌱','bronze','10 hours studied',x=>x.hrs>=10],
+['h50','Getting Serious','📘','bronze','50 hours studied',x=>x.hrs>=50],
+['h100','Century Club','💯','silver','100 hours studied',x=>x.hrs>=100],
+['h250','Dedicated','🎯','gold','250 hours studied',x=>x.hrs>=250],
+['h500','Scholar','🎓','gold','500 hours studied',x=>x.hrs>=500],
+['h1000','Legend','🏆','diamond','1000 hours studied',x=>x.hrs>=1000],
+['wg','Goal Getter','✅','silver','Finish a weekly goal',x=>x.goalDone],
+['wf','Full Week','📅','silver','Study all 7 days in a week',x=>x.full],
+['w20','Power Week','🚀','gold','20 hours in one week',x=>x.bw>=20],
+['w40','Beast Week','🦁','diamond','40 hours in one week',x=>x.bw>=40],
+['w70','Summit Week','🏔️','diamond','70 hours in one week',x=>x.bw>=70],
+['w90','Volcano Week','🌋','diamond','90 hours in one week',x=>x.bw>=90]];
+function bstats(){
+ const ks=Object.keys(data).filter(k=>data[k]>0).sort();
+ let best=0,run=0,prev=null,tot=0;const wkm={};
+ ks.forEach(k=>{const c=parse(k);run=(prev&&Math.round((c-prev)/864e5)===1)?run+1:1;if(run>best)best=run;prev=c;tot+=data[k];const w=iso(monday(c));(wkm[w]=wkm[w]||{m:0,d:0});wkm[w].m+=data[k];wkm[w].d++});
+ let bw=0,full=false;for(const w in wkm){if(wkm[w].m>bw)bw=wkm[w].m;if(wkm[w].d>=7)full=true}
+ return {best,hrs:tot/60,bw:bw/60,full,goalDone:goal>0&&sumRange(monday(todayD()),7)>=goal*60}}
+function toast(l){const t=$('bt');t.innerHTML='<b>🎉 Badge unlocked!</b><br>'+l.map(b=>b[2]+' '+b[1]+' · '+b[4]).join('<br>');t.classList.add('s');clearTimeout(btt);btt=setTimeout(()=>t.classList.remove('s'),5500)}
+function renderBadges(){
+ const x=bstats(),tc={bronze:'#cd7f32',silver:'#c0c8d4',gold:'#f5c542',diamond:'#67e8f9'};
+ const now=BD.filter(b=>b[5](x)).map(b=>b[0]),fresh=[];
+ if(bsaved!==null){const td=iso(new Date());now.forEach(id=>{if(!bsaved[id]){bsaved[id]=td;fresh.push(id)}});if(fresh.length&&window.saveBadges)window.saveBadges(bsaved)}
+ let n=0,h='';
+ BD.forEach(b=>{const u=(bsaved&&bsaved[b[0]])||now.includes(b[0]);if(u)n++;h+='<div class="bd'+(u?'':' lk')+'" style="--rc:'+tc[b[3]]+'" title="'+b[4]+'"><div class="ic">'+(u?b[2]:'🔒')+'</div><b>'+b[1]+'</b><span>'+b[4]+'</span></div>'});
+ $('bgd').innerHTML=h;$('bc').textContent=n+' / '+BD.length+' unlocked';
+ if(fresh.length&&!bsilent)toast(fresh.map(id=>BD.find(b=>b[0]===id)));
+ if(bsaved!==null)bsilent=false}
 function render(){
  const today=todayD(),wk=monday(today),tw=sumRange(wk,7),lw=sumRange(addD(wk,-7),7),dn=Math.floor((today-wk)/864e5)+1;
- renderStats();
+ renderStats();renderBadges();
  
  
  const dl=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
@@ -271,7 +320,7 @@ g('am').onclick=e=>e.stopPropagation();
 document.addEventListener('click',()=>g('am').classList.remove('o'));
 onAuthStateChanged(auth,async u=>{
  if(unsub){unsub();unsub=null}
- if(!u){document.body.classList.remove('auth');ref=null;remote={};window.setGoal(0);window.setData({});return}
+ if(!u){document.body.classList.remove('auth');ref=null;remote={};window.resetBadges();window.setGoal(0);window.setData({});return}
  ref=doc(db,'users',u.uid);say('Loading your data…');
  g('an').textContent=u.displayName||'Signed in';g('ae').textContent=u.email||'';
  if(u.photoURL){g('avi').src=u.photoURL;g('avi').style.display='block';g('avl').textContent=''}
@@ -281,9 +330,10 @@ onAuthStateChanged(auth,async u=>{
   if(!s.exists()){let d={};
    if((u.email||'').toLowerCase()===OWNER){try{const o=await getDoc(old);if(o.exists())d=o.data().data||{}}catch(e){}}
    await setDoc(ref,{data:d})}
-  unsub=onSnapshot(ref,snap=>{const sd=snap.data()||{};remote=sd.data||{};window.setGoal(sd.goal||0);window.setData({...remote});document.body.classList.add('auth');say('')},e=>say('Sync error: '+(e.code||e.message)));
+  unsub=onSnapshot(ref,snap=>{const sd=snap.data()||{};remote=sd.data||{};window.setBadges(sd.badges);window.setGoal(sd.goal||0);window.setData({...remote});document.body.classList.add('auth');say('')},e=>say('Sync error: '+(e.code||e.message)));
  }catch(e){say('Could not load data: '+(e.code||e.message))}
 });
+window.saveBadges=async m=>{if(!ref)return;try{await updateDoc(ref,{badges:m})}catch(e){}};
 window.saveGoal=async g=>{if(!ref)return;try{await updateDoc(ref,{goal:g})}catch(e){alert('Save failed: '+(e.code||e.message))}};
 window.cloudSave=async d=>{if(!ref)return;const a=[];
  for(const k in d)if(d[k]!==remote[k])a.push(new FieldPath('data',k),d[k]);
