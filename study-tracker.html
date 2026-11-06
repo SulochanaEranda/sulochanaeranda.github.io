@@ -62,6 +62,18 @@ table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{text-align:left;
 .gr .dis{opacity:.3;cursor:default}.gr .h::after{content:"";position:absolute;bottom:3px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--ac2)}
 #lg{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}#lg .card{max-width:360px;text-align:center;margin:0}body.auth #lg{display:none}body:not(.auth) .w{display:none}
 .top{position:relative;z-index:40}.av{width:40px;height:40px;padding:0;border-radius:50%;overflow:hidden;border:1px solid var(--cb);background:var(--card);color:var(--tx);font-weight:600}.av img{width:100%;height:100%;object-fit:cover;display:none}.ls{max-height:165px;overflow-y:auto;padding-right:4px}
+
+.sg3,.sg2{display:grid;padding:0;overflow:hidden}.sg3{grid-template-columns:repeat(3,1fr)}.sg2{grid-template-columns:1.4fr 1fr}
+.sx{padding:18px 20px;border-left:1px solid var(--grid);min-width:0}.sx:first-child{border-left:0}
+@media(max-width:640px){.sg3,.sg2{grid-template-columns:1fr}.sx{border-left:0;border-top:1px solid var(--grid)}.sx:first-child{border-top:0}}
+.lb{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);margin-bottom:6px}
+.bn{font-family:Georgia,"Times New Roman",serif;font-size:2.3rem;line-height:1.1;font-weight:400}
+.bn small{font-size:1rem;color:var(--mu);margin:0 3px 0 3px}
+.si{color:var(--mu);font-size:.85rem;margin-top:8px}.si b{color:var(--tx)}
+.gbar{height:8px;background:var(--grid);border-radius:99px;overflow:hidden;margin-top:12px}.gbar i{display:block;height:100%;width:0;background:#4f8cff;border-radius:99px;transition:width .5s,background .4s}.gbar.done i{background:var(--ac2)}
+.gdone{color:var(--ac2);font-weight:600}
+.dots{display:flex;gap:5px;margin-top:14px;flex-wrap:wrap}.dots i{width:10px;height:10px;border-radius:50%;background:var(--grid)}.dots i.on{background:var(--tx)}.dots i.td{outline:1.5px solid var(--ac);outline-offset:1px}
+.gin{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:.8rem;color:var(--mu)}.gin input{width:70px;padding:6px 8px}
 </style></head><body><div id="lg"><div class="card"><h1>📚 Study Time Tracker</h1><div class="sub">Sign in with your Google account to continue. Your data stays private to you.</div><p class="sub">Log your daily study hours, see weekly progress charts, and count down to your exam.</p><button id="lgb">Sign in with Google</button><div class="sub" id="lm" style="margin:12px 0 0"></div></div></div><div class="w">
 <div class="top"><div><h1>📚 Study Time Tracker</h1><div class="sub">Log your daily study time. Totals and progress charts update automatically.</div></div><div style="display:flex;gap:8px;align-items:center"><button class="tg" id="tg" title="Toggle dark / light">🌙</button><div class="cw"><button class="av" id="av" title="Account"><img id="avi" alt="" referrerpolicy="no-referrer"><span id="avl"></span></button><div class="pop" id="am" style="width:230px;left:auto;right:0;text-align:center"><div id="an" style="font-weight:600"></div><div class="sub" id="ae" style="margin:0 0 10px;word-break:break-all"></div><button id="so">Sign out</button></div></div></div></div>
 
@@ -75,25 +87,27 @@ table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{text-align:left;
 <button id="add">Save</button></div>
 <div class="sub" id="msg" style="margin:8px 0 0"></div></div>
 
-<div class="stats">
-<div class="st"><b id="s1">0h 0m</b><span>This week (Mon–Sun)</span></div>
-<div class="st"><b id="s2">0h 0m</b><span>Last week</span></div>
-<div class="st"><b id="s3">0h 0m</b><span>Daily average (this week)</span></div>
-<div class="st"><b id="s4">0 days</b><span>Current streak</span></div>
-<div class="st"><b id="s5">0h 0m</b><span>All-time total</span></div>
-
+<div class="card sg3">
+<div class="sx"><div class="lb">This week</div><div class="bn" id="s1"></div><div class="si" id="s1i"></div></div>
+<div class="sx"><div class="lb">Last week</div><div class="bn" id="s2"></div><div class="si" id="s2i"></div></div>
+<div class="sx"><div class="lb">Daily average</div><div class="bn" id="s3"></div><div class="si" id="s3i"></div></div>
+</div>
+<div class="card sg2">
+<div class="sx"><div class="lb">Weekly goal</div><div class="bn" id="gp">—</div><div class="gbar" id="gbar"><i id="gbi"></i></div><div class="si" id="gt"></div><div class="gin"><label style="flex-direction:row;align-items:center;gap:8px">Goal (hours per week)<input type="number" id="goal" min="0" step="1" placeholder="e.g. 15"></label></div></div>
+<div class="sx"><div class="lb">Current streak</div><div class="bn" id="s4"></div><div class="dots" id="dots"></div><div class="si" id="s4i"></div></div>
 </div>
 
 <div class="card" style="margin-top:14px"><h2>This week, day by day</h2><div class="sc"><svg id="c1" viewBox="0 0 700 260"></svg></div></div>
 <div class="card"><h2>This week, trend line</h2><div class="sc"><svg id="c4" viewBox="0 0 700 260"></svg></div></div>
 <div class="card"><h2>Last 30 days (hours per day)</h2><div class="sc"><svg id="c2" viewBox="0 0 700 260"></svg></div></div>
 <div class="card"><h2>Weekly progress since you started</h2><div class="sc"><svg id="c3" viewBox="0 0 700 260"></svg></div></div>
+<div class="card"><div class="lb">All-time total</div><div class="bn" id="s5"></div><div class="si" id="s5i"></div></div>
 
 <div class="card"><h2>⏳ Countdown to Exam (1 August 2027)</h2>
 <div class="cd"><div><b id="cd1">0</b><span>days</span></div><div><b id="cd2">0</b><span>hours</span></div><div><b id="cd3">0</b><span>minutes</span></div><div><b id="cd4">0</b><span>seconds</span></div></div>
 <div class="sub" id="cdi" style="margin:10px 0 0"></div></div>
 <div class="card"><h2>Log</h2><div style="margin-bottom:6px"><button class="g" id="bk">⬇ Download backup</button><button class="g" id="rs">Restore backup</button><button class="g" id="im">Import pasted data</button><input type="file" id="rf" accept=".json,application/json" hidden></div><div id="log"></div></div>
-<div class="sub" style="text-align:center;margin:18px 0 8px">Made by <a href="https://sulochanaeranda.github.io/">SulochanaEranda</a>♥️</div>
+<div class="sub" style="text-align:center;margin:18px 0 8px">Made by SulochanaEranda</div>
 </div>
 <script>
 const K='studytracker.v1',TK='studytracker.theme';let data={},goal=0,sel=null,view=null;
@@ -138,12 +152,34 @@ function chart(id,labels,vals,type,hl){
   el('polyline',{points:pts.map(p=>p.join(',')).join(' '),fill:'none',stroke:'var(--ac)','stroke-width':2.5,'stroke-linejoin':'round'});
   pts.forEach((p,i)=>{const c=el('circle',{cx:p[0],cy:p[1],r:n>20?2.5:4.5,fill:'var(--ac)'});const t=document.createElementNS(NS,'title');t.textContent=labels[i]+': '+fmt(vals[i]);c.appendChild(t)})}
 }
+function renderStats(){
+ const today=todayD(),wk=monday(today),tw=sumRange(wk,7),lw=sumRange(addD(wk,-7),7),dn=Math.floor((today-wk)/864e5)+1;
+ const big=m=>{m=Math.round(m);return Math.floor(m/60)+'<small>h</small> '+(m%60)+'<small>m</small>'};
+ const logged=(a,n)=>{let c=0;for(let i=0;i<n;i++)if(val(addD(a,i)))c++;return c};
+ const dw=n=>n+(n===1?' day':' days');
+ const df=tw-lw,tl=logged(wk,7),ll=logged(addD(wk,-7),7);
+ $('s1').innerHTML=big(tw);$('s1i').innerHTML='<b>'+dw(tl)+' logged</b> · '+(df<0?'−':'+')+fmt(Math.abs(df))+' vs last week';
+ $('s2').innerHTML=big(lw);$('s2i').innerHTML='<b>'+dw(ll)+' logged</b>';
+ $('s3').innerHTML=big(tw/dn);$('s3i').textContent='over '+dw(dn)+' this week';
+ let all=0,nd=0;for(const k in data){all+=data[k];if(data[k]>0)nd++}
+ $('s5').innerHTML=big(all);$('s5i').innerHTML='across <b>'+dw(nd)+'</b> logged';
+ let st=0,d=new Date(today);if(!val(d))d=addD(d,-1);while(val(d)>0){st++;d=addD(d,-1)}
+ const ks=Object.keys(data).filter(k=>data[k]>0).sort();let best=0,run=0,prev=null;
+ ks.forEach(k=>{const c=parse(k);run=(prev&&Math.round((c-prev)/864e5)===1)?run+1:1;if(run>best)best=run;prev=c});
+ best=Math.max(best,st);
+ $('s4').innerHTML=st+'<small>'+(st===1?'day':'days')+'</small>';
+ let dh='';for(let i=13;i>=0;i--){const x=addD(today,-i);dh+='<i class="'+(val(x)>0?'on ':'')+(i===0?'td':'')+'" title="'+x.toDateString()+'"></i>'}
+ $('dots').innerHTML=dh;$('s4i').innerHTML='Last 14 days · best <b>'+dw(best)+'</b>';
+ const gm=goal*60,pct=gm?tw/gm*100:0,done=gm>0&&tw>=gm;
+ $('gp').textContent=gm?Math.floor(pct)+'%':'—';$('gp').style.color=done?'var(--ac2)':'';
+ $('gbi').style.width=Math.min(100,pct)+'%';$('gbar').classList.toggle('done',done);
+ $('gt').innerHTML=!gm?'Set a weekly goal below to start tracking.':done?'<span class="gdone">🎉 Weekly goal completed!</span> '+fmt(tw)+' of '+goal+'h':'of your '+goal+'h weekly goal · '+fmt(gm-tw)+' to go';
+}
+window.setGoal=g=>{goal=+g||0;if(document.activeElement!==$('goal'))$('goal').value=goal||'';renderStats()};
+$('goal').onchange=()=>{goal=Math.max(0,Math.floor(+$('goal').value)||0);$('goal').value=goal||'';renderStats();if(window.saveGoal)window.saveGoal(goal)};
 function render(){
  const today=todayD(),wk=monday(today),tw=sumRange(wk,7),lw=sumRange(addD(wk,-7),7),dn=Math.floor((today-wk)/864e5)+1;
- $('s1').textContent=fmt(tw);$('s2').textContent=fmt(lw);$('s3').textContent=fmt(tw/dn);
- let all=0;for(const k in data)all+=data[k];$('s5').textContent=fmt(all);
- let st=0,d=new Date(today);if(!val(d))d=addD(d,-1);while(val(d)>0){st++;d=addD(d,-1)}
- $('s4').textContent=st+(st===1?' day':' days');
+ renderStats();
  
  
  const dl=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
@@ -202,7 +238,7 @@ g('am').onclick=e=>e.stopPropagation();
 document.addEventListener('click',()=>g('am').classList.remove('o'));
 onAuthStateChanged(auth,async u=>{
  if(unsub){unsub();unsub=null}
- if(!u){document.body.classList.remove('auth');ref=null;remote={};window.setData({});return}
+ if(!u){document.body.classList.remove('auth');ref=null;remote={};window.setGoal(0);window.setData({});return}
  ref=doc(db,'users',u.uid);say('Loading your data…');
  g('an').textContent=u.displayName||'Signed in';g('ae').textContent=u.email||'';
  if(u.photoURL){g('avi').src=u.photoURL;g('avi').style.display='block';g('avl').textContent=''}
@@ -212,9 +248,10 @@ onAuthStateChanged(auth,async u=>{
   if(!s.exists()){let d={};
    if((u.email||'').toLowerCase()===OWNER){try{const o=await getDoc(old);if(o.exists())d=o.data().data||{}}catch(e){}}
    await setDoc(ref,{data:d})}
-  unsub=onSnapshot(ref,snap=>{remote=(snap.data()||{}).data||{};window.setData({...remote});document.body.classList.add('auth');say('')},e=>say('Sync error: '+(e.code||e.message)));
+  unsub=onSnapshot(ref,snap=>{const sd=snap.data()||{};remote=sd.data||{};window.setGoal(sd.goal||0);window.setData({...remote});document.body.classList.add('auth');say('')},e=>say('Sync error: '+(e.code||e.message)));
  }catch(e){say('Could not load data: '+(e.code||e.message))}
 });
+window.saveGoal=async g=>{if(!ref)return;try{await updateDoc(ref,{goal:g})}catch(e){alert('Save failed: '+(e.code||e.message))}};
 window.cloudSave=async d=>{if(!ref)return;const a=[];
  for(const k in d)if(d[k]!==remote[k])a.push(new FieldPath('data',k),d[k]);
  for(const k in remote)if(!(k in d))a.push(new FieldPath('data',k),deleteField());
