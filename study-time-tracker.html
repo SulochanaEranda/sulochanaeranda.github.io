@@ -112,14 +112,22 @@ button:disabled{opacity:.4;cursor:default}
 #ck{display:none;position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:300;width:min(580px,94vw);gap:12px;align-items:center;padding:12px 14px;border-radius:16px;background:var(--pop,#fff);color:var(--tx);border:1px solid var(--cb);box-shadow:var(--sh);font-size:.85rem}#ck>span{flex:1 1 230px;min-width:0}#ck .row{flex:0 0 auto}@media(max-width:520px){#ck{align-items:flex-start;flex-wrap:wrap;gap:8px}#ck .row{width:100%;justify-content:flex-end}}
 .tt em{position:absolute;top:6px;left:8px;font-style:normal;font-size:1.35rem}.chip{flex:0 0 auto;white-space:nowrap}
 .gwl{max-height:240px;overflow-y:auto}.gwr{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--grid)}.gwr:first-child{border-top:0}
-.modebar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 14px;padding:10px 12px;border:1px solid var(--grid);border-radius:13px;background:var(--in)}.modebar .actions{display:flex;gap:6px;flex-wrap:wrap}.modebar button{font-size:.82rem;padding:7px 11px}.mode-name{font-weight:650;font-size:.88rem}.subject-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:10px;margin:12px 0}.subject-entry{padding:11px;border:1px solid var(--grid);border-radius:13px;background:var(--in);min-width:0}.subject-entry b{display:block;margin-bottom:8px;font-size:.9rem}.subject-entry .row{gap:7px}.subject-entry label{flex:1;min-width:65px}.subject-entry input{width:100%;min-width:0}.subject-legend{display:flex;gap:8px 14px;flex-wrap:wrap;padding:8px 2px 0;font-size:.78rem;color:var(--mu)}.subject-legend span{display:inline-flex;align-items:center;gap:6px}.subject-legend i{width:9px;height:9px;border-radius:3px;display:inline-block}.heat-scroll{overflow-x:auto;padding:5px 0 8px}.heat-months{display:grid;grid-template-columns:repeat(53,12px);grid-auto-flow:column;gap:3px;min-width:792px;margin:0 0 6px 25px;color:var(--mu);font-size:.68rem}.heat-layout{display:flex;gap:7px;align-items:flex-start;min-width:710px}.heat-days{display:grid;grid-template-rows:repeat(7,12px);gap:3px;color:var(--mu);font-size:.62rem;padding-top:1px}.heatmap{display:grid;grid-template-rows:repeat(7,12px);grid-auto-flow:column;grid-auto-columns:12px;gap:3px}.heat-cell{width:12px;height:12px;border-radius:3px;background:var(--grid);padding:0;border:0;min-width:0}.heat-cell[data-level="1"]{background:#b7c6ed}.heat-cell[data-level="2"]{background:#829de0}.heat-cell[data-level="3"]{background:#5477ce}.heat-cell[data-level="4"]{background:#29499f}.heat-legend{display:flex;justify-content:flex-end;align-items:center;gap:4px;margin-top:8px;color:var(--mu);font-size:.7rem}.heat-legend .heat-cell{display:inline-block}.insight{display:flex;gap:12px;align-items:flex-start}.insight-icon{font-size:1.5rem}.insight strong{display:block;margin-bottom:3px}.insight p{margin:0;color:var(--mu);font-size:.88rem}@media(max-width:520px){.modebar{align-items:flex-start}.modebar .actions{width:100%}.modebar button{flex:1}}
+.modebar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:14px 0;padding:10px 12px;border:1px solid var(--grid);border-radius:13px;background:var(--in)}.modebar .actions{display:flex;gap:6px;flex-wrap:wrap}.modebar button{font-size:.82rem;padding:7px 11px}.modebar button.active{background:var(--ac);color:var(--on,#fff);box-shadow:0 0 0 1px var(--ac)}.mode-name{font-weight:650;font-size:.88rem}.subject-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:10px;margin:12px 0}.subject-entry{padding:11px;border:1px solid var(--grid);border-radius:13px;background:var(--in);min-width:0}.subject-entry b{display:block;margin-bottom:8px;font-size:.9rem}.subject-entry .row{gap:7px}.subject-entry label{flex:1;min-width:65px}.subject-entry input{width:100%;min-width:0}.subject-legend{display:flex;gap:8px 14px;flex-wrap:wrap;padding:8px 2px 0;font-size:.78rem;color:var(--mu)}.subject-legend span{display:inline-flex;align-items:center;gap:6px}.subject-legend i{width:9px;height:9px;border-radius:3px;display:inline-block}.heat-scroll{overflow-x:auto;padding:7px 0 10px}
+.pitch-map{position:relative;width:100%;min-width:620px;aspect-ratio:2/1;border:1px solid rgba(255,255,255,.58);border-radius:14px;overflow:hidden;background:repeating-linear-gradient(90deg,#176b38 0 9%,#1b773e 9% 18%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
+.heatmap{position:absolute;inset:0;z-index:1;overflow:hidden;isolation:isolate}
+.heatmap::before{content:"";position:absolute;inset:-5%;filter:blur(24px);opacity:.98;background:var(--heat-field,none);transform:scale(1.04)}
+.heat-label{position:absolute;z-index:1;transform:translate(-50%,-50%);padding:4px 8px;border-radius:999px;background:rgba(5,35,18,.34);border:1px solid rgba(255,255,255,.28);color:#fff;font-size:11px;font-weight:750;text-shadow:0 1px 3px rgba(0,0,0,.8);white-space:nowrap;pointer-events:auto;backdrop-filter:blur(3px)}
+.subject-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:9px;margin-top:10px}.subject-total-card{padding:11px 12px;border:1px solid var(--grid);border-radius:13px;background:var(--in);min-width:0}.subject-total-card .st-head{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.88rem;margin-bottom:8px}.subject-total-card .st-dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}.subject-total-card .st-line{display:flex;justify-content:space-between;gap:8px;font-size:.8rem;padding:3px 0;color:var(--mu)}.subject-total-card .st-line b{color:var(--tx);white-space:nowrap}.subject-total-card.total{border-color:var(--ac);background:var(--in)}
+.pitch-lines{position:absolute;z-index:2;inset:0;width:100%;height:100%;pointer-events:none;opacity:.72}
+.pitch-lines *{fill:none;stroke:rgba(255,255,255,.82);stroke-width:3;vector-effect:non-scaling-stroke}
+.heat-legend{display:flex;justify-content:flex-end;align-items:center;gap:7px;margin-top:8px;color:var(--mu);font-size:.7rem}.heat-swatch{width:17px;height:10px;border-radius:50%;display:inline-block}.heat-swatch.low{background:#f8d84b;opacity:.55}.heat-swatch.mid{background:#ff8a28}.heat-swatch.high{background:#ed3028}
+@media(max-width:520px){.modebar{align-items:flex-start}.modebar .actions{width:100%}.modebar button{flex:1}}
 </style></head><body><div class="w">
 <div class="top"><div><h1><img class="lgo" src="str/images/study-time-tracker-logo.svg" alt="">Study Time Tracker</h1><div class="sub">Log your daily study time. Saved in this browser automatically · Sign in optionally to sync across devices.</div></div><div style="display:flex;gap:8px;align-items:center"><button class="tg" id="tg" title="Themes">🎨</button><div class="cw"><button class="av" id="av" title="Account"><img id="avi" alt="" referrerpolicy="no-referrer"><span id="avl"></span></button><div class="pop" id="am" style="width:260px;left:auto;right:0;text-align:center"><div id="an" style="font-weight:600">Not signed in</div><div class="sub" id="ae" style="margin:0 0 10px;word-break:break-word">Your study log is saved on this browser.</div><button class="g" id="profileBtn" style="display:none;width:100%;margin-bottom:7px">👤 My study profile</button><button id="lgb">☁️ Sign in to sync</button><button class="g" id="so" style="display:none">Sign out</button></div></div></div></div>
 
-
+<div class="modebar"><div><div class="mode-name" id="modeLabel">Tracking mode · Total study time</div><div class="sub" style="margin:3px 0 0;font-size:.78rem">Choose how you want to record your study time.</div></div><div class="actions"><button id="totalModeBtn" type="button">Total mode</button><button class="g" id="subjectModeBtn" type="button">Subject-wise mode</button><button class="g" id="subjectSetupBtn" style="display:none" type="button">Edit subjects</button></div></div>
 
 <div class="card" style="position:relative;z-index:30"><h2>Add study time</h2>
-<div class="modebar"><div><div class="mode-name" id="modeLabel">Tracking mode · Total study time</div><div class="sub" style="margin:3px 0 0;font-size:.78rem">Choose whether to track one daily total or split it by subject.</div></div><div class="actions"><button class="g" id="modeBtn">Enable subject-wise mode</button><button class="g" id="subjectSetupBtn" style="display:none">Edit subjects</button></div></div>
 <div class="row">
 <div class="dl"><span>Date</span><div class="cw"><button class="dbtn" id="db" type="button"></button><div class="pop" id="pop"></div></div></div>
 <div id="totalFields" class="row" style="gap:8px"><label>Hours<input type="number" id="h" min="0" max="24" placeholder="0"></label><label>Minutes<input type="number" id="m" min="0" max="59" placeholder="0"></label></div>
@@ -138,11 +146,12 @@ button:disabled{opacity:.4;cursor:default}
 </div>
 
 <div class="card" style="margin-top:14px"><h2>This week, day by day</h2><div class="sc"><svg id="c1" viewBox="0 0 700 260"></svg></div><div id="subjectLegend" class="subject-legend" style="display:none"></div></div>
+<div class="card" id="subjectSummaryCard" style="display:none"><h2>📚 Subject totals</h2><div class="sub">A breakdown of this week and your full study history, calculated from your subject-wise logs.</div><div id="subjectSummary" class="subject-summary"></div></div>
 <div class="card"><h2>This week, trend line</h2><div class="sc"><svg id="c4" viewBox="0 0 700 260"></svg></div></div>
 <div class="card"><h2>Last 30 days (hours per day)</h2><div class="sc"><svg id="c2" viewBox="0 0 700 260"></svg></div></div>
 <div class="card"><h2>Weekly progress since you started</h2><div class="sc"><svg id="c3" viewBox="0 0 700 260"></svg></div></div>
-<div class="card"><h2>📅 Study consistency · Last year</h2><div class="sub">Every square represents one day. Darker squares mean more study time.</div><div class="heat-scroll"><div class="heat-months" id="heatMonths"></div><div class="heat-layout"><div class="heat-days"><span>Mon</span><span></span><span>Wed</span><span></span><span>Fri</span><span></span><span>Sun</span></div><div class="heatmap" id="heatmap"></div></div></div><div class="heat-legend"><span>Less</span><i class="heat-cell"></i><i class="heat-cell" data-level="1"></i><i class="heat-cell" data-level="2"></i><i class="heat-cell" data-level="3"></i><i class="heat-cell" data-level="4"></i><span>More</span></div></div>
-<div class="card"><h2>📈 Progress check</h2><div class="insight"><div class="insight-icon" id="insightIcon">🌱</div><div><strong id="insightTitle">Your study pattern will appear here</strong><p id="insightText">Log a few days of study time to see how your recent consistency is changing.</p></div></div></div>
+<div class="card"><h2>⚽ Study activity · Heatmap</h2><div class="sub">Hotspots show which weekdays you tend to study more. Brighter, warmer zones mean higher average study time over the last 4 weeks.</div><div class="heat-scroll"><div class="pitch-map"><div class="heatmap" id="heatmap" aria-label="Study activity heatmap by weekday"></div><svg class="pitch-lines" viewBox="0 0 1000 500" preserveAspectRatio="none" aria-hidden="true"><rect x="3" y="3" width="994" height="494" rx="4"/><line x1="500" y1="3" x2="500" y2="497"/><circle cx="500" cy="250" r="82"/><circle cx="500" cy="250" r="4" fill="rgba(255,255,255,.9)"/><rect x="3" y="125" width="145" height="250"/><rect x="852" y="125" width="145" height="250"/><rect x="3" y="190" width="55" height="120"/><rect x="942" y="190" width="55" height="120"/><path d="M148 175 Q225 250 148 325 M852 175 Q775 250 852 325"/></svg></div></div><div class="heat-legend"><span>Less activity</span><i class="heat-swatch low"></i><i class="heat-swatch mid"></i><i class="heat-swatch high"></i><span>More activity</span></div><div class="sub" style="margin-top:7px">This uses weekday totals from your study log; it does not represent literal physical positions or session locations.</div></div>
+
 <div class="card"><div class="lb">All-time total</div><div class="bn" id="s5"></div><div class="si" id="s5i"></div><button class="g" id="ash" style="margin-top:10px">Share all-time hours ↗</button></div>
 <div class="card"><h2 style="display:flex;justify-content:space-between;align-items:baseline;margin:0"><span>🏅 Badges</span><span class="sub" id="bc" style="margin:0"></span></h2><div class="bdg" id="bgd"></div></div>
 <div class="card"><h2 style="display:flex;justify-content:space-between;align-items:baseline;margin:0"><span>🎯 Completed weekly goals</span><span class="sub" id="gwc" style="margin:0"></span></h2><div class="gwl" id="gwl"></div></div>
@@ -171,12 +180,13 @@ const val=d=>data[iso(d)]||0;
 const sumRange=(a,n)=>{let t=0;for(let i=0;i<n;i++)t+=val(addD(a,i));return t};
 const todayD=()=>{const t=new Date();t.setHours(0,0,0,0);return t};
 const SUBJECT_COLORS=['#5477ce','#22a78a','#e5a34b','#b36bd1','#e16f83','#3f9fc2','#8b9b42','#d17b45','#6573b8','#b85b9c','#4d9b78','#a28b55'];
-const subjectColor=(name,i=0)=>{const idx=subjects.indexOf(name);return SUBJECT_COLORS[(idx>=0?idx:i)%SUBJECT_COLORS.length]};
+const subjectColor=(name,i=0)=>{if(String(name).trim().toLowerCase().includes('chem'))return '#ef4444';const idx=subjects.indexOf(name);return SUBJECT_COLORS[(idx>=0?idx:i)%SUBJECT_COLORS.length]};
 function subjectNames(){const names=[...subjects];for(const day of Object.values(subjectData))for(const n of Object.keys(day||{}))if(!names.includes(n))names.push(n);return names}
 function subjectTotal(day){return Object.values(day||{}).reduce((a,v)=>a+(+v||0),0)}
 function updateModeUI(){
  $('modeLabel').textContent=trackingMode==='subjects'?'Tracking mode · Subject-wise study time':'Tracking mode · Total study time';
- $('modeBtn').textContent=trackingMode==='subjects'?'Switch to total mode':'Enable subject-wise mode';
+ $('totalModeBtn').classList.toggle('active',trackingMode==='total');$('totalModeBtn').classList.toggle('g',trackingMode!=='total');
+ $('subjectModeBtn').classList.toggle('active',trackingMode==='subjects');$('subjectModeBtn').classList.toggle('g',trackingMode!=='subjects');
  $('subjectSetupBtn').style.display=trackingMode==='subjects'?'inline-block':'none';
  $('totalFields').style.display=trackingMode==='subjects'?'none':'flex';
  $('subjectFields').style.display=trackingMode==='subjects'?'grid':'none';
@@ -196,7 +206,8 @@ function openSubjectSetup(){
  $('sssave').onclick=()=>{const names=[...document.querySelectorAll('.ssname')].map(x=>x.value.trim());if(names.some(x=>!x)){$('sserr').textContent='Please give every subject a name.';return}if(new Set(names.map(x=>x.toLowerCase())).size!==names.length){$('sserr').textContent='Each subject needs a different name.';return}subjects=names;trackingMode='subjects';updateModeUI();persistLocal();if(window.cloudSave)window.cloudSave(data);render();closeMo()}}
  $('ssnext').onclick=namesForm;
 }
-$('modeBtn').onclick=()=>{if(trackingMode==='subjects'){trackingMode='total';updateModeUI();persistLocal();if(window.cloudSave)window.cloudSave(data);render()}else openSubjectSetup()};
+function chooseTrackingMode(mode){if(mode==='subjects'&&!subjects.length){openSubjectSetup();return}if(trackingMode===mode)return;trackingMode=mode;updateModeUI();persistLocal();if(window.cloudSave)window.cloudSave(data);render()}
+$('totalModeBtn').onclick=()=>chooseTrackingMode('total');$('subjectModeBtn').onclick=()=>chooseTrackingMode('subjects');
 $('subjectSetupBtn').onclick=openSubjectSetup;
 
 // theme
@@ -207,10 +218,10 @@ window.openMo=openMo;window.closeMo=closeMo;
 $('mo').onclick=e=>{if(e.target===$('mo'))closeMo()};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMo()});
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-// ===== cookie notice =====
-const CK='studytracker.cloudReminderSeen.v1';
-try{if(!localStorage.getItem(CK))$('ck').style.display='flex'}catch(e){$('ck').style.display='flex'}
-function dismissCloudReminder(){try{localStorage.setItem(CK,'1')}catch(e){}$('ck').style.display='none'}
+// ===== welcome sign-in reminder =====
+// Show this reminder to guests on each fresh visit; dismissing it hides it only for this session.
+$('ck').style.display='flex';
+function dismissCloudReminder(){$('ck').style.display='none'}
 $('cka').onclick=dismissCloudReminder;
 // ===== themes =====
 // Keep only the original Light/Dark themes and three distinctive scene-based themes.
@@ -373,7 +384,7 @@ function chart(id,labels,vals,type,hl){
 }
 function stackedBarChart(id,labels,dates,hl){
  const s=$(id),W=700,H=260,L=44,R=14,T=14,B=34;s.innerHTML='';const names=subjectNames();
- const totals=dates.map(d=>val(d));
+ const totals=dates.map(d=>Math.max(val(d),subjectTotal(subjectData[iso(d)]||{})));
  const mx=Math.max(1,Math.ceil(Math.max(...totals)/60));
  const el=(n,a,t)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(t!=null)e.textContent=t;s.appendChild(e);return e};
  for(let i=0;i<=4;i++){const y=T+(H-T-B)*(1-i/4);el('line',{x1:L,x2:W-R,y1:y,y2:y,stroke:'var(--grid)'});el('text',{x:L-6,y:y+4,'text-anchor':'end','font-size':11,fill:'var(--mu)'},(mx*i/4).toFixed(mx<4?1:0)+'h')}
@@ -389,19 +400,61 @@ function stackedBarChart(id,labels,dates,hl){
  const legend=$('subjectLegend');legend.innerHTML=names.map((name,i)=>'<span><i style="background:'+subjectColor(name,i)+'"></i>'+esc(name)+'</span>').join('')+(dates.some(d=>!subjectData[iso(d)]||!Object.keys(subjectData[iso(d)]||{}).length||val(d)>subjectTotal(subjectData[iso(d)]))?'<span><i style="background:#9299aa"></i>Previously logged / unallocated</span>':'');
 }
 function renderHeatmap(){
- const today=todayD(),start=addD(today,-364);start.setDate(start.getDate()-start.getDay());
- const cells=[],months=[];let lastMonth=-1;
- for(let i=0;i<371;i++){const d=addD(start,i);if(d>today){cells.push('<span class="heat-cell" style="visibility:hidden"></span>');continue}const v=val(d),level=v<=0?0:v<60?1:v<120?2:v<240?3:4;cells.push('<span class="heat-cell" data-level="'+level+'" title="'+d.toDateString()+': '+fmt(v)+'"></span>');if(d.getDate()===1||i===0){months.push({week:Math.floor(i/7),name:d.toLocaleDateString([],{month:'short'})});lastMonth=d.getMonth()}}
- $('heatmap').innerHTML=cells.join('');$('heatMonths').innerHTML=months.map((m,i)=>'<span style="grid-column:'+(m.week+1)+' / span '+(i===months.length-1?1:Math.max(1,months[i+1].week-m.week))+'">'+m.name+'</span>').join('');
+ const host=$('heatmap');
+ const today=todayD(),labels=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+ // The weekday zones are deliberately arranged as broad, overlapping regions,
+ // so the pitch reads as one soft activity field rather than a zig-zag of dots.
+ const positions=[
+  {x:18,y:48},{x:29,y:39},{x:41,y:51},{x:52,y:43},{x:64,y:51},{x:76,y:40},{x:87,y:50}
+ ];
+ const totals=Array(7).fill(0),counts=Array(7).fill(0);
+ for(let offset=0;offset<28;offset++){
+  const d=addD(today,-offset),day=d.getDay();
+  totals[day]+=val(d);counts[day]++;
+ }
+ const averages=totals.map((v,i)=>counts[i]?v/counts[i]:0),max=Math.max(1,...averages);
+ const layers=positions.map((p,i)=>{
+  const ratio=averages[i]/max;
+  if(ratio<=0)return `radial-gradient(ellipse 15% 29% at ${p.x}% ${p.y}%, rgba(255,205,65,.10) 0%, rgba(255,155,35,.05) 42%, transparent 76%)`;
+  const alpha=(.28+ratio*.58).toFixed(2),warm=(.18+ratio*.28).toFixed(2);
+  const rx=(13+ratio*9).toFixed(1),ry=(25+ratio*15).toFixed(1);
+  return `radial-gradient(ellipse ${rx}% ${ry}% at ${p.x}% ${p.y}%, rgba(255,54,34,${alpha}) 0%, rgba(255,132,30,${warm}) 34%, rgba(255,205,55,${(.10+ratio*.12).toFixed(2)}) 58%, transparent 78%)`;
+ }).join(',');
+ host.style.setProperty('--heat-field',layers);
+ host.innerHTML=labels.map((day,i)=>{
+  const p=positions[i],v=averages[i];
+  return `<span class="heat-label" style="left:${p.x}%;top:${p.y}%" title="${day}: ${v>0?fmt(Math.round(v))+' average per day over the last four weeks':'no study time logged in the last four weeks'}">${day}</span>`;
+ }).join('');
 }
-function renderInsight(){
- const today=todayD(),recent=sumRange(addD(today,-6),7),previous=sumRange(addD(today,-13),7),rDays=Array.from({length:7},(_,i)=>val(addD(today,-i))).filter(v=>v>0).length;
- let icon='🌱',title='Build your rhythm one day at a time',message='Log a few more days and this space will show how your recent study pattern is changing.';
- if(previous===0&&recent>0){icon='🚀';title='A fresh study rhythm is taking shape';message='You logged '+fmt(recent)+' in the last 7 days. Keep building on that momentum with a realistic routine.'}
- else if(previous>0){const diff=recent-previous,pct=Math.round(Math.abs(diff)/previous*100);if(diff>0){icon='📈';title='Your study time is moving up';message='You studied '+fmt(recent)+' in the last 7 days — '+pct+'% more than the previous 7 days. Nice progress; aim to keep it sustainable.'}else if(diff<0){icon='🧭';title='Your study hours have dipped';message='The last 7 days are '+pct+'% lower than the previous 7 days. No need to panic — pick one manageable session today and rebuild your rhythm.'}else{icon='⚖️';title='You’re maintaining your pace';message='Your last two 7-day periods are level at '+fmt(recent)+'. Consistency is progress too.'}}
- if(rDays>=6&&recent>0&&previous>0&&recent>=previous){message+=' You also studied on '+rDays+' of the last 7 days.'}
- $('insightIcon').textContent=icon;$('insightTitle').textContent=title;$('insightText').textContent=message;
+
+function renderSubjectSummary(){
+ const card=$('subjectSummaryCard'),host=$('subjectSummary');
+ if(trackingMode!=='subjects'){card.style.display='none';return}
+ card.style.display='block';
+ const names=subjectNames(),wk=monday(todayD()),weekly={},all={};
+ names.forEach(n=>{weekly[n]=0;all[n]=0});
+ let weekUnallocated=0,allUnallocated=0;
+ const dayKeys=new Set([...Object.keys(data||{}),...Object.keys(subjectData||{})]);
+ for(const k of dayKeys){
+  const record=subjectData[k]||{},d=parse(k),isWeek=d>=wk&&d<addD(wk,7);
+  let split=0;for(const [name,raw] of Object.entries(record||{})){
+   const mins=Math.max(0,+raw||0);split+=mins;
+   if(all[name]===undefined){all[name]=0;weekly[name]=0}
+   all[name]+=mins;if(isWeek)weekly[name]+=mins;
+  }
+  const total=Math.max(0,+data[k]||0),unallocated=Math.max(0,total-split);
+  allUnallocated+=unallocated;if(isWeek)weekUnallocated+=unallocated;
+ }
+ const weekTotal=sumRange(wk,7),allTotal=Object.values(data).reduce((a,v)=>a+Math.max(0,+v||0),0);
+ let html=`<div class="subject-total-card total"><div class="st-head">📊 Overall total</div><div class="st-line"><span>This week</span><b>${fmt(weekTotal)}</b></div><div class="st-line"><span>All time</span><b>${fmt(allTotal)}</b></div></div>`;
+ names.forEach((name,i)=>{
+  const color=subjectColor(name,i);
+  html+=`<div class="subject-total-card"><div class="st-head"><i class="st-dot" style="background:${color}"></i>${esc(name)}</div><div class="st-line"><span>This week</span><b>${fmt(weekly[name]||0)}</b></div><div class="st-line"><span>All time</span><b>${fmt(all[name]||0)}</b></div></div>`;
+ });
+ if(weekUnallocated||allUnallocated){html+=`<div class="subject-total-card"><div class="st-head"><i class="st-dot" style="background:#9299aa"></i>Unallocated / older logs</div><div class="st-line"><span>This week</span><b>${fmt(weekUnallocated)}</b></div><div class="st-line"><span>All time</span><b>${fmt(allUnallocated)}</b></div></div>`}
+ host.innerHTML=html;
 }
+
 function renderStats(){
  const today=todayD(),wk=monday(today),tw=sumRange(wk,7),lw=sumRange(addD(wk,-7),7),dn=Math.floor((today-wk)/864e5)+1;
  const big=m=>{m=Math.round(m);return Math.floor(m/60)+'<small>h</small> '+(m%60)+'<small>m</small>'};
@@ -505,7 +558,7 @@ function render(){
  const first=ks.length?monday(parse(ks[0])):wk,cnt=Math.max(1,Math.round((wk-first)/6048e5)+1);
  const ws=[...Array(cnt)].map((_,i)=>addD(first,i*7));
  chart('c3',ws.map(x=>(x.getMonth()+1)+'/'+x.getDate()),ws.map(x=>sumRange(x,7)),'line');
- renderHeatmap();renderInsight();
+ renderHeatmap();renderSubjectSummary();
  $('log').innerHTML=ks.length?'<div class="ls"><table><tr><th>Date</th><th>Time / subject split</th><th></th></tr>'+ks.slice().reverse().map(k=>{const sd=subjectData[k]||{},parts=Object.entries(sd).filter(([,v])=>+v>0).map(([n,v])=>esc(n)+' '+fmt(+v));return '<tr><td>'+parse(k).toDateString()+'</td><td>'+fmt(data[k])+(parts.length?'<div class="sub" style="margin:3px 0 0;font-size:.75rem">'+parts.join(' · ')+'</div>':'')+'</td><td><button class="g" data-k="'+k+'">Delete</button></td></tr>'}).join('')+'</table></div>':'<div class="empty">No entries yet. Add your first day above.</div>';
  drawCal()}
 // calendar
@@ -536,9 +589,9 @@ $('im').onclick=()=>{const t=prompt('Paste the data you copied from your old tra
 $('rs').onclick=()=>$('rf').click();
 $('rf').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(imp);e.target.value=''};
 $('bk').onclick=()=>{const b=new Blob([JSON.stringify({data,subjectData,subjects,trackingMode},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='study-backup-'+iso(new Date())+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
-window.setData=d=>{data=d||{};render();persistLocal()};window.getData=()=>data;window.setSubjectState=(sd,sub,mode)=>{subjectData=sd&&typeof sd==='object'?sd:{};subjects=Array.isArray(sub)?sub:[];trackingMode=mode==='subjects'?'subjects':'total';updateModeUI()};
+window.setData=d=>{data=d||{};render();persistLocal()};window.getData=()=>data;window.getSubjectState=()=>({subjectData,subjects,trackingMode});window.setSubjectState=(sd,sub,mode)=>{subjectData=sd&&typeof sd==='object'?sd:{};subjects=Array.isArray(sub)?sub:[];trackingMode=mode==='subjects'?'subjects':'total';updateModeUI()};
 try{const saved=JSON.parse(localStorage.getItem(K)||'null');if(saved&&typeof saved==='object'){
- data=saved.data&&typeof saved.data==='object'?saved.data:Object.fromEntries(Object.entries(saved).filter(([k,v])=>/^\d{4}-\d{2}-\d{2}$/.test(k)&&typeof v==='number'));subjectData=saved.subjectData&&typeof saved.subjectData==='object'?saved.subjectData:{};subjects=Array.isArray(saved.subjects)?saved.subjects:[];trackingMode=saved.trackingMode==='subjects'&&subjects.length?'subjects':'total';goal=+saved.goal||0;bsaved=saved.badges&&typeof saved.badges==='object'?saved.badges:{};gws=saved.goalWeeks&&typeof saved.goalWeeks==='object'?saved.goalWeeks:{};gwBack=false;setExamVal(saved.exam||null);
+ data=saved.data&&typeof saved.data==='object'?saved.data:Object.fromEntries(Object.entries(saved).filter(([k,v])=>/^\d{4}-\d{2}-\d{2}$/.test(k)&&typeof v==='number'));subjectData=saved.subjectData&&typeof saved.subjectData==='object'?saved.subjectData:{};subjects=Array.isArray(saved.subjects)?saved.subjects:[];trackingMode='total';goal=+saved.goal||0;bsaved=saved.badges&&typeof saved.badges==='object'?saved.badges:{};gws=saved.goalWeeks&&typeof saved.goalWeeks==='object'?saved.goalWeeks:{};gwBack=false;setExamVal(saved.exam||null);
  $('goal').value=goal||'';
 }}catch(e){}
 updateModeUI();render();persistLocal();
@@ -568,7 +621,7 @@ onAuthStateChanged(auth,async u=>{
   const local=(()=>{try{return JSON.parse(localStorage.getItem('studytracker.v1')||'{}')}catch(e){return {}}})();
   const merged={...(cloud.data||{})};for(const k in (local.data||{})){const lv=+local.data[k]||0,rv=+merged[k]||0;merged[k]=Math.max(lv,rv)}
   const mergedSubjectData={...(cloud.subjectData||{})};for(const k in (local.subjectData||{})){const cur={...(mergedSubjectData[k]||{})};for(const n in local.subjectData[k])cur[n]=Math.max(+cur[n]||0,+local.subjectData[k][n]||0);mergedSubjectData[k]=cur;if(Object.keys(cur).length)merged[k]=Math.max(+merged[k]||0,subjectTotal(cur))}
-  const mergedSubjects=Array.isArray(local.subjects)&&local.subjects.length?local.subjects:(cloud.subjects||[]);const mergedMode=Array.isArray(local.subjects)&&local.subjects.length?(local.trackingMode||'total'):(cloud.trackingMode||local.trackingMode||'total');
+  const mergedSubjects=Array.isArray(local.subjects)&&local.subjects.length?local.subjects:(cloud.subjects||[]);const mergedMode='total';
   const mergedGoal=Math.max(+cloud.goal||0,+local.goal||0);
   const mergedBadges={...(cloud.badges||{}),...(local.badges||{})};
   const mergedWeeks={...(cloud.goalWeeks||{}),...(local.goalWeeks||{})};
@@ -579,7 +632,7 @@ onAuthStateChanged(auth,async u=>{
   unsub=onSnapshot(ref,s=>{if(!s.exists())return;const d=s.data()||{};remote=d.data||{};remoteSubjectData=d.subjectData||{};hydrating=true;window.setSubjectState(remoteSubjectData,d.subjects||[],d.trackingMode||'total');window.setData({...remote});window.setBadges(d.badges||{});window.setGW(d.goalWeeks||{});window.setGoal(d.goal||0);window.setExam(d.exam||null);hydrating=false;});
  }catch(e){console.error(e);alert('Cloud sync could not start: '+(e.code||e.message)+'. Your browser copy is still available.')}
 });
-window.cloudSave=async d=>{if(!ref||hydrating)return;try{await updateDoc(ref,{data:d,subjectData:subjectData,subjects:subjects,trackingMode:trackingMode});remote={...d};remoteSubjectData=JSON.parse(JSON.stringify(subjectData))}catch(e){console.error('Cloud save failed',e)}};
+window.cloudSave=async d=>{if(!ref||hydrating)return;try{const state=window.getSubjectState?window.getSubjectState():{};const sd=state.subjectData||{},sub=state.subjects||[],mode=state.trackingMode||'total';await updateDoc(ref,{data:d,subjectData:sd,subjects:sub,trackingMode:mode});remote={...d};remoteSubjectData=JSON.parse(JSON.stringify(sd))}catch(e){console.error('Cloud save failed',e)}};
 window.saveBadges=async m=>{try{if(ref&&!hydrating)await updateDoc(ref,{badges:m})}catch(e){console.error(e)}};
 window.saveExam=async e=>{try{if(ref&&!hydrating)await updateDoc(ref,{exam:e||deleteField()})}catch(x){console.error(x)}};
 window.saveWelcomed=async()=>{};
