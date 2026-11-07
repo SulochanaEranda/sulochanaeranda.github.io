@@ -166,9 +166,9 @@ button:disabled{opacity:.4;cursor:default}
 <div id="mo"><div id="mc"></div></div>
 <div id="ck"><span><b>Welcome!</b> Sign in with Google to save your study hours in the cloud and sync across devices. Your data stays in this browser if you choose later.</span><div class="row" style="gap:6px;flex-wrap:nowrap;align-items:center"><button id="ckg" style="white-space:nowrap;padding:8px 12px">Sign in with Google</button><button class="g" id="cka" style="white-space:nowrap">Maybe later</button></div></div>
 <script>
-const K='studytracker.v1',TK='studytracker.theme';let data={},goal=0,sel=null,view=null,trackingMode='total',subjects=[],subjectData={};
+const K='studytracker.v1',TK='studytracker.theme';let data={},goal=0,sel=null,view=null,trackingMode='total',subjects=[],subjectData={},deletedLogs={};
 
-function persistLocal(){try{localStorage.setItem(K,JSON.stringify({data,subjectData,subjects,trackingMode,goal:goal||0,badges:bsaved||{},goalWeeks:gws||{},exam:exam||null}))}catch(e){}}
+function persistLocal(){try{localStorage.setItem(K,JSON.stringify({data,subjectData,subjects,trackingMode,goal:goal||0,badges:bsaved||{},goalWeeks:gws||{},hiddenGoalWeeks:hiddenGoalWeeks||{},deletedLogs:deletedLogs||{},exam:exam||null}))}catch(e){}}
 function save(){persistLocal();window.cloudSave&&window.cloudSave(data)}
 const $=id=>document.getElementById(id);
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -221,7 +221,15 @@ const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 // ===== welcome sign-in reminder =====
 // Show this reminder to guests on each fresh visit; dismissing it hides it only for this session.
 $('ck').style.display='flex';
-function dismissCloudReminder(){$('ck').style.display='none'}
+const WELCOME_KEY='studytracker.welcomeSeen';
+function dismissCloudReminder(){
+ $('ck').style.display='none';
+ try{localStorage.setItem(WELCOME_KEY,'1')}catch(e){}
+}
+let welcomeAlreadySeen=false;
+try{welcomeAlreadySeen=localStorage.getItem(WELCOME_KEY)==='1'}catch(e){}
+$('ck').style.display=welcomeAlreadySeen?'none':'flex';
+if(!welcomeAlreadySeen){try{localStorage.setItem(WELCOME_KEY,'1')}catch(e){}}
 $('cka').onclick=dismissCloudReminder;
 // ===== themes =====
 // Keep only the original Light/Dark themes and three distinctive scene-based themes.
@@ -479,7 +487,7 @@ function renderStats(){
  $('gt').innerHTML=!gm?'Set a weekly goal below to start tracking.':done?'<span class="gdone">🎉 Weekly goal completed!</span> '+fmt(tw)+' of '+goal+'h':'of your '+goal+'h weekly goal · '+fmt(gm-tw)+' to go';
 }
 window.setGoal=g=>{goal=+g||0;if(document.activeElement!==$('goal'))$('goal').value=goal||'';renderStats();persistLocal()};
-$('goal').onchange=()=>{goal=Math.max(0,Math.floor(+$('goal').value)||0);$('goal').value=goal||'';renderStats();renderBadges();trackGW();persistLocal();if(window.saveGoal)window.saveGoal(goal)};
+$('goal').onchange=()=>{goal=Math.max(0,Math.floor(+$('goal').value)||0);$('goal').value=goal||'';delete hiddenGoalWeeks[iso(monday(todayD()))];renderStats();renderBadges();trackGW();persistLocal();if(window.saveGoal)window.saveGoal(goal);if(window.saveHiddenGW)window.saveHiddenGW(hiddenGoalWeeks)};
 let bsaved=null,bsilent=false,btt=0;
 window.setBadges=b=>{if(bsaved===null){bsaved=b?{...b}:{};bsilent=!b}else if(b)Object.assign(bsaved,b);persistLocal()};
 window.resetBadges=()=>{gws=null;gwBack=false;bsaved=null;wshown=false;setExamVal(null);closeMo()};
@@ -520,29 +528,48 @@ function renderBadges(){
  $('bgd').innerHTML=h;$('bc').textContent=n+' / '+BD.length+' unlocked';
  if(fresh.length&&!bsilent)toast(fresh.map(id=>BD.find(b=>b[0]===id)));
  if(bsaved!==null)bsilent=false}
-let gws=null,gwBack=false;
-window.setGW=g=>{if(gws===null){gws={};gwBack=!g}if(g)for(const k in g){const c=gws[k];if(!c||g[k].m>c.m)gws[k]=g[k]}persistLocal()};
+let gws=null,gwBack=false,hiddenGoalWeeks={};
+window.setGW=g=>{gws=g&&typeof g==='object'?JSON.parse(JSON.stringify(g)):{};persistLocal()};
+window.setHiddenGW=g=>{hiddenGoalWeeks=g&&typeof g==='object'?{...g}:{};persistLocal()};
 function weekLabel(mon){const e=addD(mon,6),y=mon.getFullYear()!==e.getFullYear(),o={day:'numeric',month:'short'};
  return mon.toLocaleDateString([],y?{...o,year:'numeric'}:o)+' – '+e.toLocaleDateString([],{...o,year:'numeric'})}
 function weekSums(){const w={};for(const k in data){if(data[k]>0){const m=iso(monday(parse(k)));w[m]=(w[m]||0)+data[k]}}return w}
 function trackGW(){
- if(gws!==null&&goal>0){
-  const cur=iso(monday(todayD())),ws=weekSums(),need=goal*60;let ch=false;
-  const m=ws[cur]||0;
-  if(m>=need){const c=gws[cur];if(!c||m>c.m){gws[cur]={m:m,g:c?c.g:goal};ch=true}}
-  if(gwBack){for(const k in ws){if(k!==cur&&ws[k]>=need&&!gws[k]){gws[k]={m:ws[k],g:goal};ch=true}}gwBack=false}
-  if(ch){persistLocal();if(window.saveGW)window.saveGW(gws)}}
+ if(gws===null)gws={};
+ const ws=weekSums(),cur=iso(monday(todayD()));
+ let changed=false;
+ // Recalculate every saved completion from the current logs. The active
+ // week's record always follows the currently selected weekly target.
+ for(const k of Object.keys(gws)){
+  const record=gws[k]||{},target=k===cur?goal:Math.max(0,+record.g||0),actual=ws[k]||0;
+  if(hiddenGoalWeeks[k]||!target||actual<target*60){delete gws[k];changed=true}
+  else if(+record.m!==actual||+record.g!==target){gws[k]={m:actual,g:target};changed=true}
+ }
+ if(goal>0){
+  const actual=ws[cur]||0;
+  if(actual>=goal*60&&!hiddenGoalWeeks[cur]&&!gws[cur]){gws[cur]={m:actual,g:goal};changed=true}
+ }
+ if(changed){persistLocal();if(window.saveGW)window.saveGW(gws)}
  drawGW()}
 function drawGW(){
  const ks=gws?Object.keys(gws).sort().reverse():[];
  $('gwc').textContent=ks.length+(ks.length===1?' week':' weeks');
- $('gwl').innerHTML=ks.length?ks.map(k=>{const r=gws[k];return '<div class="gwr"><div><b>'+weekLabel(parse(k))+'</b><div class="si" style="margin:2px 0 0">'+fmt(r.m)+' of '+r.g+'h goal · '+Math.floor(r.m/(r.g*60)*100)+'%</div></div><button class="g" data-gw="'+k+'">Share ↗</button></div>'}).join(''):'<div class="si" style="padding:8px 0">Finish a weekly goal and it will appear here, ready to share.</div>'}
+ $('gwl').innerHTML=ks.length?ks.map(k=>{const r=gws[k];return '<div class="gwr"><div><b>'+weekLabel(parse(k))+'</b><div class="si" style="margin:2px 0 0">'+fmt(r.m)+' of '+r.g+'h goal · '+Math.floor(r.m/(r.g*60)*100)+'%</div></div><div class="row" style="gap:3px;flex-wrap:nowrap"><button class="g" data-gw="'+k+'">Share ↗</button><button class="g" data-gw-delete="'+k+'" title="Remove this completed goal" aria-label="Remove this completed goal">✕</button></div></div>'}).join(''):'<div class="si" style="padding:8px 0">Finish a weekly goal and it will appear here, ready to share.</div>'}
 function shareGoalWeek(k){
  const mon=parse(k),r=(gws&&gws[k])||{},g=r.g||goal;let tot=0,best=0,n=0;
  for(let i=0;i<7;i++){const v=val(addD(mon,i));tot+=v;if(v>0)n++;if(v>best)best=v}
  const m=Math.max(tot,r.m||0),el=Math.max(1,Math.min(7,Math.floor((todayD()-mon)/864e5)+1)),wk=weekLabel(mon),pct=Math.floor(m/(g*60)*100);
  shareDlg({kind:'goal',week:wk,m:m,g:g,pct:pct,n:n,avg:m/el,best:best,elapsed:el,slug:'weekly-goal-'+k},'I completed my weekly study goal 🎯 '+wk+': '+fmt(m)+' studied (goal '+g+'h, '+pct+'%). Track yours for free: '+SITE)}
-$('gwl').onclick=e=>{const b=e.target.closest('[data-gw]');if(b)shareGoalWeek(b.dataset.gw)};
+$('gwl').onclick=e=>{
+ const remove=e.target.closest('[data-gw-delete]');
+ if(remove){
+  const k=remove.dataset.gwDelete;
+  delete gws[k];hiddenGoalWeeks[k]=true;
+  persistLocal();if(window.saveGW)window.saveGW(gws);if(window.saveHiddenGW)window.saveHiddenGW(hiddenGoalWeeks);
+  drawGW();return;
+ }
+ const b=e.target.closest('[data-gw]');if(b)shareGoalWeek(b.dataset.gw)
+};
 $('gsh').onclick=()=>shareGoalWeek(iso(monday(todayD())));
 function render(){
  const today=todayD(),wk=monday(today),tw=sumRange(wk,7),lw=sumRange(addD(wk,-7),7),dn=Math.floor((today-wk)/864e5)+1;
@@ -581,17 +608,17 @@ document.addEventListener('click',()=>$('pop').classList.remove('o'));
 $('add').onclick=()=>{const k=iso(sel);let t=0;
  if(trackingMode==='subjects'){const record={};subjects.forEach((name,i)=>{const h=+($('subj_'+i+'_h')||{}).value||0,m=+($('subj_'+i+'_m')||{}).value||0;record[name]=Math.max(0,h*60+m);t+=record[name]});if(t<=0){$('msg').textContent='Enter study time for at least one subject.';return}subjectData[k]=record}
  else{const h=+$('h').value||0,m=+$('m').value||0;t=h*60+m;if(t<=0){$('msg').textContent='Enter some study time first.';return}delete subjectData[k]}
- const had=data[k];data[k]=t;save();$('msg').textContent=(had?'Updated ':'Saved ')+fmt(t)+' total for '+sel.toDateString()+'.';if(trackingMode==='subjects')drawSubjectInputs();else{$('h').value='';$('m').value=''}render()};
-$('log').onclick=e=>{const k=e.target.dataset&&e.target.dataset.k;if(k){delete data[k];delete subjectData[k];save();render()}};
+ const had=data[k];data[k]=t;delete deletedLogs[k];save();$('msg').textContent=(had?'Updated ':'Saved ')+fmt(t)+' total for '+sel.toDateString()+'.';if(trackingMode==='subjects')drawSubjectInputs();else{$('h').value='';$('m').value=''}render()};
+$('log').onclick=e=>{const k=e.target.dataset&&e.target.dataset.k;if(k){delete data[k];delete subjectData[k];deletedLogs[k]=true;save();render()}};
 
-function imp(t){try{const o=JSON.parse(t);if(typeof o!=='object'||!o)throw 0;if(o.data&&typeof o.data==='object'){for(const k in o.data)if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&+o.data[k]>0)data[k]=+o.data[k];if(o.subjectData)subjectData={...subjectData,...o.subjectData};if(Array.isArray(o.subjects)&&o.subjects.length)subjects=o.subjects;if(o.trackingMode)trackingMode=o.trackingMode}else{for(const k in o){if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&+o[k]>0)data[k]=+o[k]}}save();updateModeUI();render();alert('Imported!')}catch(e){alert('That data was not valid.')}}
+function imp(t){try{const o=JSON.parse(t);if(typeof o!=='object'||!o)throw 0;if(o.data&&typeof o.data==='object'){for(const k in o.data)if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&+o.data[k]>0)data[k]=+o.data[k];delete deletedLogs[k];if(o.subjectData)subjectData={...subjectData,...o.subjectData};if(Array.isArray(o.subjects)&&o.subjects.length)subjects=o.subjects;if(o.trackingMode)trackingMode=o.trackingMode}else{for(const k in o){if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&+o[k]>0)data[k]=+o[k];delete deletedLogs[k]}}save();updateModeUI();render();alert('Imported!')}catch(e){alert('That data was not valid.')}}
 $('im').onclick=()=>{const t=prompt('Paste the data you copied from your old tracker:');if(t)imp(t)};
 $('rs').onclick=()=>$('rf').click();
 $('rf').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(imp);e.target.value=''};
 $('bk').onclick=()=>{const b=new Blob([JSON.stringify({data,subjectData,subjects,trackingMode},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='study-backup-'+iso(new Date())+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
-window.setData=d=>{data=d||{};render();persistLocal()};window.getData=()=>data;window.getSubjectState=()=>({subjectData,subjects,trackingMode});window.setSubjectState=(sd,sub,mode)=>{subjectData=sd&&typeof sd==='object'?sd:{};subjects=Array.isArray(sub)?sub:[];trackingMode=mode==='subjects'?'subjects':'total';updateModeUI()};
+window.setData=d=>{data=d||{};render();persistLocal()};window.setDeletedLogs=d=>{deletedLogs=d&&typeof d==='object'?{...d}:{};persistLocal()};window.getData=()=>data;window.getSubjectState=()=>({subjectData,subjects,trackingMode});window.setSubjectState=(sd,sub,mode)=>{subjectData=sd&&typeof sd==='object'?sd:{};subjects=Array.isArray(sub)?sub:[];trackingMode=mode==='subjects'?'subjects':'total';updateModeUI()};
 try{const saved=JSON.parse(localStorage.getItem(K)||'null');if(saved&&typeof saved==='object'){
- data=saved.data&&typeof saved.data==='object'?saved.data:Object.fromEntries(Object.entries(saved).filter(([k,v])=>/^\d{4}-\d{2}-\d{2}$/.test(k)&&typeof v==='number'));subjectData=saved.subjectData&&typeof saved.subjectData==='object'?saved.subjectData:{};subjects=Array.isArray(saved.subjects)?saved.subjects:[];trackingMode='total';goal=+saved.goal||0;bsaved=saved.badges&&typeof saved.badges==='object'?saved.badges:{};gws=saved.goalWeeks&&typeof saved.goalWeeks==='object'?saved.goalWeeks:{};gwBack=false;setExamVal(saved.exam||null);
+ data=saved.data&&typeof saved.data==='object'?saved.data:Object.fromEntries(Object.entries(saved).filter(([k,v])=>/^\d{4}-\d{2}-\d{2}$/.test(k)&&typeof v==='number'));subjectData=saved.subjectData&&typeof saved.subjectData==='object'?saved.subjectData:{};subjects=Array.isArray(saved.subjects)?saved.subjects:[];trackingMode='total';goal=+saved.goal||0;bsaved=saved.badges&&typeof saved.badges==='object'?saved.badges:{};gws=saved.goalWeeks&&typeof saved.goalWeeks==='object'?saved.goalWeeks:{};hiddenGoalWeeks=saved.hiddenGoalWeeks&&typeof saved.hiddenGoalWeeks==='object'?saved.hiddenGoalWeeks:{};deletedLogs=saved.deletedLogs&&typeof saved.deletedLogs==='object'?saved.deletedLogs:{};gwBack=false;setExamVal(saved.exam||null);
  $('goal').value=goal||'';
 }}catch(e){}
 updateModeUI();render();persistLocal();
@@ -620,22 +647,26 @@ onAuthStateChanged(auth,async u=>{
   const snap=await getDoc(ref),cloud=snap.exists()?snap.data():{};
   const local=(()=>{try{return JSON.parse(localStorage.getItem('studytracker.v1')||'{}')}catch(e){return {}}})();
   const merged={...(cloud.data||{})};for(const k in (local.data||{})){const lv=+local.data[k]||0,rv=+merged[k]||0;merged[k]=Math.max(lv,rv)}
+  const mergedDeletedLogs={...(cloud.deletedLogs||{}),...(local.deletedLogs||{})};
+  for(const k in mergedDeletedLogs)if(mergedDeletedLogs[k]){delete merged[k];}
   const mergedSubjectData={...(cloud.subjectData||{})};for(const k in (local.subjectData||{})){const cur={...(mergedSubjectData[k]||{})};for(const n in local.subjectData[k])cur[n]=Math.max(+cur[n]||0,+local.subjectData[k][n]||0);mergedSubjectData[k]=cur;if(Object.keys(cur).length)merged[k]=Math.max(+merged[k]||0,subjectTotal(cur))}
   const mergedSubjects=Array.isArray(local.subjects)&&local.subjects.length?local.subjects:(cloud.subjects||[]);const mergedMode='total';
-  const mergedGoal=Math.max(+cloud.goal||0,+local.goal||0);
+  const mergedGoal=local.goal!==undefined?Math.max(0,+local.goal||0):(+cloud.goal||0);
   const mergedBadges={...(cloud.badges||{}),...(local.badges||{})};
   const mergedWeeks={...(cloud.goalWeeks||{}),...(local.goalWeeks||{})};
-  for(const k in (local.goalWeeks||{})){const c=mergedWeeks[k];if(!c||local.goalWeeks[k].m>c.m)mergedWeeks[k]=local.goalWeeks[k]}
+  const mergedHiddenWeeks={...(cloud.hiddenGoalWeeks||{}),...(local.hiddenGoalWeeks||{})};
+  for(const k in mergedHiddenWeeks)if(mergedHiddenWeeks[k])delete mergedWeeks[k];
   const mergedExam=local.exam||cloud.exam||null;
-  await setDoc(ref,{data:merged,subjectData:mergedSubjectData,subjects:mergedSubjects,trackingMode:mergedMode,goal:mergedGoal,badges:mergedBadges,goalWeeks:mergedWeeks,exam:mergedExam},{merge:true});
-  remote=merged;remoteSubjectData=mergedSubjectData;hydrating=true;window.setSubjectState(mergedSubjectData,mergedSubjects,mergedMode);window.setData(merged);window.setGoal(mergedGoal);window.setBadges(mergedBadges);window.setGW(mergedWeeks);window.setExam(mergedExam);hydrating=false;
-  unsub=onSnapshot(ref,s=>{if(!s.exists())return;const d=s.data()||{};remote=d.data||{};remoteSubjectData=d.subjectData||{};hydrating=true;window.setSubjectState(remoteSubjectData,d.subjects||[],d.trackingMode||'total');window.setData({...remote});window.setBadges(d.badges||{});window.setGW(d.goalWeeks||{});window.setGoal(d.goal||0);window.setExam(d.exam||null);hydrating=false;});
+  for(const k in mergedDeletedLogs)if(mergedDeletedLogs[k])delete mergedSubjectData[k];\n  await setDoc(ref,{data:merged,subjectData:mergedSubjectData,subjects:mergedSubjects,trackingMode:mergedMode,goal:mergedGoal,badges:mergedBadges,goalWeeks:mergedWeeks,hiddenGoalWeeks:mergedHiddenWeeks,deletedLogs:mergedDeletedLogs,exam:mergedExam},{merge:true});
+  remote=merged;remoteSubjectData=mergedSubjectData;hydrating=true;window.setSubjectState(mergedSubjectData,mergedSubjects,mergedMode);window.setData(merged);window.setDeletedLogs(mergedDeletedLogs);window.setGoal(mergedGoal);window.setBadges(mergedBadges);window.setGW(mergedWeeks);window.setHiddenGW(mergedHiddenWeeks);window.setExam(mergedExam);hydrating=false;
+  unsub=onSnapshot(ref,s=>{if(!s.exists())return;const d=s.data()||{};remote=d.data||{};remoteSubjectData=d.subjectData||{};hydrating=true;window.setSubjectState(remoteSubjectData,d.subjects||[],d.trackingMode||'total');window.setData({...remote});window.setDeletedLogs(d.deletedLogs||{});window.setBadges(d.badges||{});window.setGW(d.goalWeeks||{});window.setHiddenGW(d.hiddenGoalWeeks||{});window.setGoal(d.goal||0);window.setExam(d.exam||null);hydrating=false;});
  }catch(e){console.error(e);alert('Cloud sync could not start: '+(e.code||e.message)+'. Your browser copy is still available.')}
 });
-window.cloudSave=async d=>{if(!ref||hydrating)return;try{const state=window.getSubjectState?window.getSubjectState():{};const sd=state.subjectData||{},sub=state.subjects||[],mode=state.trackingMode||'total';await updateDoc(ref,{data:d,subjectData:sd,subjects:sub,trackingMode:mode});remote={...d};remoteSubjectData=JSON.parse(JSON.stringify(sd))}catch(e){console.error('Cloud save failed',e)}};
+window.cloudSave=async d=>{if(!ref||hydrating)return;try{const state=window.getSubjectState?window.getSubjectState():{};const sd=state.subjectData||{},sub=state.subjects||[],mode=state.trackingMode||'total';await updateDoc(ref,{data:d,deletedLogs:deletedLogs||{},subjectData:sd,subjects:sub,trackingMode:mode});remote={...d};remoteSubjectData=JSON.parse(JSON.stringify(sd))}catch(e){console.error('Cloud save failed',e)}};
 window.saveBadges=async m=>{try{if(ref&&!hydrating)await updateDoc(ref,{badges:m})}catch(e){console.error(e)}};
 window.saveExam=async e=>{try{if(ref&&!hydrating)await updateDoc(ref,{exam:e||deleteField()})}catch(x){console.error(x)}};
 window.saveWelcomed=async()=>{};
 window.saveGW=async m=>{try{if(ref&&!hydrating)await updateDoc(ref,{goalWeeks:m})}catch(e){console.error(e)}};
+window.saveHiddenGW=async m=>{try{if(ref&&!hydrating)await updateDoc(ref,{hiddenGoalWeeks:m})}catch(e){console.error(e)}};
 window.saveGoal=async v=>{try{if(ref&&!hydrating)await updateDoc(ref,{goal:v})}catch(e){console.error(e)}};
 </script></body></html>
