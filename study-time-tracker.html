@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><title>Study Time Tracker – Daily Study Hours, Charts &amp; Exam Countdown</title>
-<meta name="description" content="Free study time tracker for students. Log daily study hours, see weekly progress charts and count down to your exam. Sign in with Google and sync on any device.">
+<html lang="en"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin><link rel="preconnect" href="https://firestore.googleapis.com"><link rel="preconnect" href="https://identitytoolkit.googleapis.com"><link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js"><link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js"><link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js"><title>Study Time Tracker – Daily Study Hours, Charts &amp; Exam Countdown</title>
+<meta name="description" content="Free study time tracker for students. Log daily study hours, see weekly progress charts and count down to your exam. No account needed; optional Google sign-in syncs your data across devices.">
 <meta name="keywords" content="study time tracker, study hours tracker, study log, student productivity, exam countdown, A/L study planner, study progress chart, daily study tracker, weekly study hours, Sri Lanka students, Sulochana Eranda">
 <meta name="author" content="Sulochana Eranda">
 <meta name="robots" content="index, follow, max-image-preview:large">
@@ -8,21 +9,21 @@
 <meta name="theme-color" content="#5b5bf0">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Study Time Tracker – Daily Study Hours, Charts &amp; Exam Countdown">
-<meta property="og:description" content="Free study time tracker for students. Log daily study hours, see weekly progress charts and count down to your exam. Sign in with Google and sync on any device.">
+<meta property="og:description" content="Free study time tracker for students. Log daily study hours, see weekly progress charts and count down to your exam. No account needed; optional Google sign-in syncs your data across devices.">
 <meta property="og:url" content="https://sulochanaeranda.github.io/study-time-tracker.html">
 <meta property="og:site_name" content="Sulochana Eranda">
 <meta property="og:image" content="https://sulochanaeranda.github.io/str/images/study-time-tracker-logo-512.png">
 <meta property="og:image:alt" content="Study Time Tracker by Sulochana Eranda">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Study Time Tracker – Daily Study Hours, Charts &amp; Exam Countdown">
-<meta name="twitter:description" content="Free study time tracker for students. Log daily study hours, see weekly progress charts and count down to your exam. Sign in with Google and sync on any device.">
+<meta name="twitter:description" content="Free study time tracker for students. Log daily study hours, see weekly progress charts and count down to your exam. No account needed; optional Google sign-in syncs your data across devices.">
 <meta name="twitter:image" content="https://sulochanaeranda.github.io/str/images/study-time-tracker-logo-512.png">
 <link rel="icon" type="image/svg+xml" href="str/images/study-time-tracker-logo.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="str/images/study-tracker-apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="str/images/study-tracker-favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="str/images/study-tracker-favicon-16.png">
 <link rel="manifest" href="site.webmanifest">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Study Time Tracker","url":"https://sulochanaeranda.github.io/study-time-tracker.html","description":"Free study time tracker for students. Log daily study hours, see weekly progress charts and count down to your exam. Sign in with Google and sync on any device.","image":"https://sulochanaeranda.github.io/str/images/study-time-tracker-logo-512.png","applicationCategory":"EducationalApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","name":"Sulochana Eranda","url":"https://sulochanaeranda.github.io/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Study Time Tracker","url":"https://sulochanaeranda.github.io/study-time-tracker.html","description":"Free study time tracker for students. Log daily study hours, see weekly progress charts and count down to your exam. No account needed; optional Google sign-in syncs your data across devices.","image":"https://sulochanaeranda.github.io/str/images/study-time-tracker-logo-512.png","applicationCategory":"EducationalApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","name":"Sulochana Eranda","url":"https://sulochanaeranda.github.io/"}}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
@@ -31,7 +32,8 @@
 :root[data-theme="dark"]{--bg1:#12142a;--bg2:#241338;--bg3:#0e2a2a;--card:rgba(30,34,52,.5);--cb:rgba(255,255,255,.1);--tx:#eceef6;--mu:#a3abc0;--ac:#8b8cff;--ac2:#34d399;--grid:rgba(200,210,255,.14);--in:rgba(255,255,255,.07);--sh:0 8px 30px rgba(0,0,0,.35)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.4;background:radial-gradient(circle at 12% 8%,var(--bg1),transparent 55%),radial-gradient(circle at 90% 20%,var(--bg2),transparent 50%),radial-gradient(circle at 50% 95%,var(--bg3),transparent 55%),var(--bg1);background-attachment:fixed}
+body{margin:0;min-height:100vh;color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.4;background:var(--bg1)}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;transform:translateZ(0);background:radial-gradient(circle at 12% 8%,var(--bg1),transparent 55%),radial-gradient(circle at 90% 20%,var(--bg2),transparent 50%),radial-gradient(circle at 50% 95%,var(--bg3),transparent 55%),var(--bg1)}
 .w{max-width:920px;margin:0 auto;padding:16px}
 .top{display:flex;justify-content:space-between;align-items:center;gap:10px}
 h1{font-size:1.4rem;margin:8px 0 2px}h2{font-size:1rem;margin:0 0 10px}
@@ -61,8 +63,8 @@ table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{text-align:left;
 .gr button{padding:0;height:34px;background:transparent;color:var(--tx);border-radius:50%;position:relative}
 .gr button:hover{background:var(--in)}.gr .t{outline:1.5px solid var(--ac)}.gr .s{background:var(--ac);color:var(--on,#fff)}
 .gr .dis{opacity:.3;cursor:default}.gr .h::after{content:"";position:absolute;bottom:3px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--ac2)}
-#lg{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}#lg .card{max-width:360px;text-align:center;margin:0}body.auth #lg{display:none}body:not(.auth) .w{display:none}
-.top{position:relative;z-index:40}.av{width:40px;height:40px;padding:0;border-radius:50%;overflow:hidden;border:1px solid var(--cb);background:var(--card);color:var(--tx);font-weight:600}.av img{width:100%;height:100%;object-fit:cover;display:none}.ls{max-height:165px;overflow-y:auto;padding-right:4px}
+#lg{display:none}
+.top{position:relative;z-index:40}.av{min-width:40px;height:40px;padding:0 13px;border-radius:999px;overflow:hidden;border:1px solid var(--cb);background:var(--card);color:var(--tx);font-weight:650;display:flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap}.av:not(.signed)::before{content:"☁️";font-size:1rem}.av img{width:27px;height:27px;flex:0 0 27px;object-fit:cover;display:none;border-radius:50%}#avl{font-size:.84rem;line-height:1}.ls{max-height:165px;overflow-y:auto;padding-right:4px}
 
 .sg3,.sg2{display:grid;padding:0;overflow:hidden}.sg3{grid-template-columns:repeat(3,1fr)}.sg2{grid-template-columns:1.4fr 1fr}
 .sx{padding:18px 20px;border-left:1px solid var(--grid);min-width:0}.sx:first-child{border-left:0}
@@ -78,13 +80,11 @@ table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{text-align:left;
 
 :root[data-theme="dark"]{--pop:#1e2234}
 :root[data-theme="football"]{--card:rgba(6,38,20,.55);--cb:rgba(255,255,255,.2);--tx:#f1fff5;--mu:#a8d5b8;--ac:#facc15;--on:#0b2a16;--ac2:#4ade80;--grid:rgba(255,255,255,.16);--in:rgba(255,255,255,.08);--sh:0 8px 30px rgba(0,0,0,.35);--pop:#0d3a20}
-:root[data-theme="football"] body{background:linear-gradient(90deg,transparent 49.85%,rgba(255,255,255,.12) 50%,transparent 50.15%),radial-gradient(circle at 50% 50%,transparent 0 118px,rgba(255,255,255,.12) 119px 122px,transparent 123px),repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 90px,rgba(0,0,0,.06) 90px 180px),linear-gradient(160deg,#127a3a,#0a3d1f);background-attachment:fixed}
+:root[data-theme="football"] body::before{background:linear-gradient(90deg,transparent 49.85%,rgba(255,255,255,.12) 50%,transparent 50.15%),radial-gradient(circle at 50% 50%,transparent 0 118px,rgba(255,255,255,.12) 119px 122px,transparent 123px),repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 90px,rgba(0,0,0,.06) 90px 180px),linear-gradient(160deg,#127a3a,#0a3d1f)}
 :root[data-theme="movie"]{--card:rgba(20,20,26,.62);--cb:rgba(245,197,66,.28);--tx:#f4efe6;--mu:#b9ae98;--ac:#f5c542;--on:#1a1405;--ac2:#34d399;--grid:rgba(245,197,66,.16);--in:rgba(255,255,255,.07);--sh:0 8px 30px rgba(0,0,0,.5);--pop:#17171d}
-:root[data-theme="movie"] body{background-color:#0b0b10;background-image:repeating-linear-gradient(180deg,rgba(245,197,66,.22) 0 14px,transparent 14px 30px),repeating-linear-gradient(180deg,rgba(245,197,66,.22) 0 14px,transparent 14px 30px),radial-gradient(ellipse at 50% -10%,rgba(245,197,66,.16),transparent 55%),radial-gradient(circle at 85% 100%,rgba(185,28,28,.28),transparent 50%);background-size:12px 100%,12px 100%,auto,auto;background-position:10px 0,calc(100% - 10px) 0,0 0,0 0;background-repeat:no-repeat;background-attachment:fixed}
+:root[data-theme="movie"] body::before{background-color:#0b0b10;background-image:repeating-linear-gradient(180deg,rgba(245,197,66,.22) 0 14px,transparent 14px 30px),repeating-linear-gradient(180deg,rgba(245,197,66,.22) 0 14px,transparent 14px 30px),radial-gradient(ellipse at 50% -10%,rgba(245,197,66,.16),transparent 55%),radial-gradient(circle at 85% 100%,rgba(185,28,28,.28),transparent 50%);background-size:12px 100%,12px 100%,auto,auto;background-position:10px 0,calc(100% - 10px) 0,0 0,0 0;background-repeat:no-repeat}
 :root[data-theme="song"]{--card:rgba(38,10,68,.52);--cb:rgba(255,255,255,.18);--tx:#fdf2ff;--mu:#d3b6e8;--ac:#ff4fa3;--on:#fff;--ac2:#5eead4;--grid:rgba(255,255,255,.15);--in:rgba(255,255,255,.08);--sh:0 8px 30px rgba(20,0,40,.5);--pop:#2b0f4a}
-:root[data-theme="song"] body{background:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='120'><g fill='%23fff' fill-opacity='.08'><rect x='4' y='70' width='12' height='50' rx='6'/><rect x='24' y='34' width='12' height='86' rx='6'/><rect x='44' y='86' width='12' height='34' rx='6'/><rect x='64' y='16' width='12' height='104' rx='6'/><rect x='84' y='58' width='12' height='62' rx='6'/><rect x='104' y='28' width='12' height='92' rx='6'/><rect x='124' y='78' width='12' height='42' rx='6'/><rect x='144' y='44' width='12' height='76' rx='6'/></g></svg>") repeat-x center bottom/160px 120px,radial-gradient(circle at 15% 10%,rgba(255,79,163,.35),transparent 50%),radial-gradient(circle at 90% 30%,rgba(94,234,212,.22),transparent 45%),linear-gradient(165deg,#220a40,#4b1270 50%,#7a1a78);background-attachment:fixed}
-:root[data-theme="image"]{--card:rgba(14,16,26,.5);--cb:rgba(255,255,255,.2);--tx:#f5f6fa;--mu:#c6cbd9;--ac:#8b8cff;--on:#fff;--ac2:#34d399;--grid:rgba(255,255,255,.18);--in:rgba(255,255,255,.1);--sh:0 8px 30px rgba(0,0,0,.4);--pop:#1a1d29}
-:root[data-theme="image"] body{background:linear-gradient(rgba(8,10,18,.55),rgba(8,10,18,.55)),var(--img,none) center/cover no-repeat fixed,#10121a}
+:root[data-theme="song"] body::before{background:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='120'><g fill='%23fff' fill-opacity='.08'><rect x='4' y='70' width='12' height='50' rx='6'/><rect x='24' y='34' width='12' height='86' rx='6'/><rect x='44' y='86' width='12' height='34' rx='6'/><rect x='64' y='16' width='12' height='104' rx='6'/><rect x='84' y='58' width='12' height='62' rx='6'/><rect x='104' y='28' width='12' height='92' rx='6'/><rect x='124' y='78' width='12' height='42' rx='6'/><rect x='144' y='44' width='12' height='76' rx='6'/></g></svg>") repeat-x center bottom/160px 120px,radial-gradient(circle at 15% 10%,rgba(255,79,163,.35),transparent 50%),radial-gradient(circle at 90% 30%,rgba(94,234,212,.22),transparent 45%),linear-gradient(165deg,#220a40,#4b1270 50%,#7a1a78)}
 .tm button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;color:var(--tx);padding:9px 10px;border-radius:10px}
 .tm button:hover{background:var(--in)}.tm button.a{box-shadow:inset 0 0 0 1.5px var(--ac)}.tm hr{border:0;border-top:1px solid var(--grid);margin:6px 0}
 .lgo{width:34px;height:34px;vertical-align:-9px;margin-right:8px;border-radius:9px}.lgo.big{width:72px;height:72px;display:block;margin:0 auto 10px;border-radius:18px}
@@ -95,17 +95,36 @@ table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{text-align:left;
 .bd.lk{opacity:.5}.bd.lk .ic{filter:grayscale(1);border-color:var(--grid)}
 #bt{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,40px);opacity:0;pointer-events:none;z-index:200;max-width:92vw;padding:14px 18px;border-radius:16px;background:var(--pop,#fff);border:1px solid var(--cb);box-shadow:var(--sh);color:var(--tx);transition:all .4s;text-align:center;font-size:.9rem}
 #bt.s{opacity:1;transform:translate(-50%,0)}
-</style></head><body><div id="lg"><div class="card"><img class="lgo big" src="str/images/study-time-tracker-logo.svg" alt="Study Time Tracker logo"><h1>Study Time Tracker</h1><div class="sub">Sign in with your Google account to continue. Your data stays private to you.</div><p class="sub">Log your daily study hours, see weekly progress charts, and count down to your exam.</p><button id="lgb">Sign in with Google</button><div class="sub" id="lm" style="margin:12px 0 0"></div></div></div><div class="w">
-<div class="top"><div><h1><img class="lgo" src="str/images/study-time-tracker-logo.svg" alt="">Study Time Tracker</h1><div class="sub">Log your daily study time. Totals and progress charts update automatically.</div></div><div style="display:flex;gap:8px;align-items:center"><div class="cw"><button class="tg" id="tg" title="Change theme">🎨</button><div class="pop tm" id="tm" style="left:auto;right:0;width:210px"><button data-t="light">☀️ Light</button><button data-t="dark">🌙 Dark</button><button data-t="football">⚽ Football</button><button data-t="movie">🎬 Movie</button><button data-t="song">🎵 Song</button><hr><button data-t="image">🖼️ My image</button><button id="ci">📷 Choose / change image</button><input type="file" id="bgf" accept="image/*" hidden></div></div><div class="cw"><button class="av" id="av" title="Account"><img id="avi" alt="" referrerpolicy="no-referrer"><span id="avl"></span></button><div class="pop" id="am" style="width:230px;left:auto;right:0;text-align:center"><div id="an" style="font-weight:600"></div><div class="sub" id="ae" style="margin:0 0 10px;word-break:break-all"></div><button id="so">Sign out</button></div></div></div></div>
+
+:root[data-theme="custom"] body::before{background:var(--bgf)}
+#mo{position:fixed;inset:0;z-index:150;display:none;align-items:center;justify-content:center;padding:14px;background:rgba(5,8,18,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#mo.o{display:flex}
+#mc{width:min(740px,100%);max-height:92vh;overflow:auto;background:var(--pop,#fff);color:var(--tx);border:1px solid var(--cb);border-radius:20px;padding:18px;box-shadow:var(--sh)}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.mh h2{margin:0}
+.tgd{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:10px;margin:12px 0}
+.tt{height:88px;border-radius:14px;border:2px solid transparent;padding:8px;text-align:left;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+.tt.a{border-color:var(--ac);box-shadow:0 0 0 2px var(--ac)}
+.tt b{font-size:.78rem;text-shadow:0 1px 3px rgba(0,0,0,.45)}.tt i{position:absolute;top:8px;right:8px;width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.7)}
+.chip{padding:5px 14px!important;border:1px solid var(--grid)!important}.chip.a{background:var(--ac)!important;color:var(--on,#fff)!important;border-color:transparent!important}
+button:disabled{opacity:.4;cursor:default}
+.ab{display:inline-block;font:inherit;font-size:.9rem;border-radius:11px;padding:9px 14px;background:var(--in);color:var(--tx);text-decoration:none;border:1px solid var(--cb);cursor:pointer}
+#bt.s{pointer-events:auto}
+#ck{display:none;position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:300;width:min(580px,94vw);gap:12px;align-items:center;padding:12px 14px;border-radius:16px;background:var(--pop,#fff);color:var(--tx);border:1px solid var(--cb);box-shadow:var(--sh);font-size:.85rem}#ck>span{flex:1 1 230px;min-width:0}#ck .row{flex:0 0 auto}@media(max-width:520px){#ck{align-items:flex-start;flex-wrap:wrap;gap:8px}#ck .row{width:100%;justify-content:flex-end}}
+.tt em{position:absolute;top:6px;left:8px;font-style:normal;font-size:1.35rem}.chip{flex:0 0 auto;white-space:nowrap}
+.gwl{max-height:240px;overflow-y:auto}.gwr{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--grid)}.gwr:first-child{border-top:0}
+.modebar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 14px;padding:10px 12px;border:1px solid var(--grid);border-radius:13px;background:var(--in)}.modebar .actions{display:flex;gap:6px;flex-wrap:wrap}.modebar button{font-size:.82rem;padding:7px 11px}.mode-name{font-weight:650;font-size:.88rem}.subject-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:10px;margin:12px 0}.subject-entry{padding:11px;border:1px solid var(--grid);border-radius:13px;background:var(--in);min-width:0}.subject-entry b{display:block;margin-bottom:8px;font-size:.9rem}.subject-entry .row{gap:7px}.subject-entry label{flex:1;min-width:65px}.subject-entry input{width:100%;min-width:0}.subject-legend{display:flex;gap:8px 14px;flex-wrap:wrap;padding:8px 2px 0;font-size:.78rem;color:var(--mu)}.subject-legend span{display:inline-flex;align-items:center;gap:6px}.subject-legend i{width:9px;height:9px;border-radius:3px;display:inline-block}.heat-scroll{overflow-x:auto;padding:5px 0 8px}.heat-months{display:grid;grid-template-columns:repeat(53,12px);grid-auto-flow:column;gap:3px;min-width:792px;margin:0 0 6px 25px;color:var(--mu);font-size:.68rem}.heat-layout{display:flex;gap:7px;align-items:flex-start;min-width:710px}.heat-days{display:grid;grid-template-rows:repeat(7,12px);gap:3px;color:var(--mu);font-size:.62rem;padding-top:1px}.heatmap{display:grid;grid-template-rows:repeat(7,12px);grid-auto-flow:column;grid-auto-columns:12px;gap:3px}.heat-cell{width:12px;height:12px;border-radius:3px;background:var(--grid);padding:0;border:0;min-width:0}.heat-cell[data-level="1"]{background:#b7c6ed}.heat-cell[data-level="2"]{background:#829de0}.heat-cell[data-level="3"]{background:#5477ce}.heat-cell[data-level="4"]{background:#29499f}.heat-legend{display:flex;justify-content:flex-end;align-items:center;gap:4px;margin-top:8px;color:var(--mu);font-size:.7rem}.heat-legend .heat-cell{display:inline-block}.insight{display:flex;gap:12px;align-items:flex-start}.insight-icon{font-size:1.5rem}.insight strong{display:block;margin-bottom:3px}.insight p{margin:0;color:var(--mu);font-size:.88rem}@media(max-width:520px){.modebar{align-items:flex-start}.modebar .actions{width:100%}.modebar button{flex:1}}
+</style></head><body><div class="w">
+<div class="top"><div><h1><img class="lgo" src="str/images/study-time-tracker-logo.svg" alt="">Study Time Tracker</h1><div class="sub">Log your daily study time. Saved in this browser automatically · Sign in optionally to sync across devices.</div></div><div style="display:flex;gap:8px;align-items:center"><button class="tg" id="tg" title="Themes">🎨</button><div class="cw"><button class="av" id="av" title="Account"><img id="avi" alt="" referrerpolicy="no-referrer"><span id="avl"></span></button><div class="pop" id="am" style="width:260px;left:auto;right:0;text-align:center"><div id="an" style="font-weight:600">Not signed in</div><div class="sub" id="ae" style="margin:0 0 10px;word-break:break-word">Your study log is saved on this browser.</div><button class="g" id="profileBtn" style="display:none;width:100%;margin-bottom:7px">👤 My study profile</button><button id="lgb">☁️ Sign in to sync</button><button class="g" id="so" style="display:none">Sign out</button></div></div></div></div>
 
 
 
 <div class="card" style="position:relative;z-index:30"><h2>Add study time</h2>
+<div class="modebar"><div><div class="mode-name" id="modeLabel">Tracking mode · Total study time</div><div class="sub" style="margin:3px 0 0;font-size:.78rem">Choose whether to track one daily total or split it by subject.</div></div><div class="actions"><button class="g" id="modeBtn">Enable subject-wise mode</button><button class="g" id="subjectSetupBtn" style="display:none">Edit subjects</button></div></div>
 <div class="row">
 <div class="dl"><span>Date</span><div class="cw"><button class="dbtn" id="db" type="button"></button><div class="pop" id="pop"></div></div></div>
-<label>Hours<input type="number" id="h" min="0" max="24" placeholder="0"></label>
-<label>Minutes<input type="number" id="m" min="0" max="59" placeholder="0"></label>
+<div id="totalFields" class="row" style="gap:8px"><label>Hours<input type="number" id="h" min="0" max="24" placeholder="0"></label><label>Minutes<input type="number" id="m" min="0" max="59" placeholder="0"></label></div>
 <button id="add">Save</button></div>
+<div id="subjectFields" class="subject-fields" style="display:none"></div>
 <div class="sub" id="msg" style="margin:8px 0 0"></div></div>
 
 <div class="card sg3">
@@ -114,28 +133,34 @@ table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{text-align:left;
 <div class="sx"><div class="lb">Daily average</div><div class="bn" id="s3"></div><div class="si" id="s3i"></div></div>
 </div>
 <div class="card sg2">
-<div class="sx"><div class="lb">Weekly goal</div><div class="bn" id="gp">—</div><div class="gbar" id="gbar"><i id="gbi"></i></div><div class="si" id="gt"></div><div class="gin"><label style="flex-direction:row;align-items:center;gap:8px">Goal (hours per week)<input type="number" id="goal" min="0" step="1" placeholder="e.g. 15"></label></div></div>
+<div class="sx"><div class="lb">Weekly goal</div><div class="bn" id="gp">—</div><div class="gbar" id="gbar"><i id="gbi"></i></div><div class="si" id="gt"></div><button class="g" id="gsh" style="display:none;padding:6px 0">Share ↗</button><div class="gin"><label style="flex-direction:row;align-items:center;gap:8px">Goal (hours per week)<input type="number" id="goal" min="0" step="1" placeholder="e.g. 15"></label></div></div>
 <div class="sx"><div class="lb">Current streak</div><div class="bn" id="s4"></div><div class="dots" id="dots"></div><div class="si" id="s4i"></div></div>
 </div>
 
-<div class="card" style="margin-top:14px"><h2>This week, day by day</h2><div class="sc"><svg id="c1" viewBox="0 0 700 260"></svg></div></div>
+<div class="card" style="margin-top:14px"><h2>This week, day by day</h2><div class="sc"><svg id="c1" viewBox="0 0 700 260"></svg></div><div id="subjectLegend" class="subject-legend" style="display:none"></div></div>
 <div class="card"><h2>This week, trend line</h2><div class="sc"><svg id="c4" viewBox="0 0 700 260"></svg></div></div>
 <div class="card"><h2>Last 30 days (hours per day)</h2><div class="sc"><svg id="c2" viewBox="0 0 700 260"></svg></div></div>
 <div class="card"><h2>Weekly progress since you started</h2><div class="sc"><svg id="c3" viewBox="0 0 700 260"></svg></div></div>
-<div class="card"><div class="lb">All-time total</div><div class="bn" id="s5"></div><div class="si" id="s5i"></div></div>
+<div class="card"><h2>📅 Study consistency · Last year</h2><div class="sub">Every square represents one day. Darker squares mean more study time.</div><div class="heat-scroll"><div class="heat-months" id="heatMonths"></div><div class="heat-layout"><div class="heat-days"><span>Mon</span><span></span><span>Wed</span><span></span><span>Fri</span><span></span><span>Sun</span></div><div class="heatmap" id="heatmap"></div></div></div><div class="heat-legend"><span>Less</span><i class="heat-cell"></i><i class="heat-cell" data-level="1"></i><i class="heat-cell" data-level="2"></i><i class="heat-cell" data-level="3"></i><i class="heat-cell" data-level="4"></i><span>More</span></div></div>
+<div class="card"><h2>📈 Progress check</h2><div class="insight"><div class="insight-icon" id="insightIcon">🌱</div><div><strong id="insightTitle">Your study pattern will appear here</strong><p id="insightText">Log a few days of study time to see how your recent consistency is changing.</p></div></div></div>
+<div class="card"><div class="lb">All-time total</div><div class="bn" id="s5"></div><div class="si" id="s5i"></div><button class="g" id="ash" style="margin-top:10px">Share all-time hours ↗</button></div>
 <div class="card"><h2 style="display:flex;justify-content:space-between;align-items:baseline;margin:0"><span>🏅 Badges</span><span class="sub" id="bc" style="margin:0"></span></h2><div class="bdg" id="bgd"></div></div>
+<div class="card"><h2 style="display:flex;justify-content:space-between;align-items:baseline;margin:0"><span>🎯 Completed weekly goals</span><span class="sub" id="gwc" style="margin:0"></span></h2><div class="gwl" id="gwl"></div></div>
 
-<div class="card"><h2>⏳ Countdown to Exam (1 August 2027)</h2>
+<div class="card"><h2 style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><span id="cdt">⏳ Exam countdown</span><button class="g" id="exb">Set exam date</button></h2>
 <div class="cd"><div><b id="cd1">0</b><span>days</span></div><div><b id="cd2">0</b><span>hours</span></div><div><b id="cd3">0</b><span>minutes</span></div><div><b id="cd4">0</b><span>seconds</span></div></div>
 <div class="sub" id="cdi" style="margin:10px 0 0"></div></div>
 <div class="card"><h2>Log</h2><div style="margin-bottom:6px"><button class="g" id="bk">⬇ Download backup</button><button class="g" id="rs">Restore backup</button><button class="g" id="im">Import pasted data</button><input type="file" id="rf" accept=".json,application/json" hidden></div><div id="log"></div></div>
-<div class="sub" style="text-align:center;margin:18px 0 8px">Made by <a href="https://sulochanaeranda.github.io/">SulochanaEranda</a>💗</div>
+<div class="sub" style="text-align:center;margin:18px 0 8px">Made by SulochanaEranda</div>
 </div>
 <div id="bt"></div>
+<div id="mo"><div id="mc"></div></div>
+<div id="ck"><span><b>Welcome!</b> Sign in with Google to save your study hours in the cloud and sync across devices. Your data stays in this browser if you choose later.</span><div class="row" style="gap:6px;flex-wrap:nowrap;align-items:center"><button id="ckg" style="white-space:nowrap;padding:8px 12px">Sign in with Google</button><button class="g" id="cka" style="white-space:nowrap">Maybe later</button></div></div>
 <script>
-const K='studytracker.v1',TK='studytracker.theme';let data={},goal=0,sel=null,view=null;
+const K='studytracker.v1',TK='studytracker.theme';let data={},goal=0,sel=null,view=null,trackingMode='total',subjects=[],subjectData={};
 
-function save(){window.cloudSave&&window.cloudSave(data)}
+function persistLocal(){try{localStorage.setItem(K,JSON.stringify({data,subjectData,subjects,trackingMode,goal:goal||0,badges:bsaved||{},goalWeeks:gws||{},exam:exam||null}))}catch(e){}}
+function save(){persistLocal();window.cloudSave&&window.cloudSave(data)}
 const $=id=>document.getElementById(id);
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const parse=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
@@ -145,37 +170,189 @@ const fmt=m=>Math.floor(m/60)+'h '+Math.round(m%60)+'m';
 const val=d=>data[iso(d)]||0;
 const sumRange=(a,n)=>{let t=0;for(let i=0;i<n;i++)t+=val(addD(a,i));return t};
 const todayD=()=>{const t=new Date();t.setHours(0,0,0,0);return t};
+const SUBJECT_COLORS=['#5477ce','#22a78a','#e5a34b','#b36bd1','#e16f83','#3f9fc2','#8b9b42','#d17b45','#6573b8','#b85b9c','#4d9b78','#a28b55'];
+const subjectColor=(name,i=0)=>{const idx=subjects.indexOf(name);return SUBJECT_COLORS[(idx>=0?idx:i)%SUBJECT_COLORS.length]};
+function subjectNames(){const names=[...subjects];for(const day of Object.values(subjectData))for(const n of Object.keys(day||{}))if(!names.includes(n))names.push(n);return names}
+function subjectTotal(day){return Object.values(day||{}).reduce((a,v)=>a+(+v||0),0)}
+function updateModeUI(){
+ $('modeLabel').textContent=trackingMode==='subjects'?'Tracking mode · Subject-wise study time':'Tracking mode · Total study time';
+ $('modeBtn').textContent=trackingMode==='subjects'?'Switch to total mode':'Enable subject-wise mode';
+ $('subjectSetupBtn').style.display=trackingMode==='subjects'?'inline-block':'none';
+ $('totalFields').style.display=trackingMode==='subjects'?'none':'flex';
+ $('subjectFields').style.display=trackingMode==='subjects'?'grid':'none';
+ $('subjectLegend').style.display=trackingMode==='subjects'?'flex':'none';
+ if(trackingMode==='subjects')drawSubjectInputs();
+}
+function drawSubjectInputs(){
+ const wrap=$('subjectFields');if(!subjects.length){wrap.innerHTML='<div class="sub">No subjects configured yet. Use Edit subjects to add them.</div>';return}
+ wrap.innerHTML=subjects.map((name,i)=>{const safe=esc(name),id='subj_'+i;return '<div class="subject-entry"><b><span style="display:inline-block;width:9px;height:9px;border-radius:3px;background:'+subjectColor(name,i)+';margin-right:7px"></span>'+safe+'</b><div class="row"><label>Hours<input type="number" min="0" max="24" placeholder="0" id="'+id+'_h"></label><label>Minutes<input type="number" min="0" max="59" placeholder="0" id="'+id+'_m"></label></div></div>'}).join('');
+ const saved=subjectData[iso(sel)]||{};subjects.forEach((name,i)=>{const v=+saved[name]||0;const h=$(('subj_'+i)+'_h'),m=$(('subj_'+i)+'_m');if(h)h.value=Math.floor(v/60)||'';if(m)m.value=v%60||''});
+}
+function openSubjectSetup(){
+ const current=subjects.length?subjects:['Combined Maths','Physics','Chemistry'];
+ $('mc').innerHTML='<div class="mh"><h2>📚 Set up your subjects</h2><button class="g" id="ssclose">✕</button></div><p class="sub">Choose how many subjects you study, then give each one a name. You can change these later.</p><div class="row" style="align-items:end"><label style="flex:1">Number of subjects<input id="sscount" type="number" min="1" max="12" value="'+current.length+'" style="width:100%"></label><button id="ssnext">Continue</button></div><div id="ssnames" style="margin-top:12px"></div><div class="sub" id="sserr" style="margin-top:8px"></div>';
+ openMo();$('ssclose').onclick=closeMo;
+ function namesForm(){const n=Math.max(1,Math.min(12,parseInt($('sscount').value,10)||1));$('sscount').value=n;const old=current;$('ssnames').innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:9px">'+Array.from({length:n},(_,i)=>'<label>Subject '+(i+1)+'<input class="ssname" maxlength="32" value="'+esc(old[i]||('Subject '+(i+1)))+'" style="width:100%"></label>').join('')+'</div><div class="row" style="justify-content:flex-end;margin-top:14px"><button id="sssave">Save subjects</button></div>';
+ $('sssave').onclick=()=>{const names=[...document.querySelectorAll('.ssname')].map(x=>x.value.trim());if(names.some(x=>!x)){$('sserr').textContent='Please give every subject a name.';return}if(new Set(names.map(x=>x.toLowerCase())).size!==names.length){$('sserr').textContent='Each subject needs a different name.';return}subjects=names;trackingMode='subjects';updateModeUI();persistLocal();if(window.cloudSave)window.cloudSave(data);render();closeMo()}}
+ $('ssnext').onclick=namesForm;
+}
+$('modeBtn').onclick=()=>{if(trackingMode==='subjects'){trackingMode='total';updateModeUI();persistLocal();if(window.cloudSave)window.cloudSave(data);render()}else openSubjectSetup()};
+$('subjectSetupBtn').onclick=openSubjectSetup;
+
 // theme
-const THEMES=['light','dark','football','movie','song','image'],BG='studytracker.bg';
-function setTheme(t){
- if(!THEMES.includes(t))t='dark';
- if(t==='image'){let b=null;try{b=localStorage.getItem(BG)}catch(e){}if(!b){$('bgf').click();return}document.documentElement.style.setProperty('--img','url("'+b+'")')}
- document.documentElement.setAttribute('data-theme',t);
- document.querySelectorAll('#tm [data-t]').forEach(x=>x.classList.toggle('a',x.dataset.t===t));
- try{localStorage.setItem(TK,t)}catch(e){}}
-let th=null,bgv=null;try{th=localStorage.getItem(TK);bgv=localStorage.getItem(BG)}catch(e){}
-if(th==='image'&&!bgv)th=null;
-setTheme(th||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
-$('tg').onclick=e=>{e.stopPropagation();$('tm').classList.toggle('o')};
-$('tm').onclick=e=>{e.stopPropagation();const b=e.target.closest('button');if(!b)return;
- if(b.id==='ci'){$('bgf').click();return}
- if(b.dataset.t){setTheme(b.dataset.t);$('tm').classList.remove('o')}};
-document.addEventListener('click',()=>$('tm').classList.remove('o'));
-$('bgf').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
- const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{
-  const k=Math.min(1,1400/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
-  c.getContext('2d').drawImage(im,0,0,c.width,c.height);
-  const u=c.toDataURL('image/jpeg',.72);
-  try{localStorage.setItem(BG,u)}catch(err){alert('That image is too big to save. Try a smaller one.');return}
-  setTheme('image');$('tm').classList.remove('o')};
-  im.onerror=()=>alert('Could not read that image.');im.src=r.result};r.readAsDataURL(f)};
-// countdown (device clock + device time zone)
-const EXAM=new Date(2027,7,1,0,0,0);
-function tick(){const now=new Date(),ms=EXAM-now;
- if(ms<=0){['cd1','cd2','cd3','cd4'].forEach(i=>$(i).textContent='0');$('cdi').textContent='Exam day is here. Good luck! 🍀';return}
- const s=Math.floor(ms/1000);$('cd1').textContent=Math.floor(s/86400);$('cd2').textContent=Math.floor(s%86400/3600);$('cd3').textContent=Math.floor(s%3600/60);$('cd4').textContent=s%60;
- const z=Intl.DateTimeFormat().resolvedOptions().timeZone;
- $('cdi').textContent=Math.floor(s/604800)+' weeks left · now '+now.toLocaleString([], {dateStyle:'medium',timeStyle:'short'})+' ('+z+')'}
+let moClose=null;
+function openMo(f){moClose=f||null;$('mo').classList.add('o')}
+function closeMo(){$('mo').classList.remove('o');if(moClose){const f=moClose;moClose=null;f()}}
+window.openMo=openMo;window.closeMo=closeMo;
+$('mo').onclick=e=>{if(e.target===$('mo'))closeMo()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMo()});
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+// ===== cookie notice =====
+const CK='studytracker.cloudReminderSeen.v1';
+try{if(!localStorage.getItem(CK))$('ck').style.display='flex'}catch(e){$('ck').style.display='flex'}
+function dismissCloudReminder(){try{localStorage.setItem(CK,'1')}catch(e){}$('ck').style.display='none'}
+$('cka').onclick=dismissCloudReminder;
+// ===== themes =====
+// Keep only the original Light/Dark themes and three distinctive scene-based themes.
+const ALL=[
+ {id:'light',name:'Light',dk:0,tags:'original light default bright white clean',bg:'linear-gradient(145deg,#dfe7ff,#f3e4ff)',c:'#1b1f2a',ac:'#5b5bf0'},
+ {id:'dark',name:'Dark',dk:1,tags:'original dark default night black',bg:'linear-gradient(145deg,#12142a,#241338)',c:'#eceef6',ac:'#8b8cff'},
+ {id:'football',name:'Football',dk:1,tags:'football stadium pitch match',bg:'linear-gradient(90deg,transparent 49.7%,rgba(255,255,255,.25) 50%,transparent 50.3%),radial-gradient(circle at 50% 50%,transparent 0 35px,rgba(255,255,255,.22) 36px 38px,transparent 39px),repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 45px,rgba(0,0,0,.08) 45px 90px),linear-gradient(145deg,#127a3a,#07351b)',c:'#f1fff5',ac:'#facc15'},
+ {id:'movie',name:'Movies',dk:1,tags:'movies cinema film theatre',bg:'repeating-linear-gradient(180deg,rgba(245,197,66,.16) 0 10px,transparent 10px 24px),radial-gradient(ellipse at 50% 0%,rgba(245,197,66,.25),transparent 55%),linear-gradient(145deg,#090910,#29202a 65%,#541b22)',c:'#f4efe6',ac:'#f5c542'},
+ {id:'song',name:'Music',dk:1,tags:'music songs sound audio',bg:'repeating-linear-gradient(90deg,transparent 0 12px,rgba(255,255,255,.12) 12px 16px,transparent 16px 28px),radial-gradient(circle at 15% 10%,rgba(255,79,163,.45),transparent 48%),radial-gradient(circle at 90% 85%,rgba(94,234,212,.3),transparent 45%),linear-gradient(145deg,#220a40,#4b1270 55%,#7a1a78)',c:'#fdf2ff',ac:'#ff4fa3'}
+];
+let curT='dark';
+function applyTheme(id){
+ const r=document.documentElement;['--card','--cb','--tx','--mu','--ac','--on','--ac2','--grid','--in','--sh','--pop','--bgf'].forEach(v=>r.style.removeProperty(v));
+ if(!ALL.some(x=>x.id===id))id='dark';
+ r.setAttribute('data-theme',id);curT=id;try{localStorage.setItem(TK,id)}catch(e){}
+}
+let th=null;try{th=localStorage.getItem(TK)}catch(e){}
+applyTheme(th||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+let tq='',tp=0;
+function drawThemes(){
+ const q=tq.toLowerCase().trim();const L=ALL.filter(t=>!q||(t.name+' '+t.tags).toLowerCase().includes(q));
+ $('tgd').innerHTML=L.map(t=>'<button class="tt'+(t.id===curT?' a':'')+'" data-id="'+t.id+'" style="background:'+t.bg+';color:'+t.c+'"><i style="background:'+t.ac+'"></i><b>'+esc(t.name)+'</b></button>').join('')||'<div class="sub" style="grid-column:1/-1;text-align:center;padding:24px">No matching theme. Try Football, Movies, Music, Light or Dark.</div>';
+ $('tpi').textContent=L.length+' themes';
+ $('tgd').querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>{applyTheme(b.dataset.id);drawThemes()});
+}
+function openThemes(){
+ tq='';openMo();
+ $('mc').innerHTML='<div class="mh"><h2>🎨 Choose a theme</h2><button class="g" id="mx">✕</button></div><p class="sub">Five themes: Light, Dark, Football, Movies and Music.</p><div class="row" style="gap:8px"><input id="tsr" type="search" placeholder="Search themes…" style="flex:1;min-width:0"></div><div class="tgd" id="tgd"></div><div class="sub" id="tpi" style="text-align:center;margin-top:8px"></div>';
+ $('mx').onclick=closeMo;$('tsr').oninput=e=>{tq=e.target.value;drawThemes()};drawThemes();
+}
+$('tg').onclick=openThemes;
+// ===== share cards =====
+const SITE='https://sulochanaeranda.github.io/study-time-tracker.html',LOGO='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlN0dWR5IFRpbWUgVHJhY2tlciBsb2dvIiB4bWxuczpjMnBhPSJodHRwOi8vYzJwYS5vcmcvbWFuaWZlc3QiPjxtZXRhZGF0YT48YzJwYTptYW5pZmVzdD5BQUFXZ21wMWJXSUFBQUFlYW5WdFpHTXljR0VBRVFBUWdBQUFxZ0E0bTNFRFl6SndZUUFBQUJaY2FuVnRZZ0FBQUVkcWRXMWtZekp0WVFBUkFCQ0FBQUNxQURpYmNRTjFjbTQ2WXpKd1lUb3lOV1EwWWpZMFpDMDFPRGcwTFRSa01HTXRPRE0yTkMweE1EVTFaR1UxWXpnNU1ESUFBQUFEbDJwMWJXSUFBQUFwYW5WdFpHTXlZWE1BRVFBUWdBQUFxZ0E0bTNFRFl6SndZUzVoYzNObGNuUnBiMjV6QUFBQUFMeHFkVzFpQUFBQVJHcDFiV1JqWW05eUFCRUFFSUFBQUtvQU9KdHhFMk15Y0dFdWFXNW5jbVZrYVdWdWRDNTJNd0FBQUFBWVl6SnphR0tUUytOZGxBTzVWQS9jR0Z2OXRnSUFBQUJ3WTJKdmNxTnBaR002Wm05eWJXRjBiV2x0WVdkbEwzTjJaeXQ0Yld4cWFXNXpkR0Z1WTJWSlJIZ3NlRzF3T21scFpEb3lZMkV4TTJJeU5pMDJaalE1TFRReU5qUXRPVFV6TWkwME56ZzVORFptWkRnNU9HUnNjbVZzWVhScGIyNXphR2x3YUhCaGNtVnVkRTltQUFBQjRtcDFiV0lBQUFCQmFuVnRaR05pYjNJQUVRQVFnQUFBcWdBNG0zRVRZekp3WVM1aFkzUnBiMjV6TG5ZeUFBQUFBQmhqTW5Ob0lyT3pOUlNOY1J0SnNxWGJmZXhNMkFBQUFabGpZbTl5b21kaFkzUnBiMjV6Z3FKbVlXTjBhVzl1YTJNeWNHRXViM0JsYm1Wa2FuQmhjbUZ0WlhSbGNuT2hhMmx1WjNKbFpHbGxiblJ6Z2FKamRYSnNlQzF6Wld4bUkycDFiV0ptUFdNeWNHRXVZWE56WlhKMGFXOXVjeTlqTW5CaExtbHVaM0psWkdsbGJuUXVkak5rYUdGemFGZ2dnNkJNZm5RdTBVSERxeVpJWWNLRm9jTEk4enlLdmdMSHZzT05CUUNhUmRHa1ptRmpkR2x2Ym5nZFkyOXRMbUZ1ZEdoeWIzQnBZeTVqYkdGMVpHVXVjSEp2ZG1sa1pXUnFjR0Z5WVcxbGRHVnljNkY0SDJOdmJTNWhiblJvY205d2FXTXViM0pwWjJsdUxXTnZibVpwWkdWdVkyVm5kVzVyYm05M2JtdGtaWE5qY21sd2RHbHZibmhtUTJ4aGRXUmxJSEJ5YjNacFpHVmtJSFJvYVhNZ1ptbHNaU0JoZENCMGFHVWdjbVZ4ZFdWemRDQnZaaUJoSUhWelpYSWdZVzVrSUcxaGVTQm9ZWFpsSUdOeVpXRjBaV1FnYjNJZ2JXOWthV1pwWldRZ2RHaGxJR1pwYkdVZ1kyOXVkR1Z1ZEhNdWJYTnZablIzWVhKbFFXZGxiblNoWkc1aGJXVm1RMnhoZFdSbGNtRnNiRUZqZEdsdmJuTkpibU5zZFdSbFpQVUFBQURJYW5WdFlnQUFBRUJxZFcxa1kySnZjZ0FSQUJDQUFBQ3FBRGliY1JOak1uQmhMbWhoYzJndVpHRjBZUUFBQUFBWVl6SnphQU9jK0p4aTBOZ0EzNXdVcXdXOVdGMEFBQUNBWTJKdmNxVmpZV3huWm5Ob1lUSTFObU53WVdSTkFBQUFBQUFBQUFBQUFBQUFBR1JvWVhOb1dDRHpnUithRDBHdmhYVHd3SkRMZ05lMjlNRms1akZsSXlRcjlYdzY2cGZLYVdSdVlXMWxibXAxYldKbUlHMWhibWxtWlhOMGFtVjRZMngxYzJsdmJuT0JvbVZ6ZEdGeWRCaXRabXhsYm1kMGFCa2VCQUFBQWo1cWRXMWlBQUFBSjJwMWJXUmpNbU5zQUJFQUVJQUFBS29BT0p0eEEyTXljR0V1WTJ4aGFXMHVkaklBQUFBQ0QyTmliM0tsWTJGc1oyWnphR0V5TlRacGMybG5ibUYwZFhKbGVFMXpaV3htSTJwMWJXSm1QUzlqTW5CaEwzVnlianBqTW5CaE9qSTFaRFJpTmpSa0xUVTRPRFF0TkdRd1l5MDRNelkwTFRFd05UVmtaVFZqT0Rrd01pOWpNbkJoTG5OcFoyNWhkSFZ5WldwcGJuTjBZVzVqWlVsRWVDeDRiWEE2YVdsa09qTTNNRGszTVRjd0xUa3hNVGN0TkdFelpDMWlZbVZpTFdNMU9UaGlOR0k1WkROaU4zSmpjbVZoZEdWa1gyRnpjMlZ5ZEdsdmJuT0RvbU4xY214NExYTmxiR1lqYW5WdFltWTlZekp3WVM1aGMzTmxjblJwYjI1ekwyTXljR0V1YVc1bmNtVmthV1Z1ZEM1Mk0yUm9ZWE5vV0NDRG9FeCtkQzdSUWNPckpraGh3b1dod3NqelBJcStBc2UrdzQwRkFKcEYwYUpqZFhKc2VDcHpaV3htSTJwMWJXSm1QV015Y0dFdVlYTnpaWEowYVc5dWN5OWpNbkJoTG1GamRHbHZibk11ZGpKa2FHRnphRmdnUXhTOTJsbXpVRzROMHlOMStiM1crand0cElxL1NoMXRyU0NBTTVjYlZyS2lZM1Z5YkhncGMyVnNaaU5xZFcxaVpqMWpNbkJoTG1GemMyVnlkR2x2Ym5Ndll6SndZUzVvWVhOb0xtUmhkR0ZrYUdGemFGZ2dZVzNzSXZRRVdFMytPaHhtTGVpMlF3K2J3YTZMZU44QkZHNHZDbjlmSEhKMFkyeGhhVzFmWjJWdVpYSmhkRzl5WDJsdVptK2paRzVoYldWdlFXNTBhSEp2Y0dsaklFWnBiR1Z6WjNabGNuTnBiMjVsTVM0d0xqQnJjM0JsWTFabGNuTnBiMjVsTWk0MExqQUFBQkE0YW5WdFlnQUFBQ2hxZFcxa1l6Smpjd0FSQUJDQUFBQ3FBRGliY1FOak1uQmhMbk5wWjI1aGRIVnlaUUFBQUJBSVkySnZjdEtFV1FJU29nRW1HQ0ZaQWdvd2dnSUdNSUlCamFBREFnRUNBaFJBNWFBSzdzSTUwTDY0Zy9vR1FnVTlaMVVUQURBS0JnZ3Foa2pPUFFRREF6QkpNUmN3RlFZRFZRUUtFdzVCYm5Sb2NtOXdhV01zSUZCQ1F6RXVNQ3dHQTFVRUF4TWxRVzUwYUhKdmNHbGpJRU52Ym5SbGJuUWdRM0psWkdWdWRHbGhiSE1nVW05dmRDQkRRVEFlRncweU5qQTRNRGN4T0RRek5UWmFGdzB5T0RBNE1EWXhPVFF6TlRaYU1FUXhGekFWQmdOVkJBb1REa0Z1ZEdoeWIzQnBZeXdnVUVKRE1Ta3dKd1lEVlFRREV5QkJiblJvY205d2FXTWdRMnhoZFdSbElFTnZiblJsYm5RZ1UybG5ibWx1WnpCWk1CTUdCeXFHU000OUFnRUdDQ3FHU000OUF3RUhBMElBQkpoNkNtdkxVQmdGRk5VMHZVS2xPVnRFNmRqZDE3TDVTdXdYMExlbUZpc0JNM2RrZC8zY3lqeEZBM1FvNVM0NmZYMC9paFkwVlo3bWZiOUtGNzAzdDVPaldEQldNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVZCZ05WSFNVRURqQU1CZ29yQmdFRUFZUG9YZ0lCTUF3R0ExVWRFd0VCL3dRQ01BQXdId1lEVlIwakJCZ3dGb0FVemxIaUJJRk9aRnNqK09QRXo1bytuTUhYWE1Jd0NnWUlLb1pJemowRUF3TURad0F3WkFJd01YTWRGSjRCZXRMTFZZN09SdUU5bm9xYmJBWk9abi9hQXJYeVR3RkFaZktyUHp4RjJ2UG9KTmYxK1VDZGcxWEdBakJ3WDF6ZDlXR3FZa3FtTDVTRnF3MVF5U2pyMXpKZnBKTTkrMXJkRHdTUExNT1BPakt1aVhqb1UvcFVVZUc5UndtaFkzQmhaRmtObmdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFQWllRRkIxVTlGZHNCY21ldSthWmtpREJzWGRGejQ5RitVY1RWRFR6SWM5S041aUp0OTBCc2gyaEFqZ2dzZ1BEOHgxNEhDL0d4T0NXVTlNRXhoWWp2TzR5WEU9PC9jMnBhOm1hbmlmZXN0PjwvbWV0YWRhdGE+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9Imdsb3dBIiBjeD0iMC4xNSIgY3k9IjAuMSIgcj0iMC44Ij48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM3YzNhZWQiIHN0b3Atb3BhY2l0eT0iLjQ1Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjN2MzYWVkIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50PgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJnbG93QiIgY3g9IjAuOSIgY3k9IjAuOTUiIHI9IjAuNyI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMDZiNmQ0IiBzdG9wLW9wYWNpdHk9Ii4zNSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzA2YjZkNCIgc3RvcC1vcGFjaXR5PSIwIi8+PC9yYWRpYWxHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYXJjIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMjJkM2VlIi8+PHN0b3Agb2Zmc2V0PSIuNTUiIHN0b3AtY29sb3I9IiM4YjVjZjYiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMzNGQzOTkiLz48L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJiYXIiIHgxPSIwIiB5MT0iMSIgeDI9IjAiIHkyPSIwIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM2ZDI4ZDkiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyMmQzZWUiLz48L2xpbmVhckdyYWRpZW50PgogICAgPGNsaXBQYXRoIGlkPSJzcSI+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTIiLz48L2NsaXBQYXRoPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzA4MGIxNiIvPgogIDxnIGNsaXAtcGF0aD0idXJsKCNzcSkiPgogICAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIGZpbGw9InVybCgjZ2xvd0EpIi8+CiAgICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0idXJsKCNnbG93QikiLz4KICAgIDxnIHN0cm9rZT0iIzk0YTNiOCIgc3Ryb2tlLW9wYWNpdHk9Ii4wNyIgc3Ryb2tlLXdpZHRoPSIyIj4KICAgICAgPHBhdGggZD0iTTAgOTZINTEyTTAgMTkySDUxMk0wIDI4OEg1MTJNMCAzODRINTEyTTAgNDgwSDUxMk05NiAwVjUxMk0xOTIgMFY1MTJNMjg4IDBWNTEyTTM4NCAwVjUxMk00ODAgMFY1MTIiLz4KICAgIDwvZz4KICA8L2c+CiAgPHJlY3QgeD0iMjI2IiB5PSI2NCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjI2IiByeD0iMTMiIGZpbGw9IiNjYmQ1ZTEiLz4KICA8cmVjdCB4PSIyNDQiIHk9Ijg4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjYiIGZpbGw9IiNjYmQ1ZTEiLz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNzYiIHI9IjE1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWIyNDQwIiBzdHJva2Utd2lkdGg9IjI2Ii8+CiAgPHBhdGggZD0iTTI1NiAxMjYgQTE1MCAxNTAgMCAxIDEgMTI2LjEgMjAxIiBmaWxsPSJub25lIiBzdHJva2U9IiM4YjVjZjYiIHN0cm9rZS1vcGFjaXR5PSIuMjIiIHN0cm9rZS13aWR0aD0iNDYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxwYXRoIGQ9Ik0yNTYgMTI2IEExNTAgMTUwIDAgMSAxIDEyNi4xIDIwMSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjJkM2VlIiBzdHJva2Utb3BhY2l0eT0iLjE4IiBzdHJva2Utd2lkdGg9IjM2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNMjU2IDEyNiBBMTUwIDE1MCAwIDEgMSAxMjYuMSAyMDEiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNhcmMpIiBzdHJva2Utd2lkdGg9IjI2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8ZyBmaWxsPSJ1cmwoI2JhcikiPgogICAgPHJlY3QgeD0iMTczIiB5PSIzMDAiIHdpZHRoPSIyOCIgaGVpZ2h0PSI0MCIgcng9IjgiLz4KICAgIDxyZWN0IHg9IjIxOSIgeT0iMjc0IiB3aWR0aD0iMjgiIGhlaWdodD0iNjYiIHJ4PSI4Ii8+CiAgICA8cmVjdCB4PSIyNjUiIHk9IjI0OCIgd2lkdGg9IjI4IiBoZWlnaHQ9IjkyIiByeD0iOCIvPgogICAgPHJlY3QgeD0iMzExIiB5PSIyMTQiIHdpZHRoPSIyOCIgaGVpZ2h0PSIxMjYiIHJ4PSI4Ii8+CiAgPC9nPgogIDxwb2x5bGluZSBwb2ludHM9IjE4NywyODIgMjMzLDI1NiAyNzksMjMwIDMyNSwxOTYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzM0ZDM5OSIgc3Ryb2tlLW9wYWNpdHk9Ii4zIiBzdHJva2Utd2lkdGg9IjE4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KICA8cG9seWxpbmUgcG9pbnRzPSIxODcsMjgyIDIzMywyNTYgMjc5LDIzMCAzMjUsMTk2IiBmaWxsPSJub25lIiBzdHJva2U9IiNlMmU4ZjAiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iMzI1IiBjeT0iMTk2IiByPSIyMCIgZmlsbD0iIzM0ZDM5OSIgZmlsbC1vcGFjaXR5PSIuMyIvPgogIDxjaXJjbGUgY3g9IjMyNSIgY3k9IjE5NiIgcj0iMTEiIGZpbGw9IiMzNGQzOTkiLz4KPC9zdmc+Cg==';
+const TIERC={bronze:'#cd7f32',silver:'#c0c8d4',gold:'#f5c542',diamond:'#67e8f9'};
+function drawCard(o){return new Promise(res=>{
+ const c=document.createElement('canvas');c.width=1080;c.height=1080;const x=c.getContext('2d');
+ const bg=x.createLinearGradient(0,0,1080,1080);bg.addColorStop(0,'#1b1040');bg.addColorStop(1,'#06121f');x.fillStyle=bg;x.fillRect(0,0,1080,1080);
+ const gl=(cx,cy,r,col)=>{const g=x.createRadialGradient(cx,cy,0,cx,cy,r);g.addColorStop(0,col);g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(0,0,1080,1080)};
+ gl(180,140,560,'rgba(124,58,237,.5)');gl(930,960,600,'rgba(6,182,212,.4)');
+ x.strokeStyle='rgba(255,255,255,.05)';x.lineWidth=2;for(let i=0;i<=1080;i+=90){x.beginPath();x.moveTo(i,0);x.lineTo(i,1080);x.stroke();x.beginPath();x.moveTo(0,i);x.lineTo(1080,i);x.stroke()}
+ const cx=540,cy=400,R=210;
+ x.lineCap='round';x.lineWidth=34;x.strokeStyle='rgba(255,255,255,.12)';x.beginPath();x.arc(cx,cy,R,0,Math.PI*2);x.stroke();
+ const rg=x.createLinearGradient(cx-R,cy-R,cx+R,cy+R);rg.addColorStop(0,'#22d3ee');rg.addColorStop(.5,'#8b5cf6');rg.addColorStop(1,o.color||'#34d399');
+ x.strokeStyle=rg;x.beginPath();x.arc(cx,cy,R,-Math.PI/2,Math.PI*1.4);x.stroke();
+ x.textAlign='center';x.textBaseline='middle';x.font='200px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';x.fillStyle='#fff';x.fillText(o.icon,cx,cy+10);
+ x.fillStyle='#a5b4fc';x.font='600 34px system-ui,"Segoe UI",sans-serif';x.fillText(o.tag.toUpperCase(),cx,690);
+ let fs=88;do{x.font='800 '+fs+'px system-ui,"Segoe UI",sans-serif';fs-=4}while(x.measureText(o.title).width>900&&fs>32);
+ x.fillStyle='#fff';x.fillText(o.title,cx,770);
+ x.fillStyle='#cbd5e1';x.font='500 40px system-ui,"Segoe UI",sans-serif';x.fillText(o.sub,cx,840);
+ x.fillStyle='#fff';x.font='700 40px system-ui,"Segoe UI",sans-serif';x.fillText('Study Time Tracker',cx,985);
+ x.fillStyle='#94a3b8';x.font='500 27px system-ui,"Segoe UI",sans-serif';x.fillText(SITE.replace('https://',''),cx,1032);
+ const im=new Image();im.onload=()=>{x.drawImage(im,cx-37,872,74,74);res(c)};im.onerror=()=>res(c);im.src=LOGO})}
+function drawGoalCard(o){return new Promise(res=>{
+ const c=document.createElement('canvas');c.width=1080;c.height=1080;const x=c.getContext('2d'),F='system-ui,"Segoe UI",Roboto,sans-serif';
+ const bg=x.createLinearGradient(0,0,0,1080);bg.addColorStop(0,'#0b1124');bg.addColorStop(1,'#0a1a2b');x.fillStyle=bg;x.fillRect(0,0,1080,1080);
+ const gl=(cx,cy,r,col)=>{const g=x.createRadialGradient(cx,cy,0,cx,cy,r);g.addColorStop(0,col);g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(0,0,1080,1080)};
+ gl(900,120,520,'rgba(52,211,153,.18)');gl(120,980,560,'rgba(99,102,241,.22)');
+ const rr=(a,b,w,h,r)=>{x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()};
+ rr(60,60,960,950,36);x.fillStyle='rgba(255,255,255,.045)';x.fill();x.strokeStyle='rgba(255,255,255,.12)';x.lineWidth=2;x.stroke();
+ x.textBaseline='middle';x.textAlign='left';x.fillStyle='#fff';x.font='700 34px '+F;x.fillText('Study Time Tracker',196,130);
+ x.textAlign='right';x.fillStyle='#94a3b8';x.font='600 24px '+F;try{x.letterSpacing='3px'}catch(e){}x.fillText('WEEKLY REPORT',968,130);try{x.letterSpacing='0px'}catch(e){}
+ x.strokeStyle='rgba(255,255,255,.1)';x.beginPath();x.moveTo(110,186);x.lineTo(970,186);x.stroke();
+ x.fillStyle='rgba(52,211,153,.18)';x.beginPath();x.arc(540,290,64,0,7);x.fill();x.fillStyle='#34d399';x.beginPath();x.arc(540,290,47,0,7);x.fill();
+ x.strokeStyle='#fff';x.lineWidth=11;x.lineCap='round';x.lineJoin='round';x.beginPath();x.moveTo(518,291);x.lineTo(534,308);x.lineTo(565,271);x.stroke();
+ x.textAlign='center';x.fillStyle='#34d399';x.font='700 28px '+F;try{x.letterSpacing='5px'}catch(e){}x.fillText('WEEKLY GOAL ACHIEVED',540,396);try{x.letterSpacing='0px'}catch(e){}
+ let fs=62;do{x.font='800 '+fs+'px '+F;fs-=3}while(x.measureText(o.week).width>840&&fs>26);
+ x.fillStyle='#fff';x.fillText(o.week,540,474);
+ let hs=150;do{x.font='800 '+hs+'px '+F;hs-=6}while(x.measureText(fmt(o.m)).width>860&&hs>60);
+ x.fillStyle='#fff';x.fillText(fmt(o.m),540,624);
+ x.font='500 30px '+F;x.fillStyle='#94a3b8';x.fillText('studied this week',540,708);
+ rr(170,764,740,22,11);x.fillStyle='rgba(255,255,255,.12)';x.fill();
+ const pg=x.createLinearGradient(170,0,910,0);pg.addColorStop(0,'#22d3ee');pg.addColorStop(1,'#34d399');rr(170,764,740,22,11);x.fillStyle=pg;x.fill();
+ x.font='600 30px '+F;x.fillStyle='#e2e8f0';x.fillText(o.pct+'% of your '+o.g+'h goal',540,828);
+ x.strokeStyle='rgba(255,255,255,.1)';x.lineWidth=2;x.lineCap='butt';[405,675].forEach(px=>{x.beginPath();x.moveTo(px,880);x.lineTo(px,975);x.stroke()});
+ [['Days studied',o.n+' / '+o.elapsed],['Daily average',fmt(o.avg)],['Best day',fmt(o.best)]].forEach((t,i)=>{const cx=270+i*270;x.fillStyle='#fff';x.font='700 44px '+F;x.fillText(t[1],cx,908);x.fillStyle='#94a3b8';x.font='500 24px '+F;x.fillText(t[0],cx,958)});
+ x.fillStyle='#64748b';x.font='500 26px '+F;x.fillText(SITE.replace('https://',''),540,1046);
+ const im=new Image();im.onload=()=>{x.drawImage(im,110,98,66,66);res(c)};im.onerror=()=>res(c);im.src=LOGO})}
+async function shareDlg(o,text){
+ try{
+  const c=await (o.kind==='goal'?drawGoalCard(o):drawCard(o)),url=c.toDataURL('image/png'),name='study-tracker-'+o.slug+'.png';
+  const blob=await new Promise(r=>c.toBlob(r,'image/png')),file=new File([blob],name,{type:'image/png'});
+  const can=!!(navigator.canShare&&navigator.canShare({files:[file]})),E=encodeURIComponent;
+  openMo();
+  $('mc').innerHTML='<div class="mh"><h2>Share your win 🎉</h2><button class="g" id="mx">✕</button></div><img src="'+url+'" alt="Share card" style="width:100%;max-width:340px;display:block;margin:0 auto 12px;border-radius:16px"><div class="row" style="justify-content:center;margin-bottom:10px">'+(can?'<button id="shn">Share…</button>':'')+'<a class="ab" href="'+url+'" download="'+name+'">⬇ Download image</a><button class="ab" id="shc">Copy text</button></div><div class="row" style="justify-content:center;gap:8px"><a class="ab" target="_blank" rel="noopener" href="https://wa.me/?text='+E(text)+'">WhatsApp</a><a class="ab" target="_blank" rel="noopener" href="https://t.me/share/url?url='+E(SITE)+'&text='+E(text)+'">Telegram</a><a class="ab" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u='+E(SITE)+'">Facebook</a><a class="ab" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text='+E(text)+'">X</a></div><div class="sub" style="text-align:center;margin:10px 0 0">WhatsApp, Telegram, Facebook and X share the text and link. Use Download image or Share… to include the picture.</div>';
+  $('mx').onclick=closeMo;
+  if(can)$('shn').onclick=()=>navigator.share({files:[file],text:text,title:'Study Time Tracker'}).catch(()=>{});
+  $('shc').onclick=()=>{navigator.clipboard.writeText(text).then(()=>{$('shc').textContent='Copied ✓'},()=>prompt('Copy this text:',text))};
+ }catch(e){alert('Could not create the share image on this device.')}}
+function shareBadge(id){const b=BD.find(x=>x[0]===id);if(!b)return;
+ shareDlg({icon:b[2],title:b[1],sub:b[4],tag:'Badge unlocked',color:TIERC[b[3]],slug:b[0]},'I just unlocked the "'+b[1]+'" badge '+b[2]+' on Study Time Tracker! '+b[4]+'. Track your study time for free: '+SITE)}
+$('bgd').onclick=e=>{const b=e.target.closest('[data-sh]');if(b)shareBadge(b.dataset.sh)};
+function shareAllTime(){let total=0,days=0,first=null;for(const k in data){const v=+data[k]||0;if(v>0){total+=v;days++;if(!first||k<first)first=k}}
+ const hours=(total/60).toFixed(1).replace(/\.0$/,'');
+ shareDlg({icon:'⏱️',title:fmt(total),sub:hours+' total hours · '+days+' study days',tag:'All-time study total',color:'#22d3ee',slug:'all-time-'+iso(new Date())},'My all-time study total: '+fmt(total)+' across '+days+' study days. Track yours for free: '+SITE)}
+$('ash').onclick=shareAllTime;
+// ===== Google-backed personal profile (read-only identity; no new Firestore writes) =====
+function profileStats(){
+ let total=0,days=0;for(const k in data){const v=+data[k]||0;if(v>0){total+=v;days++}}
+ const today=todayD();let streak=0,d=new Date(today);if(!val(d))d=addD(d,-1);while(val(d)>0){streak++;d=addD(d,-1)}
+ const earned=BD.filter(b=>bsaved&&bsaved[b[0]]).length;
+ let week=0;for(let i=0;i<7;i++)week+=val(addD(today,-i));
+ return {total,days,streak,earned,week};
+}
+function openMyProfile(){
+ const u=window.googleProfileUser;if(!u){$('mc').innerHTML='<div class="mh"><h2>👤 Your study profile</h2><button class="g" id="profileClose">✕</button></div><p>Sign in with Google to use your Google name and profile picture here. Your tracker still works without signing in.</p><div class="row" style="justify-content:flex-end"><button id="profileLogin">Sign in with Google</button></div>';openMo();$('profileClose').onclick=closeMo;$('profileLogin').onclick=()=>{$('mc').innerHTML='';closeMo();$('lgb').click()};return}
+ const st=profileStats(),name=u.displayName||'Student',photo=u.photoURL||'',escHtml=v=>String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ $('mc').innerHTML='<div class="mh"><h2>👤 My study profile</h2><button class="g" id="profileClose">✕</button></div><div style="display:flex;align-items:center;gap:14px;padding:12px 0"><img src="'+escHtml(photo)+'" alt="" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'" style="width:68px;height:68px;border-radius:50%;object-fit:cover;background:var(--in);'+(photo?'':'display:none;')+'"><div style="min-width:0"><div style="font-size:1.15rem;font-weight:750">'+escHtml(name)+'</div><div class="sub" style="margin:2px 0 0">'+escHtml(u.email||'Google account')+'</div><div class="sub" style="margin:3px 0 0">Private profile · Only shared when you choose</div></div></div><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:8px 0 14px"><div class="subject-entry"><div class="lb">All-time study</div><div class="bn">'+fmt(st.total)+'</div></div><div class="subject-entry"><div class="lb">This week</div><div class="bn">'+fmt(st.week)+'</div></div><div class="subject-entry"><div class="lb">Study days</div><div class="bn">'+st.days+'</div></div><div class="subject-entry"><div class="lb">Current streak</div><div class="bn">🔥 '+st.streak+'</div></div><div class="subject-entry"><div class="lb">Badges unlocked</div><div class="bn">'+st.earned+' / '+BD.length+'</div></div><div class="subject-entry"><div class="lb">Tracking mode</div><div class="bn" style="font-size:1rem">'+(trackingMode==='subjects'?'By subject':'Total time')+'</div></div></div><p class="sub">Your Google name and profile picture come directly from the account you signed in with. Your study records remain private in your existing account document.</p><div class="row" style="justify-content:flex-end;gap:8px"><button class="g" id="profileClose2">Close</button><button id="profileShare">↗ Share profile card</button></div>';
+ openMo();$('profileClose').onclick=closeMo;$('profileClose2').onclick=closeMo;
+ $('profileShare').onclick=()=>{const hours=(st.total/60).toFixed(1).replace(/\.0$/,'');shareDlg({icon:'📚',title:name,sub:fmt(st.total)+' · '+st.days+' study days · '+st.earned+' badges',tag:'STUDY PROFILE',color:'#8b5cf6',slug:'profile-'+iso(new Date())},'Study profile: '+name+' · '+fmt(st.total)+' studied · '+st.days+' study days · '+st.streak+' day current streak · '+st.earned+' badges. Track your study time: '+SITE)};
+}
+$('profileBtn').onclick=()=>{ $('am').classList.remove('o');openMyProfile()};
+// ===== exam countdown (per account) =====
+let EXAM=null,exam=null,wshown=false;
+function setExamVal(e){
+ exam=(e&&e.date)?{name:e.name||'Exam',date:e.date}:null;EXAM=exam?parse(exam.date):null;persistLocal();
+ $('cdt').textContent=exam?'⏳ Countdown to '+exam.name+' · '+EXAM.toLocaleDateString([], {day:'numeric',month:'long',year:'numeric'}):'⏳ Exam countdown';
+ $('exb').textContent=exam?'Edit':'Set exam date';tick.m=null;tick()}
+window.setExam=e=>setExamVal(e);
+window.welcome=()=>{if(wshown)return;wshown=true;openExam(true)};
+const sT=(id,v)=>{const e=$(id);v=''+v;if(e.textContent!==v)e.textContent=v};
+function tick(){
+ if(document.hidden)return;
+ const ids=['cd1','cd2','cd3','cd4'];
+ if(!EXAM){ids.forEach(i=>sT(i,'–'));sT('cdi','Add your exam date to start the countdown.');return}
+ const now=new Date(),ms=EXAM-now;
+ if(ms<=0){ids.forEach(i=>sT(i,'0'));sT('cdi',iso(now)===exam.date?'Exam day is today. Good luck! 🍀':'This date has passed. Tap Edit to set a new exam date.');return}
+ const s=Math.floor(ms/1000);sT('cd1',Math.floor(s/86400));sT('cd2',Math.floor(s%86400/3600));sT('cd3',Math.floor(s%3600/60));sT('cd4',s%60);
+ const mn=Math.floor(s/60);
+ if(mn!==tick.m){tick.m=mn;const z=Intl.DateTimeFormat().resolvedOptions().timeZone;sT('cdi',Math.floor(s/604800)+' weeks left · now '+now.toLocaleString([], {dateStyle:'medium',timeStyle:'short'})+' ('+z+')')}}
+function openExam(first){
+ const e=exam||{};
+ openMo(first?()=>{if(window.saveWelcomed)window.saveWelcomed()}:null);
+ $('mc').innerHTML=(first?'<div style="text-align:center;font-size:2.4rem">👋</div><div class="mh" style="justify-content:center"><h2>Welcome to Study Time Tracker!</h2></div><p class="sub" style="text-align:center">Add your exam date to get a live countdown. You can skip this and add it later with the “Set exam date” button on the countdown card.</p>':'<div class="mh"><h2>⏳ Exam date</h2><button class="g" id="mx">✕</button></div>')
+ +'<div class="row" style="margin:10px 0"><label style="flex:1;min-width:150px">Exam name<input id="exn" maxlength="30" placeholder="e.g. A/L, O/L, Finals" style="width:100%" value="'+esc(e.name||'')+'"></label><label>Exam date<input type="date" id="exd" style="width:165px" min="'+iso(new Date())+'" value="'+(e.date||'')+'"></label></div><div class="sub" id="exm" style="margin:0 0 10px"></div><div class="row"><button id="exs">Save</button>'+(first?'<button class="g" id="exl">Maybe later</button>':(exam?'<button class="g" id="exr">Remove</button>':''))+'</div>';
+ if($('mx'))$('mx').onclick=closeMo;
+ $('exs').onclick=()=>{const n=$('exn').value.trim()||'Exam',d=$('exd').value;
+  if(!d){$('exm').textContent='Please pick your exam date.';return}
+  if(d<iso(new Date())){$('exm').textContent='That date has already passed. Pick a future date.';return}
+  setExamVal({name:n.slice(0,30),date:d});if(window.saveExam)window.saveExam(exam);closeMo()};
+ if($('exl'))$('exl').onclick=closeMo;
+ if($('exr'))$('exr').onclick=()=>{setExamVal(null);if(window.saveExam)window.saveExam(null);closeMo()}}
+$('exb').onclick=()=>openExam(false);
 tick();setInterval(tick,1000);document.addEventListener('visibilitychange',tick);
 // charts
 const NS='http://www.w3.org/2000/svg';
@@ -193,6 +370,37 @@ function chart(id,labels,vals,type,hl){
   el('path',{d:'M'+pts[0][0]+','+(H-B)+' L'+pts.map(p=>p.join(',')).join(' L')+' L'+pts[n-1][0]+','+(H-B)+'Z',fill:'var(--ac)',opacity:.14});
   el('polyline',{points:pts.map(p=>p.join(',')).join(' '),fill:'none',stroke:'var(--ac)','stroke-width':2.5,'stroke-linejoin':'round'});
   pts.forEach((p,i)=>{const c=el('circle',{cx:p[0],cy:p[1],r:n>20?2.5:4.5,fill:'var(--ac)'});const t=document.createElementNS(NS,'title');t.textContent=labels[i]+': '+fmt(vals[i]);c.appendChild(t)})}
+}
+function stackedBarChart(id,labels,dates,hl){
+ const s=$(id),W=700,H=260,L=44,R=14,T=14,B=34;s.innerHTML='';const names=subjectNames();
+ const totals=dates.map(d=>val(d));
+ const mx=Math.max(1,Math.ceil(Math.max(...totals)/60));
+ const el=(n,a,t)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(t!=null)e.textContent=t;s.appendChild(e);return e};
+ for(let i=0;i<=4;i++){const y=T+(H-T-B)*(1-i/4);el('line',{x1:L,x2:W-R,y1:y,y2:y,stroke:'var(--grid)'});el('text',{x:L-6,y:y+4,'text-anchor':'end','font-size':11,fill:'var(--mu)'},(mx*i/4).toFixed(mx<4?1:0)+'h')}
+ const n=dates.length,pw=(W-L-R)/n,py=v=>T+(H-T-B)*(1-v/60/mx),bw=Math.min(50,pw*.6),base=H-B;
+ labels.forEach((l,i)=>el('text',{x:L+pw*i+pw/2,y:H-12,'text-anchor':'middle','font-size':11,fill:'var(--mu)'},l));
+ dates.forEach((d,i)=>{const k=iso(d),sd=subjectData[k]||{},has=Object.keys(sd).length>0;let y=base;
+  const segs=has?names.map((name,j)=>({name,v:+sd[name]||0,color:subjectColor(name,j)})).filter(x=>x.v>0):[{name:'Previously logged total',v:val(d),color:'#9299aa'}];
+  if(has&&val(d)>subjectTotal(sd))segs.push({name:'Unallocated / previously logged',v:val(d)-subjectTotal(sd),color:'#9299aa'});
+  segs.forEach(seg=>{const h=(seg.v/60/mx)*(H-T-B);y-=h;const r=el('rect',{x:L+pw*i+(pw-bw)/2,y:y,width:bw,height:Math.max(0,h),fill:seg.color,rx:2});const title=document.createElementNS(NS,'title');title.textContent=seg.name+': '+fmt(seg.v);r.appendChild(title)});
+  const total=totals[i];if(total)el('text',{x:L+pw*i+pw/2,y:Math.max(T+10,y-5),'text-anchor':'middle','font-size':10,fill:'var(--tx)'},fmt(total));
+  if(i===hl)el('rect',{x:L+pw*i+(pw-bw)/2-2,y:Math.max(T,y-1),width:bw+4,height:Math.max(2,base-Math.max(T,y)),fill:'none',stroke:'var(--ac2)','stroke-width':1.5,rx:5});
+ });
+ const legend=$('subjectLegend');legend.innerHTML=names.map((name,i)=>'<span><i style="background:'+subjectColor(name,i)+'"></i>'+esc(name)+'</span>').join('')+(dates.some(d=>!subjectData[iso(d)]||!Object.keys(subjectData[iso(d)]||{}).length||val(d)>subjectTotal(subjectData[iso(d)]))?'<span><i style="background:#9299aa"></i>Previously logged / unallocated</span>':'');
+}
+function renderHeatmap(){
+ const today=todayD(),start=addD(today,-364);start.setDate(start.getDate()-start.getDay());
+ const cells=[],months=[];let lastMonth=-1;
+ for(let i=0;i<371;i++){const d=addD(start,i);if(d>today){cells.push('<span class="heat-cell" style="visibility:hidden"></span>');continue}const v=val(d),level=v<=0?0:v<60?1:v<120?2:v<240?3:4;cells.push('<span class="heat-cell" data-level="'+level+'" title="'+d.toDateString()+': '+fmt(v)+'"></span>');if(d.getDate()===1||i===0){months.push({week:Math.floor(i/7),name:d.toLocaleDateString([],{month:'short'})});lastMonth=d.getMonth()}}
+ $('heatmap').innerHTML=cells.join('');$('heatMonths').innerHTML=months.map((m,i)=>'<span style="grid-column:'+(m.week+1)+' / span '+(i===months.length-1?1:Math.max(1,months[i+1].week-m.week))+'">'+m.name+'</span>').join('');
+}
+function renderInsight(){
+ const today=todayD(),recent=sumRange(addD(today,-6),7),previous=sumRange(addD(today,-13),7),rDays=Array.from({length:7},(_,i)=>val(addD(today,-i))).filter(v=>v>0).length;
+ let icon='🌱',title='Build your rhythm one day at a time',message='Log a few more days and this space will show how your recent study pattern is changing.';
+ if(previous===0&&recent>0){icon='🚀';title='A fresh study rhythm is taking shape';message='You logged '+fmt(recent)+' in the last 7 days. Keep building on that momentum with a realistic routine.'}
+ else if(previous>0){const diff=recent-previous,pct=Math.round(Math.abs(diff)/previous*100);if(diff>0){icon='📈';title='Your study time is moving up';message='You studied '+fmt(recent)+' in the last 7 days — '+pct+'% more than the previous 7 days. Nice progress; aim to keep it sustainable.'}else if(diff<0){icon='🧭';title='Your study hours have dipped';message='The last 7 days are '+pct+'% lower than the previous 7 days. No need to panic — pick one manageable session today and rebuild your rhythm.'}else{icon='⚖️';title='You’re maintaining your pace';message='Your last two 7-day periods are level at '+fmt(recent)+'. Consistency is progress too.'}}
+ if(rDays>=6&&recent>0&&previous>0&&recent>=previous){message+=' You also studied on '+rDays+' of the last 7 days.'}
+ $('insightIcon').textContent=icon;$('insightTitle').textContent=title;$('insightText').textContent=message;
 }
 function renderStats(){
  const today=todayD(),wk=monday(today),tw=sumRange(wk,7),lw=sumRange(addD(wk,-7),7),dn=Math.floor((today-wk)/864e5)+1;
@@ -214,14 +422,14 @@ function renderStats(){
  $('dots').innerHTML=dh;$('s4i').innerHTML='Last 14 days · best <b>'+dw(best)+'</b>';
  const gm=goal*60,pct=gm?tw/gm*100:0,done=gm>0&&tw>=gm;
  $('gp').textContent=gm?Math.floor(pct)+'%':'—';$('gp').style.color=done?'var(--ac2)':'';
- $('gbi').style.width=Math.min(100,pct)+'%';$('gbar').classList.toggle('done',done);
+ $('gbi').style.width=Math.min(100,pct)+'%';$('gsh').style.display=done?'inline-block':'none';$('gbar').classList.toggle('done',done);
  $('gt').innerHTML=!gm?'Set a weekly goal below to start tracking.':done?'<span class="gdone">🎉 Weekly goal completed!</span> '+fmt(tw)+' of '+goal+'h':'of your '+goal+'h weekly goal · '+fmt(gm-tw)+' to go';
 }
-window.setGoal=g=>{goal=+g||0;if(document.activeElement!==$('goal'))$('goal').value=goal||'';renderStats()};
-$('goal').onchange=()=>{goal=Math.max(0,Math.floor(+$('goal').value)||0);$('goal').value=goal||'';renderStats();renderBadges();if(window.saveGoal)window.saveGoal(goal)};
+window.setGoal=g=>{goal=+g||0;if(document.activeElement!==$('goal'))$('goal').value=goal||'';renderStats();persistLocal()};
+$('goal').onchange=()=>{goal=Math.max(0,Math.floor(+$('goal').value)||0);$('goal').value=goal||'';renderStats();renderBadges();trackGW();persistLocal();if(window.saveGoal)window.saveGoal(goal)};
 let bsaved=null,bsilent=false,btt=0;
-window.setBadges=b=>{if(bsaved===null){bsaved=b?{...b}:{};bsilent=!b}else if(b)Object.assign(bsaved,b)};
-window.resetBadges=()=>{bsaved=null};
+window.setBadges=b=>{if(bsaved===null){bsaved=b?{...b}:{};bsilent=!b}else if(b)Object.assign(bsaved,b);persistLocal()};
+window.resetBadges=()=>{gws=null;gwBack=false;bsaved=null;wshown=false;setExamVal(null);closeMo()};
 const BD=[
 ['s3','Spark','✨','bronze','3-day streak',x=>x.best>=3],
 ['s7','On Fire','🔥','bronze','7-day streak',x=>x.best>=7],
@@ -249,23 +457,47 @@ function bstats(){
  ks.forEach(k=>{const c=parse(k);run=(prev&&Math.round((c-prev)/864e5)===1)?run+1:1;if(run>best)best=run;prev=c;tot+=data[k];const w=iso(monday(c));(wkm[w]=wkm[w]||{m:0,d:0});wkm[w].m+=data[k];wkm[w].d++});
  let bw=0,full=false;for(const w in wkm){if(wkm[w].m>bw)bw=wkm[w].m;if(wkm[w].d>=7)full=true}
  return {best,hrs:tot/60,bw:bw/60,full,goalDone:goal>0&&sumRange(monday(todayD()),7)>=goal*60}}
-function toast(l){const t=$('bt');t.innerHTML='<b>🎉 Badge unlocked!</b><br>'+l.map(b=>b[2]+' '+b[1]+' · '+b[4]).join('<br>');t.classList.add('s');clearTimeout(btt);btt=setTimeout(()=>t.classList.remove('s'),5500)}
+function toast(l){const t=$('bt');t.innerHTML='<b>🎉 Badge unlocked!</b><br>'+l.map(b=>b[2]+' '+b[1]+' · '+b[4]).join('<br>')+(l.length===1?'<br><button class="g" id="tsh" style="margin-top:6px">Share ↗</button>':'');if(l.length===1)$('tsh').onclick=()=>shareBadge(l[0][0]);t.classList.add('s');clearTimeout(btt);btt=setTimeout(()=>t.classList.remove('s'),5500)}
 function renderBadges(){
  const x=bstats(),tc={bronze:'#cd7f32',silver:'#c0c8d4',gold:'#f5c542',diamond:'#67e8f9'};
  const now=BD.filter(b=>b[5](x)).map(b=>b[0]),fresh=[];
- if(bsaved!==null){const td=iso(new Date());now.forEach(id=>{if(!bsaved[id]){bsaved[id]=td;fresh.push(id)}});if(fresh.length&&window.saveBadges)window.saveBadges(bsaved)}
+ if(bsaved!==null){const td=iso(new Date());now.forEach(id=>{if(!bsaved[id]){bsaved[id]=td;fresh.push(id)}});if(fresh.length&&window.saveBadges)window.saveBadges(bsaved);if(fresh.length)persistLocal()}
  let n=0,h='';
- BD.forEach(b=>{const u=(bsaved&&bsaved[b[0]])||now.includes(b[0]);if(u)n++;h+='<div class="bd'+(u?'':' lk')+'" style="--rc:'+tc[b[3]]+'" title="'+b[4]+'"><div class="ic">'+(u?b[2]:'🔒')+'</div><b>'+b[1]+'</b><span>'+b[4]+'</span></div>'});
+ BD.forEach(b=>{const u=(bsaved&&bsaved[b[0]])||now.includes(b[0]);if(u)n++;h+='<div class="bd'+(u?'':' lk')+'" style="--rc:'+tc[b[3]]+'" title="'+b[4]+'"><div class="ic">'+(u?b[2]:'🔒')+'</div><b>'+b[1]+'</b><span>'+b[4]+'</span>'+(u?'<button class="g shb" data-sh="'+b[0]+'">Share ↗</button>':'')+'</div>'});
  $('bgd').innerHTML=h;$('bc').textContent=n+' / '+BD.length+' unlocked';
  if(fresh.length&&!bsilent)toast(fresh.map(id=>BD.find(b=>b[0]===id)));
  if(bsaved!==null)bsilent=false}
+let gws=null,gwBack=false;
+window.setGW=g=>{if(gws===null){gws={};gwBack=!g}if(g)for(const k in g){const c=gws[k];if(!c||g[k].m>c.m)gws[k]=g[k]}persistLocal()};
+function weekLabel(mon){const e=addD(mon,6),y=mon.getFullYear()!==e.getFullYear(),o={day:'numeric',month:'short'};
+ return mon.toLocaleDateString([],y?{...o,year:'numeric'}:o)+' – '+e.toLocaleDateString([],{...o,year:'numeric'})}
+function weekSums(){const w={};for(const k in data){if(data[k]>0){const m=iso(monday(parse(k)));w[m]=(w[m]||0)+data[k]}}return w}
+function trackGW(){
+ if(gws!==null&&goal>0){
+  const cur=iso(monday(todayD())),ws=weekSums(),need=goal*60;let ch=false;
+  const m=ws[cur]||0;
+  if(m>=need){const c=gws[cur];if(!c||m>c.m){gws[cur]={m:m,g:c?c.g:goal};ch=true}}
+  if(gwBack){for(const k in ws){if(k!==cur&&ws[k]>=need&&!gws[k]){gws[k]={m:ws[k],g:goal};ch=true}}gwBack=false}
+  if(ch){persistLocal();if(window.saveGW)window.saveGW(gws)}}
+ drawGW()}
+function drawGW(){
+ const ks=gws?Object.keys(gws).sort().reverse():[];
+ $('gwc').textContent=ks.length+(ks.length===1?' week':' weeks');
+ $('gwl').innerHTML=ks.length?ks.map(k=>{const r=gws[k];return '<div class="gwr"><div><b>'+weekLabel(parse(k))+'</b><div class="si" style="margin:2px 0 0">'+fmt(r.m)+' of '+r.g+'h goal · '+Math.floor(r.m/(r.g*60)*100)+'%</div></div><button class="g" data-gw="'+k+'">Share ↗</button></div>'}).join(''):'<div class="si" style="padding:8px 0">Finish a weekly goal and it will appear here, ready to share.</div>'}
+function shareGoalWeek(k){
+ const mon=parse(k),r=(gws&&gws[k])||{},g=r.g||goal;let tot=0,best=0,n=0;
+ for(let i=0;i<7;i++){const v=val(addD(mon,i));tot+=v;if(v>0)n++;if(v>best)best=v}
+ const m=Math.max(tot,r.m||0),el=Math.max(1,Math.min(7,Math.floor((todayD()-mon)/864e5)+1)),wk=weekLabel(mon),pct=Math.floor(m/(g*60)*100);
+ shareDlg({kind:'goal',week:wk,m:m,g:g,pct:pct,n:n,avg:m/el,best:best,elapsed:el,slug:'weekly-goal-'+k},'I completed my weekly study goal 🎯 '+wk+': '+fmt(m)+' studied (goal '+g+'h, '+pct+'%). Track yours for free: '+SITE)}
+$('gwl').onclick=e=>{const b=e.target.closest('[data-gw]');if(b)shareGoalWeek(b.dataset.gw)};
+$('gsh').onclick=()=>shareGoalWeek(iso(monday(todayD())));
 function render(){
  const today=todayD(),wk=monday(today),tw=sumRange(wk,7),lw=sumRange(addD(wk,-7),7),dn=Math.floor((today-wk)/864e5)+1;
- renderStats();renderBadges();
+ renderStats();renderBadges();trackGW();
  
  
  const dl=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
- chart('c1',dl,dl.map((_,i)=>val(addD(wk,i))),'bar',dn-1);
+ if(trackingMode==='subjects')stackedBarChart('c1',dl,dl.map((_,i)=>addD(wk,i)),dn-1);else{ $('subjectLegend').style.display='none';chart('c1',dl,dl.map((_,i)=>val(addD(wk,i))),'bar',dn-1)}
  chart('c4',dl.slice(0,dn),dl.slice(0,dn).map((_,i)=>val(addD(wk,i))),'line');
  const ds=[...Array(30)].map((_,i)=>addD(today,i-29));
  chart('c2',ds.map(x=>(x.getMonth()+1)+'/'+x.getDate()),ds.map(val),'line');
@@ -273,7 +505,8 @@ function render(){
  const first=ks.length?monday(parse(ks[0])):wk,cnt=Math.max(1,Math.round((wk-first)/6048e5)+1);
  const ws=[...Array(cnt)].map((_,i)=>addD(first,i*7));
  chart('c3',ws.map(x=>(x.getMonth()+1)+'/'+x.getDate()),ws.map(x=>sumRange(x,7)),'line');
- $('log').innerHTML=ks.length?'<div class="ls"><table><tr><th>Date</th><th>Time</th><th></th></tr>'+ks.slice().reverse().map(k=>'<tr><td>'+parse(k).toDateString()+'</td><td>'+fmt(data[k])+'</td><td><button class="g" data-k="'+k+'">Delete</button></td></tr>').join('')+'</table></div>':'<div class="empty">No entries yet. Add your first day above.</div>';
+ renderHeatmap();renderInsight();
+ $('log').innerHTML=ks.length?'<div class="ls"><table><tr><th>Date</th><th>Time / subject split</th><th></th></tr>'+ks.slice().reverse().map(k=>{const sd=subjectData[k]||{},parts=Object.entries(sd).filter(([,v])=>+v>0).map(([n,v])=>esc(n)+' '+fmt(+v));return '<tr><td>'+parse(k).toDateString()+'</td><td>'+fmt(data[k])+(parts.length?'<div class="sub" style="margin:3px 0 0;font-size:.75rem">'+parts.join(' · ')+'</div>':'')+'</td><td><button class="g" data-k="'+k+'">Delete</button></td></tr>'}).join('')+'</table></div>':'<div class="empty">No entries yet. Add your first day above.</div>';
  drawCal()}
 // calendar
 sel=todayD();view=new Date(sel.getFullYear(),sel.getMonth(),1);
@@ -290,54 +523,66 @@ $('pop').onclick=e=>{e.stopPropagation();const b=e.target.closest('button');if(!
  if(b.dataset.n){view=new Date(view.getFullYear(),view.getMonth()+ +b.dataset.n,1)}
  else if(b.dataset.today){sel=todayD();view=new Date(sel.getFullYear(),sel.getMonth(),1);$('pop').classList.remove('o')}
  else if(b.dataset.d&&!b.classList.contains('dis')){sel=parse(b.dataset.d);$('pop').classList.remove('o')}
- drawCal()};
+ drawCal();if(trackingMode==='subjects')drawSubjectInputs()};
 document.addEventListener('click',()=>$('pop').classList.remove('o'));
-$('add').onclick=()=>{const k=iso(sel),h=+$('h').value||0,m=+$('m').value||0,t=h*60+m;
- if(t<=0){$('msg').textContent='Enter some study time first.';return}
- const had=data[k];data[k]=t;save();$('msg').textContent=(had?'Updated ':'Saved ')+fmt(t)+' for '+sel.toDateString()+'.';$('h').value='';$('m').value='';render()};
-$('log').onclick=e=>{const k=e.target.dataset&&e.target.dataset.k;if(k){delete data[k];save();render()}};
+$('add').onclick=()=>{const k=iso(sel);let t=0;
+ if(trackingMode==='subjects'){const record={};subjects.forEach((name,i)=>{const h=+($('subj_'+i+'_h')||{}).value||0,m=+($('subj_'+i+'_m')||{}).value||0;record[name]=Math.max(0,h*60+m);t+=record[name]});if(t<=0){$('msg').textContent='Enter study time for at least one subject.';return}subjectData[k]=record}
+ else{const h=+$('h').value||0,m=+$('m').value||0;t=h*60+m;if(t<=0){$('msg').textContent='Enter some study time first.';return}delete subjectData[k]}
+ const had=data[k];data[k]=t;save();$('msg').textContent=(had?'Updated ':'Saved ')+fmt(t)+' total for '+sel.toDateString()+'.';if(trackingMode==='subjects')drawSubjectInputs();else{$('h').value='';$('m').value=''}render()};
+$('log').onclick=e=>{const k=e.target.dataset&&e.target.dataset.k;if(k){delete data[k];delete subjectData[k];save();render()}};
 
-function imp(t){try{const o=JSON.parse(t);if(typeof o!=='object'||!o)throw 0;for(const k in o){if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&+o[k]>0)data[k]=+o[k]}save();render();alert('Imported!')}catch(e){alert('That data was not valid.')}}
+function imp(t){try{const o=JSON.parse(t);if(typeof o!=='object'||!o)throw 0;if(o.data&&typeof o.data==='object'){for(const k in o.data)if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&+o.data[k]>0)data[k]=+o.data[k];if(o.subjectData)subjectData={...subjectData,...o.subjectData};if(Array.isArray(o.subjects)&&o.subjects.length)subjects=o.subjects;if(o.trackingMode)trackingMode=o.trackingMode}else{for(const k in o){if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&+o[k]>0)data[k]=+o[k]}}save();updateModeUI();render();alert('Imported!')}catch(e){alert('That data was not valid.')}}
 $('im').onclick=()=>{const t=prompt('Paste the data you copied from your old tracker:');if(t)imp(t)};
 $('rs').onclick=()=>$('rf').click();
 $('rf').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(imp);e.target.value=''};
-$('bk').onclick=()=>{const b=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='study-backup-'+iso(new Date())+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
-window.setData=d=>{data=d||{};render()};window.getData=()=>data;
-render();
+$('bk').onclick=()=>{const b=new Blob([JSON.stringify({data,subjectData,subjects,trackingMode},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='study-backup-'+iso(new Date())+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+window.setData=d=>{data=d||{};render();persistLocal()};window.getData=()=>data;window.setSubjectState=(sd,sub,mode)=>{subjectData=sd&&typeof sd==='object'?sd:{};subjects=Array.isArray(sub)?sub:[];trackingMode=mode==='subjects'?'subjects':'total';updateModeUI()};
+try{const saved=JSON.parse(localStorage.getItem(K)||'null');if(saved&&typeof saved==='object'){
+ data=saved.data&&typeof saved.data==='object'?saved.data:Object.fromEntries(Object.entries(saved).filter(([k,v])=>/^\d{4}-\d{2}-\d{2}$/.test(k)&&typeof v==='number'));subjectData=saved.subjectData&&typeof saved.subjectData==='object'?saved.subjectData:{};subjects=Array.isArray(saved.subjects)?saved.subjects:[];trackingMode=saved.trackingMode==='subjects'&&subjects.length?'subjects':'total';goal=+saved.goal||0;bsaved=saved.badges&&typeof saved.badges==='object'?saved.badges:{};gws=saved.goalWeeks&&typeof saved.goalWeeks==='object'?saved.goalWeeks:{};gwBack=false;setExamVal(saved.exam||null);
+ $('goal').value=goal||'';
+}}catch(e){}
+updateModeUI();render();persistLocal();
 </script>
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
 import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
 import {getFirestore,doc,getDoc,setDoc,updateDoc,onSnapshot,deleteField,FieldPath} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
 const app=initializeApp({apiKey:"AIzaSyB_rkKpFM142C2VbaFu9SAUHtFrPpM4dg0",authDomain:"study-tracker-e985c.firebaseapp.com",projectId:"study-tracker-e985c",storageBucket:"study-tracker-e985c.firebasestorage.app",messagingSenderId:"530715315161",appId:"1:530715315161:web:9f34749eb4733248fe27c8"});
-const auth=getAuth(app),db=getFirestore(app),OWNER='sulochanaeranda@gmail.com',old=doc(db,'tracker','main');
-let ref=null,remote={},unsub=null;
-const g=id=>document.getElementById(id),say=t=>g('lm').textContent=t;
-g('lgb').onclick=async()=>{say('');try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){say('Sign-in failed: '+(e.code||e.message))}};
+const auth=getAuth(app),db=getFirestore(app);let ref=null,remote={},remoteSubjectData={},unsub=null,hydrating=false;
+const g=id=>document.getElementById(id);
+function status(user){
+ window.googleProfileUser=user||null;g('profileBtn').style.display=user?'block':'none';
+ if(user){g('ck').style.display='none';g('av').classList.add('signed');g('an').textContent=user.displayName||'Signed in';g('ae').textContent=user.email||'Cloud sync is on for this account.';g('lgb').style.display='none';g('so').style.display='block';g('avl').textContent='Account';if(user.photoURL){g('avi').src=user.photoURL;g('avi').style.display='block'}else{g('avi').style.display='none';g('avl').textContent=(user.displayName||user.email||'?')[0].toUpperCase()}}
+ else{g('av').classList.remove('signed');g('an').textContent='Not signed in';g('ae').textContent='Your study log is saved on this browser. Sign in to sync it across devices.';g('lgb').style.display='block';g('so').style.display='none';g('avi').style.display='none';g('avl').textContent='Sign in'}
+}
+g('lgb').onclick=()=>{g('mc').innerHTML='<div class="mh"><h2>☁️ Save your progress everywhere</h2><button class="g" id="mx">✕</button></div><p class="sub">Your study log already saves automatically in this browser — no account needed.</p><p>Sign in with Google to keep a private cloud copy and access your study hours on other devices. Your existing browser entries will be transferred into your account when you sign in.</p><div class="row" style="justify-content:flex-end;margin-top:16px"><button class="g" id="later">Maybe later</button><button id="cloudlogin">Sign in with Google</button></div><div class="sub" id="cloudmsg" style="margin-top:10px"></div>';window.openMo();g('mx').onclick=window.closeMo;g('later').onclick=window.closeMo;g('cloudlogin').onclick=async()=>{g('cloudmsg').textContent='Opening Google sign-in…';try{const result=await signInWithPopup(auth,new GoogleAuthProvider());window.closeMo();const who=result.user.displayName||'there';g('mc').innerHTML='<div style="text-align:center;font-size:2.5rem;margin:8px 0">☁️✨</div><div class="mh" style="justify-content:center"><h2>Welcome, '+String(who).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))+'!</h2></div><p style="text-align:center">You’re signed in. Your study progress is being saved to your cloud account so you can access it across devices.</p><p class="sub" style="text-align:center">We’ll bring your existing browser data into your account too. Keep studying — your progress is coming with you. 📚</p><div class="row" style="justify-content:center;margin-top:16px"><button id="welcomeok">Let’s go</button></div>';window.openMo();g('welcomeok').onclick=window.closeMo}catch(e){g('cloudmsg').textContent='Sign-in failed: '+(e.code||e.message)}}};
+g('ckg').onclick=()=>{dismissCloudReminder();g('lgb').click()};
 g('so').onclick=()=>signOut(auth);
-g('av').onclick=e=>{e.stopPropagation();g('am').classList.toggle('o')};
-g('am').onclick=e=>e.stopPropagation();
-document.addEventListener('click',()=>g('am').classList.remove('o'));
+g('av').onclick=e=>{e.stopPropagation();g('am').classList.toggle('o')};g('am').onclick=e=>e.stopPropagation();document.addEventListener('click',()=>g('am').classList.remove('o'));
 onAuthStateChanged(auth,async u=>{
- if(unsub){unsub();unsub=null}
- if(!u){document.body.classList.remove('auth');ref=null;remote={};window.resetBadges();window.setGoal(0);window.setData({});return}
- ref=doc(db,'users',u.uid);say('Loading your data…');
- g('an').textContent=u.displayName||'Signed in';g('ae').textContent=u.email||'';
- if(u.photoURL){g('avi').src=u.photoURL;g('avi').style.display='block';g('avl').textContent=''}
- else{g('avi').style.display='none';g('avl').textContent=(u.displayName||u.email||'?')[0].toUpperCase()}
+ if(unsub){unsub();unsub=null}ref=null;remote={};status(u);
+ if(!u)return;
+ ref=doc(db,'users',u.uid);
  try{
-  const s=await getDoc(ref);
-  if(!s.exists()){let d={};
-   if((u.email||'').toLowerCase()===OWNER){try{const o=await getDoc(old);if(o.exists())d=o.data().data||{}}catch(e){}}
-   await setDoc(ref,{data:d})}
-  unsub=onSnapshot(ref,snap=>{const sd=snap.data()||{};remote=sd.data||{};window.setBadges(sd.badges);window.setGoal(sd.goal||0);window.setData({...remote});document.body.classList.add('auth');say('')},e=>say('Sync error: '+(e.code||e.message)));
- }catch(e){say('Could not load data: '+(e.code||e.message))}
+  const snap=await getDoc(ref),cloud=snap.exists()?snap.data():{};
+  const local=(()=>{try{return JSON.parse(localStorage.getItem('studytracker.v1')||'{}')}catch(e){return {}}})();
+  const merged={...(cloud.data||{})};for(const k in (local.data||{})){const lv=+local.data[k]||0,rv=+merged[k]||0;merged[k]=Math.max(lv,rv)}
+  const mergedSubjectData={...(cloud.subjectData||{})};for(const k in (local.subjectData||{})){const cur={...(mergedSubjectData[k]||{})};for(const n in local.subjectData[k])cur[n]=Math.max(+cur[n]||0,+local.subjectData[k][n]||0);mergedSubjectData[k]=cur;if(Object.keys(cur).length)merged[k]=Math.max(+merged[k]||0,subjectTotal(cur))}
+  const mergedSubjects=Array.isArray(local.subjects)&&local.subjects.length?local.subjects:(cloud.subjects||[]);const mergedMode=Array.isArray(local.subjects)&&local.subjects.length?(local.trackingMode||'total'):(cloud.trackingMode||local.trackingMode||'total');
+  const mergedGoal=Math.max(+cloud.goal||0,+local.goal||0);
+  const mergedBadges={...(cloud.badges||{}),...(local.badges||{})};
+  const mergedWeeks={...(cloud.goalWeeks||{}),...(local.goalWeeks||{})};
+  for(const k in (local.goalWeeks||{})){const c=mergedWeeks[k];if(!c||local.goalWeeks[k].m>c.m)mergedWeeks[k]=local.goalWeeks[k]}
+  const mergedExam=local.exam||cloud.exam||null;
+  await setDoc(ref,{data:merged,subjectData:mergedSubjectData,subjects:mergedSubjects,trackingMode:mergedMode,goal:mergedGoal,badges:mergedBadges,goalWeeks:mergedWeeks,exam:mergedExam},{merge:true});
+  remote=merged;remoteSubjectData=mergedSubjectData;hydrating=true;window.setSubjectState(mergedSubjectData,mergedSubjects,mergedMode);window.setData(merged);window.setGoal(mergedGoal);window.setBadges(mergedBadges);window.setGW(mergedWeeks);window.setExam(mergedExam);hydrating=false;
+  unsub=onSnapshot(ref,s=>{if(!s.exists())return;const d=s.data()||{};remote=d.data||{};remoteSubjectData=d.subjectData||{};hydrating=true;window.setSubjectState(remoteSubjectData,d.subjects||[],d.trackingMode||'total');window.setData({...remote});window.setBadges(d.badges||{});window.setGW(d.goalWeeks||{});window.setGoal(d.goal||0);window.setExam(d.exam||null);hydrating=false;});
+ }catch(e){console.error(e);alert('Cloud sync could not start: '+(e.code||e.message)+'. Your browser copy is still available.')}
 });
-window.saveBadges=async m=>{if(!ref)return;try{await updateDoc(ref,{badges:m})}catch(e){}};
-window.saveGoal=async g=>{if(!ref)return;try{await updateDoc(ref,{goal:g})}catch(e){alert('Save failed: '+(e.code||e.message))}};
-window.cloudSave=async d=>{if(!ref)return;const a=[];
- for(const k in d)if(d[k]!==remote[k])a.push(new FieldPath('data',k),d[k]);
- for(const k in remote)if(!(k in d))a.push(new FieldPath('data',k),deleteField());
- if(!a.length)return;
- try{await updateDoc(ref,...a)}catch(e){alert('Save failed: '+(e.code||e.message))}};
+window.cloudSave=async d=>{if(!ref||hydrating)return;try{await updateDoc(ref,{data:d,subjectData:subjectData,subjects:subjects,trackingMode:trackingMode});remote={...d};remoteSubjectData=JSON.parse(JSON.stringify(subjectData))}catch(e){console.error('Cloud save failed',e)}};
+window.saveBadges=async m=>{try{if(ref&&!hydrating)await updateDoc(ref,{badges:m})}catch(e){console.error(e)}};
+window.saveExam=async e=>{try{if(ref&&!hydrating)await updateDoc(ref,{exam:e||deleteField()})}catch(x){console.error(x)}};
+window.saveWelcomed=async()=>{};
+window.saveGW=async m=>{try{if(ref&&!hydrating)await updateDoc(ref,{goalWeeks:m})}catch(e){console.error(e)}};
+window.saveGoal=async v=>{try{if(ref&&!hydrating)await updateDoc(ref,{goal:v})}catch(e){console.error(e)}};
 </script></body></html>
