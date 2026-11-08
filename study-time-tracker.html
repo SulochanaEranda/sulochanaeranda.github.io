@@ -123,7 +123,7 @@ button:disabled{opacity:.4;cursor:default}
 .heat-legend{display:flex;justify-content:flex-end;align-items:center;gap:7px;margin-top:8px;color:var(--mu);font-size:.7rem}.heat-swatch{width:17px;height:10px;border-radius:50%;display:inline-block}.heat-swatch.low{background:#f8d84b;opacity:.55}.heat-swatch.mid{background:#ff8a28}.heat-swatch.high{background:#ed3028}
 @media(max-width:520px){.modebar{align-items:flex-start}.modebar .actions{width:100%}.modebar button{flex:1}}
 </style></head><body><div class="w">
-<div class="top"><div><h1><img class="lgo" src="str/images/study-time-tracker-logo.svg" alt="">Study Time Tracker</h1><div class="sub">Log your daily study time. Saved in this browser automatically · Sign in optionally to sync across devices.</div></div><div style="display:flex;gap:8px;align-items:center"><button class="tg" id="tg" title="Themes">🎨</button><div class="cw"><button class="av" id="av" title="Account"><img id="avi" alt="" referrerpolicy="no-referrer"><span id="avl"></span></button><div class="pop" id="am" style="width:260px;left:auto;right:0;text-align:center"><div id="an" style="font-weight:600">Not signed in</div><div class="sub" id="ae" style="margin:0 0 10px;word-break:break-word">Your study log is saved on this browser.</div><button class="g" id="profileBtn" style="display:none;width:100%;margin-bottom:7px">👤 My study profile</button><button id="lgb">☁️ Sign in to sync</button><button class="g" id="so" style="display:none">Sign out</button></div></div></div></div>
+<div class="top"><div><h1><img class="lgo" src="str/images/study-time-tracker-logo.svg" alt="">Study Time Tracker</h1><div class="sub">Log your daily study time. Guest changes are temporary; sign in with Google to save them to your cloud account.</div></div><div style="display:flex;gap:8px;align-items:center"><button class="tg" id="tg" title="Themes">🎨</button><div class="cw"><button class="av" id="av" title="Account"><img id="avi" alt="" referrerpolicy="no-referrer"><span id="avl"></span></button><div class="pop" id="am" style="width:260px;left:auto;right:0;text-align:center"><div id="an" style="font-weight:600">Not signed in</div><div class="sub" id="ae" style="margin:0 0 10px;word-break:break-word">Sign in with Google to save your study log to your cloud account.</div><button class="g" id="profileBtn" style="display:none;width:100%;margin-bottom:7px">👤 My study profile</button><button id="lgb">☁️ Sign in to sync</button><button class="g" id="so" style="display:none">Sign out</button></div></div></div></div>
 
 <div class="modebar"><div><div class="mode-name" id="modeLabel">Tracking mode · Total study time</div><div class="sub" style="margin:3px 0 0;font-size:.78rem">Choose how you want to record your study time.</div></div><div class="actions"><button id="totalModeBtn" type="button">Total mode</button><button class="g" id="subjectModeBtn" type="button">Subject-wise mode</button><button class="g" id="subjectSetupBtn" style="display:none" type="button">Edit subjects</button></div></div>
 
@@ -160,7 +160,7 @@ button:disabled{opacity:.4;cursor:default}
 <div class="cd"><div><b id="cd1">0</b><span>days</span></div><div><b id="cd2">0</b><span>hours</span></div><div><b id="cd3">0</b><span>minutes</span></div><div><b id="cd4">0</b><span>seconds</span></div></div>
 <div class="sub" id="cdi" style="margin:10px 0 0"></div></div>
 <div class="card"><h2>Log</h2><div style="margin-bottom:6px"><button class="g" id="bk">⬇ Download backup</button><button class="g" id="rs">Restore backup</button><button class="g" id="im">Import pasted data</button><input type="file" id="rf" accept=".json,application/json" hidden></div><div id="log"></div></div>
-<div class="sub" style="text-align:center;margin:18px 0 8px">Made by <a href="https://sulochanaeranda.github.io/">SulochanaEranda</a>💗</div>
+<div class="sub" style="text-align:center;margin:18px 0 8px">Made by SulochanaEranda</div>
 </div>
 <div id="bt"></div>
 <div id="mo"><div id="mc"></div></div>
@@ -168,8 +168,7 @@ button:disabled{opacity:.4;cursor:default}
 <script>
 const K='studytracker.v1',TK='studytracker.theme';let data={},goal=0,sel=null,view=null,trackingMode='total',subjects=[],subjectData={},deletedLogs={};
 
-function persistLocal(){try{localStorage.setItem(K,JSON.stringify({data,subjectData,subjects,trackingMode,goal:goal||0,badges:bsaved||{},goalWeeks:gws||{},hiddenGoalWeeks:hiddenGoalWeeks||{},deletedLogs:deletedLogs||{},exam:exam||null}))}catch(e){}}
-function save(){persistLocal();window.cloudSave&&window.cloudSave(data)}
+function persistLocal(){} function save(){if(window.cloudSave)window.cloudSave(data)}
 const $=id=>document.getElementById(id);
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const parse=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
@@ -625,57 +624,106 @@ $('rs').onclick=()=>$('rf').click();
 $('rf').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(imp);e.target.value=''};
 $('bk').onclick=()=>{const b=new Blob([JSON.stringify({data,subjectData,subjects,trackingMode},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='study-backup-'+iso(new Date())+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
 window.setData=d=>{data=d||{};render();persistLocal()};window.setDeletedLogs=d=>{deletedLogs=d&&typeof d==='object'?{...d}:{};persistLocal()};window.getDeletedLogs=()=>deletedLogs;window.getData=()=>data;window.getSubjectState=()=>({subjectData,subjects,trackingMode});window.setSubjectState=(sd,sub,mode)=>{subjectData=sd&&typeof sd==='object'?sd:{};subjects=Array.isArray(sub)?sub:[];trackingMode=mode==='subjects'?'subjects':'total';updateModeUI()};
-try{const saved=JSON.parse(localStorage.getItem(K)||'null');if(saved&&typeof saved==='object'){
- data=saved.data&&typeof saved.data==='object'?saved.data:Object.fromEntries(Object.entries(saved).filter(([k,v])=>/^\d{4}-\d{2}-\d{2}$/.test(k)&&typeof v==='number'));subjectData=saved.subjectData&&typeof saved.subjectData==='object'?saved.subjectData:{};subjects=Array.isArray(saved.subjects)?saved.subjects:[];trackingMode='total';goal=+saved.goal||0;bsaved=saved.badges&&typeof saved.badges==='object'?saved.badges:{};gws=saved.goalWeeks&&typeof saved.goalWeeks==='object'?saved.goalWeeks:{};hiddenGoalWeeks=saved.hiddenGoalWeeks&&typeof saved.hiddenGoalWeeks==='object'?saved.hiddenGoalWeeks:{};deletedLogs=saved.deletedLogs&&typeof saved.deletedLogs==='object'?saved.deletedLogs:{};gwBack=false;setExamVal(saved.exam||null);
- $('goal').value=goal||'';
-}}catch(e){}
-updateModeUI();render();persistLocal();
+updateModeUI();render();
 </script>
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
 import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
-import {getFirestore,doc,getDoc,setDoc,updateDoc,onSnapshot,deleteField,FieldPath} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
+import {getFirestore,doc,getDoc,setDoc,onSnapshot,deleteField} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
 const app=initializeApp({apiKey:"AIzaSyB_rkKpFM142C2VbaFu9SAUHtFrPpM4dg0",authDomain:"study-tracker-e985c.firebaseapp.com",projectId:"study-tracker-e985c",storageBucket:"study-tracker-e985c.firebasestorage.app",messagingSenderId:"530715315161",appId:"1:530715315161:web:9f34749eb4733248fe27c8"});
 const auth=getAuth(app),db=getFirestore(app);window.firebaseModuleReady=true;let ref=null,remote={},remoteSubjectData={},unsub=null,hydrating=false;
 const g=id=>document.getElementById(id);
 function status(user){
  window.googleProfileUser=user||null;g('profileBtn').style.display=user?'block':'none';
  if(user){g('ck').style.display='none';g('av').classList.add('signed');g('an').textContent=user.displayName||'Signed in';g('ae').textContent=user.email||'Cloud sync is on for this account.';g('lgb').style.display='none';g('so').style.display='block';g('avl').textContent='Account';if(user.photoURL){g('avi').src=user.photoURL;g('avi').style.display='block'}else{g('avi').style.display='none';g('avl').textContent=(user.displayName||user.email||'?')[0].toUpperCase()}}
- else{g('av').classList.remove('signed');g('an').textContent='Not signed in';g('ae').textContent='Your study log is saved on this browser. Sign in to sync it across devices.';g('lgb').style.display='block';g('so').style.display='none';g('avi').style.display='none';g('avl').textContent='Sign in'}
+ else{g('av').classList.remove('signed');g('an').textContent='Not signed in';g('ae').textContent='Sign in with Google to save your study log to your cloud account. Sign in to sync it across devices.';g('lgb').style.display='block';g('so').style.display='none';g('avi').style.display='none';g('avl').textContent='Sign in'}
 }
-g('lgb').onclick=()=>{g('mc').innerHTML='<div class="mh"><h2>☁️ Save your progress everywhere</h2><button class="g" id="mx">✕</button></div><p class="sub">Your study log already saves automatically in this browser — no account needed.</p><p>Sign in with Google to keep a private cloud copy and access your study hours on other devices. Your existing browser entries will be transferred into your account when you sign in.</p><div class="row" style="justify-content:flex-end;margin-top:16px"><button class="g" id="later">Maybe later</button><button id="cloudlogin">Sign in with Google</button></div><div class="sub" id="cloudmsg" style="margin-top:10px"></div>';window.openMo();g('mx').onclick=window.closeMo;g('later').onclick=window.closeMo;g('cloudlogin').onclick=async()=>{g('cloudmsg').textContent='Opening Google sign-in…';try{const result=await signInWithPopup(auth,new GoogleAuthProvider());window.closeMo();const who=result.user.displayName||'there';g('mc').innerHTML='<div style="text-align:center;font-size:2.5rem;margin:8px 0">☁️✨</div><div class="mh" style="justify-content:center"><h2>Welcome, '+String(who).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))+'!</h2></div><p style="text-align:center">You’re signed in. Your study progress is being saved to your cloud account so you can access it across devices.</p><p class="sub" style="text-align:center">We’ll bring your existing browser data into your account too. Keep studying — your progress is coming with you. 📚</p><div class="row" style="justify-content:center;margin-top:16px"><button id="welcomeok">Let’s go</button></div>';window.openMo();g('welcomeok').onclick=window.closeMo}catch(e){const code=e.code||'unknown';let detail=e.message||'Please try again.';if(code==='auth/unauthorized-domain')detail='This website hostname is not authorized in Firebase. Add it in Firebase Console → Authentication → Settings → Authorized domains.';else if(code==='auth/popup-blocked')detail='Your browser blocked the Google sign-in popup. Allow popups for this website and try again.';else if(code==='auth/operation-not-supported-in-this-environment')detail='Google sign-in needs HTTPS or http://localhost; it cannot run from a file:// page.';g('cloudmsg').textContent='Sign-in failed ('+code+'): '+detail}}};
+g('lgb').onclick=()=>{g('mc').innerHTML='<div class="mh"><h2>☁️ Save your progress everywhere</h2><button class="g" id="mx">✕</button></div><p class="sub">While signed out, changes are temporary and will not be saved.</p><p>Sign in with Google to save your study hours to your private cloud account and access them across devices. Guest changes will not be transferred.</p><div class="row" style="justify-content:flex-end;margin-top:16px"><button class="g" id="later">Maybe later</button><button id="cloudlogin">Sign in with Google</button></div><div class="sub" id="cloudmsg" style="margin-top:10px"></div>';window.openMo();g('mx').onclick=window.closeMo;g('later').onclick=window.closeMo;g('cloudlogin').onclick=async()=>{g('cloudmsg').textContent='Opening Google sign-in…';try{const result=await signInWithPopup(auth,new GoogleAuthProvider());window.closeMo();const who=result.user.displayName||'there';g('mc').innerHTML='<div style="text-align:center;font-size:2.5rem;margin:8px 0">☁️✨</div><div class="mh" style="justify-content:center"><h2>Welcome, '+String(who).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))+'!</h2></div><p style="text-align:center">You’re signed in. Your study progress is being saved to your cloud account so you can access it across devices.</p><p class="sub" style="text-align:center">Your account’s existing cloud data will load. Temporary guest changes will not be transferred. 📚</p><div class="row" style="justify-content:center;margin-top:16px"><button id="welcomeok">Let’s go</button></div>';window.openMo();g('welcomeok').onclick=window.closeMo}catch(e){const code=e.code||'unknown';let detail=e.message||'Please try again.';if(code==='auth/unauthorized-domain')detail='This website hostname is not authorized in Firebase. Add it in Firebase Console → Authentication → Settings → Authorized domains.';else if(code==='auth/popup-blocked')detail='Your browser blocked the Google sign-in popup. Allow popups for this website and try again.';else if(code==='auth/operation-not-supported-in-this-environment')detail='Google sign-in needs HTTPS or http://localhost; it cannot run from a file:// page.';g('cloudmsg').textContent='Sign-in failed ('+code+'): '+detail}}};
 g('ckg').onclick=()=>{dismissCloudReminder();g('lgb').click()};
 g('so').onclick=()=>signOut(auth);
 g('av').onclick=e=>{e.stopPropagation();g('am').classList.toggle('o')};g('am').onclick=e=>e.stopPropagation();document.addEventListener('click',()=>g('am').classList.remove('o'));
+let authLoadVersion=0;
+function clearTrackerState(){
+ hydrating=true;
+ window.setSubjectState({},[],'total');
+ window.setData({});
+ window.setDeletedLogs({});
+ window.setGoal(0);
+ window.setBadges({});
+ window.setGW({});
+ window.setHiddenGW({});
+ window.setExam(null);
+ hydrating=false;
+ render();
+}
 onAuthStateChanged(auth,async u=>{
- if(unsub){unsub();unsub=null}ref=null;remote={};status(u);
- if(!u)return;
- ref=doc(db,'users',u.uid);
+ const version=++authLoadVersion;
+ if(unsub){unsub();unsub=null}
+ ref=null;remote={};remoteSubjectData={};status(u);
+ if(!u){clearTrackerState();return}
+ const accountRef=doc(db,'users',u.uid);
+ ref=accountRef;
  try{
-  const snap=await getDoc(ref),cloud=snap.exists()?snap.data():{};
-  const local=(()=>{try{return JSON.parse(localStorage.getItem('studytracker.v1')||'{}')}catch(e){return {}}})();
-  const merged={...(cloud.data||{})};for(const k in (local.data||{})){const lv=+local.data[k]||0,rv=+merged[k]||0;merged[k]=Math.max(lv,rv)}
-  const mergedDeletedLogs={...(cloud.deletedLogs||{}),...(local.deletedLogs||{})};
-  for(const k in mergedDeletedLogs)if(mergedDeletedLogs[k]){delete merged[k];}
-  const mergedSubjectData={...(cloud.subjectData||{})};for(const k in (local.subjectData||{})){const cur={...(mergedSubjectData[k]||{})};for(const n in local.subjectData[k])cur[n]=Math.max(+cur[n]||0,+local.subjectData[k][n]||0);mergedSubjectData[k]=cur;if(Object.keys(cur).length)merged[k]=Math.max(+merged[k]||0,subjectTotal(cur))}
-  const mergedSubjects=Array.isArray(local.subjects)&&local.subjects.length?local.subjects:(cloud.subjects||[]);const mergedMode='total';
-  const mergedGoal=local.goal!==undefined?Math.max(0,+local.goal||0):(+cloud.goal||0);
-  const mergedBadges={...(cloud.badges||{}),...(local.badges||{})};
-  const mergedWeeks={...(cloud.goalWeeks||{}),...(local.goalWeeks||{})};
-  const mergedHiddenWeeks={...(cloud.hiddenGoalWeeks||{}),...(local.hiddenGoalWeeks||{})};
-  for(const k in mergedHiddenWeeks)if(mergedHiddenWeeks[k])delete mergedWeeks[k];
-  const mergedExam=local.exam||cloud.exam||null;
-  for(const k in mergedDeletedLogs)if(mergedDeletedLogs[k])delete mergedSubjectData[k];
-  await setDoc(ref,{data:merged,subjectData:mergedSubjectData,subjects:mergedSubjects,trackingMode:mergedMode,goal:mergedGoal,badges:mergedBadges,goalWeeks:mergedWeeks,hiddenGoalWeeks:mergedHiddenWeeks,deletedLogs:mergedDeletedLogs,exam:mergedExam},{merge:true});
-  remote=merged;remoteSubjectData=mergedSubjectData;hydrating=true;window.setSubjectState(mergedSubjectData,mergedSubjects,mergedMode);window.setData(merged);window.setDeletedLogs(mergedDeletedLogs);window.setGoal(mergedGoal);window.setBadges(mergedBadges);window.setGW(mergedWeeks);window.setHiddenGW(mergedHiddenWeeks);window.setExam(mergedExam);hydrating=false;
-  unsub=onSnapshot(ref,s=>{if(!s.exists())return;const d=s.data()||{};remote=d.data||{};remoteSubjectData=d.subjectData||{};hydrating=true;window.setSubjectState(remoteSubjectData,d.subjects||[],d.trackingMode||'total');window.setData({...remote});window.setDeletedLogs(d.deletedLogs||{});window.setBadges(d.badges||{});window.setGW(d.goalWeeks||{});window.setHiddenGW(d.hiddenGoalWeeks||{});window.setGoal(d.goal||0);window.setExam(d.exam||null);hydrating=false;});
- }catch(e){console.error(e);alert('Cloud sync could not start: '+(e.code||e.message)+'. Your browser copy is still available.')}
+  const snap=await getDoc(accountRef);
+  if(version!==authLoadVersion)return;
+  const cloud=snap.exists()?snap.data():{};
+  const cloudData=cloud.data&&typeof cloud.data==='object'?cloud.data:{};
+  const cloudSubjectData=cloud.subjectData&&typeof cloud.subjectData==='object'?cloud.subjectData:{};
+  const cloudSubjects=Array.isArray(cloud.subjects)?cloud.subjects:[];
+  const cloudMode=cloud.trackingMode==='subjects'?'subjects':'total';
+  const cloudGoal=Math.max(0,+cloud.goal||0);
+  const cloudBadges=cloud.badges&&typeof cloud.badges==='object'?cloud.badges:{};
+  const cloudWeeks=cloud.goalWeeks&&typeof cloud.goalWeeks==='object'?cloud.goalWeeks:{};
+  const cloudHiddenWeeks=cloud.hiddenGoalWeeks&&typeof cloud.hiddenGoalWeeks==='object'?cloud.hiddenGoalWeeks:{};
+  const cloudDeletedLogs=cloud.deletedLogs&&typeof cloud.deletedLogs==='object'?cloud.deletedLogs:{};
+  const cloudExam=cloud.exam||null;
+  for(const k in cloudDeletedLogs)if(cloudDeletedLogs[k]){
+   delete cloudData[k];delete cloudSubjectData[k];
+  }
+  remote=cloudData;remoteSubjectData=cloudSubjectData;
+  hydrating=true;
+  window.setSubjectState(cloudSubjectData,cloudSubjects,cloudMode);
+  window.setData(cloudData);
+  window.setDeletedLogs(cloudDeletedLogs);
+  window.setGoal(cloudGoal);
+  window.setBadges(cloudBadges);
+  window.setGW(cloudWeeks);
+  window.setHiddenGW(cloudHiddenWeeks);
+  window.setExam(cloudExam);
+  hydrating=false;
+  render();
+  unsub=onSnapshot(accountRef,s=>{
+   if(version!==authLoadVersion||!s.exists())return;
+   const d=s.data()||{};
+   const nextData=d.data&&typeof d.data==='object'?d.data:{};
+   const nextSubjectData=d.subjectData&&typeof d.subjectData==='object'?d.subjectData:{};
+   const nextDeleted=d.deletedLogs&&typeof d.deletedLogs==='object'?d.deletedLogs:{};
+   for(const k in nextDeleted)if(nextDeleted[k]){delete nextData[k];delete nextSubjectData[k]}
+   remote=nextData;remoteSubjectData=nextSubjectData;
+   hydrating=true;
+   window.setSubjectState(nextSubjectData,Array.isArray(d.subjects)?d.subjects:[],d.trackingMode==='subjects'?'subjects':'total');
+   window.setData({...nextData});
+   window.setDeletedLogs(nextDeleted);
+   window.setBadges(d.badges||{});
+   window.setGW(d.goalWeeks||{});
+   window.setHiddenGW(d.hiddenGoalWeeks||{});
+   window.setGoal(d.goal||0);
+   window.setExam(d.exam||null);
+   hydrating=false;
+   render();
+  },e=>console.error('Cloud listener failed',e));
+ }catch(e){
+  if(version!==authLoadVersion)return;
+  hydrating=false;ref=null;
+  console.error(e);
+  alert('Cloud sync could not start: '+(e.code||e.message)+'. No guest data was saved.');
+ }
 });
-window.cloudSave=async d=>{if(!ref||hydrating)return;try{const state=window.getSubjectState?window.getSubjectState():{};const sd=state.subjectData||{},sub=state.subjects||[],mode=state.trackingMode||'total',dl=window.getDeletedLogs?window.getDeletedLogs():{};await updateDoc(ref,{data:d,deletedLogs:dl,subjectData:sd,subjects:sub,trackingMode:mode});remote={...d};remoteSubjectData=JSON.parse(JSON.stringify(sd))}catch(e){console.error('Cloud save failed',e)}};
-window.saveBadges=async m=>{try{if(ref&&!hydrating)await updateDoc(ref,{badges:m})}catch(e){console.error(e)}};
-window.saveExam=async e=>{try{if(ref&&!hydrating)await updateDoc(ref,{exam:e||deleteField()})}catch(x){console.error(x)}};
+window.cloudSave=async d=>{if(!ref||hydrating)return;try{const state=window.getSubjectState?window.getSubjectState():{};const sd=state.subjectData||{},sub=state.subjects||[],mode=state.trackingMode||'total',dl=window.getDeletedLogs?window.getDeletedLogs():{};await setDoc(ref,{data:d,deletedLogs:dl,subjectData:sd,subjects:sub,trackingMode:mode},{merge:true});remote={...d};remoteSubjectData=JSON.parse(JSON.stringify(sd))}catch(e){console.error('Cloud save failed',e)}};
+window.saveBadges=async m=>{try{if(ref&&!hydrating)await setDoc(ref,{badges:m},{merge:true})}catch(e){console.error(e)}};
+window.saveExam=async e=>{try{if(ref&&!hydrating)await setDoc(ref,{exam:e||deleteField()},{merge:true})}catch(x){console.error(x)}};
 window.saveWelcomed=async()=>{};
-window.saveGW=async m=>{try{if(ref&&!hydrating)await updateDoc(ref,{goalWeeks:m})}catch(e){console.error(e)}};
-window.saveHiddenGW=async m=>{try{if(ref&&!hydrating)await updateDoc(ref,{hiddenGoalWeeks:m})}catch(e){console.error(e)}};
-window.saveGoal=async v=>{try{if(ref&&!hydrating)await updateDoc(ref,{goal:v})}catch(e){console.error(e)}};
+window.saveGW=async m=>{try{if(ref&&!hydrating)await setDoc(ref,{goalWeeks:m},{merge:true})}catch(e){console.error(e)}};
+window.saveHiddenGW=async m=>{try{if(ref&&!hydrating)await setDoc(ref,{hiddenGoalWeeks:m},{merge:true})}catch(e){console.error(e)}};
+window.saveGoal=async v=>{try{if(ref&&!hydrating)await setDoc(ref,{goal:v},{merge:true})}catch(e){console.error(e)}};
 </script></body></html>
