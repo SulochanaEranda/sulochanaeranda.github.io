@@ -166,9 +166,9 @@ button:disabled{opacity:.4;cursor:default}
 <div id="mo"><div id="mc"></div></div>
 <div id="ck"><span><b>Welcome!</b> Sign in with Google to save your study hours in the cloud and sync across devices. Your data stays in this browser if you choose later.</span><div class="row" style="gap:6px;flex-wrap:nowrap;align-items:center"><button id="ckg" style="white-space:nowrap;padding:8px 12px">Sign in with Google</button><button class="g" id="cka" style="white-space:nowrap">Maybe later</button></div></div>
 <script>
-const K='studytracker.v1',TK='studytracker.theme';let data={},goal=0,sel=null,view=null,trackingMode='total',subjects=[],subjectData={},deletedLogs={};
+const K='studytracker.guest.v1',LEGACY_K='studytracker.v1',TK='studytracker.theme';let data={},goal=0,sel=null,view=null,trackingMode='total',subjects=[],subjectData={},deletedLogs={};
 
-function persistLocal(){} function save(){if(window.cloudSave)window.cloudSave(data)}
+function persistLocal(){if(window.googleProfileUser)return;try{localStorage.setItem(K,JSON.stringify({data,subjectData,subjects,trackingMode,goal:goal||0,badges:bsaved||{},goalWeeks:gws||{},hiddenGoalWeeks:hiddenGoalWeeks||{},deletedLogs:deletedLogs||{},exam:exam||null}))}catch(e){}} function save(){if(window.googleProfileUser){if(window.cloudSave)window.cloudSave(data)}else{persistLocal()}}
 const $=id=>document.getElementById(id);
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const parse=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
@@ -624,6 +624,9 @@ $('rs').onclick=()=>$('rf').click();
 $('rf').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(imp);e.target.value=''};
 $('bk').onclick=()=>{const b=new Blob([JSON.stringify({data,subjectData,subjects,trackingMode},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='study-backup-'+iso(new Date())+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
 window.setData=d=>{data=d||{};render();persistLocal()};window.setDeletedLogs=d=>{deletedLogs=d&&typeof d==='object'?{...d}:{};persistLocal()};window.getDeletedLogs=()=>deletedLogs;window.getData=()=>data;window.getSubjectState=()=>({subjectData,subjects,trackingMode});window.setSubjectState=(sd,sub,mode)=>{subjectData=sd&&typeof sd==='object'?sd:{};subjects=Array.isArray(sub)?sub:[];trackingMode=mode==='subjects'?'subjects':'total';updateModeUI()};
+window.readGuestState=()=>{try{return JSON.parse(localStorage.getItem(K)||localStorage.getItem(LEGACY_K)||'null')}catch(e){return null}};
+window.loadGuestState=()=>{try{const saved=window.readGuestState();if(!saved||typeof saved!=='object')return false;data=saved.data&&typeof saved.data==='object'?{...saved.data}:{};subjectData=saved.subjectData&&typeof saved.subjectData==='object'?JSON.parse(JSON.stringify(saved.subjectData)):{ };subjects=Array.isArray(saved.subjects)?[...saved.subjects]:[];trackingMode=saved.trackingMode==='subjects'?'subjects':'total';goal=Math.max(0,+saved.goal||0);bsaved=saved.badges&&typeof saved.badges==='object'?{...saved.badges}:{};gws=saved.goalWeeks&&typeof saved.goalWeeks==='object'?{...saved.goalWeeks}:{};hiddenGoalWeeks=saved.hiddenGoalWeeks&&typeof saved.hiddenGoalWeeks==='object'?{...saved.hiddenGoalWeeks}:{};deletedLogs=saved.deletedLogs&&typeof saved.deletedLogs==='object'?{...saved.deletedLogs}:{};setExamVal(saved.exam||null);$('goal').value=goal||'';for(const k in deletedLogs)if(deletedLogs[k]){delete data[k];delete subjectData[k]}persistLocal();updateModeUI();render();return true}catch(e){return false}};
+window.loadGuestState();
 updateModeUI();render();
 </script>
 <script type="module">
@@ -631,55 +634,57 @@ import {initializeApp} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-
 import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
 import {getFirestore,doc,getDoc,setDoc,onSnapshot,deleteField} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
 const app=initializeApp({apiKey:"AIzaSyB_rkKpFM142C2VbaFu9SAUHtFrPpM4dg0",authDomain:"study-tracker-e985c.firebaseapp.com",projectId:"study-tracker-e985c",storageBucket:"study-tracker-e985c.firebasestorage.app",messagingSenderId:"530715315161",appId:"1:530715315161:web:9f34749eb4733248fe27c8"});
-const auth=getAuth(app),db=getFirestore(app);window.firebaseModuleReady=true;let ref=null,remote={},remoteSubjectData={},unsub=null,hydrating=false;
+const auth=getAuth(app),db=getFirestore(app);window.firebaseModuleReady=true;let ref=null,remote={},remoteSubjectData={},unsub=null,hydrating=false,writeQueue=Promise.resolve();
 const g=id=>document.getElementById(id);
+function showCloudError(e){const code=e&&e.code?e.code:'unknown';const msg='Cloud save failed ('+code+'). '+(e&&e.message?e.message:'Check your connection and Firebase Firestore rules.');console.error(msg,e);const el=g('ae');if(el)el.textContent=msg;const m=g('msg');if(m)m.textContent=msg;}
+function queueCloudWrite(patch){
+ if(!ref||hydrating)return Promise.resolve(false);
+ const target=ref;
+ // Recover the queue after an earlier failed write. Replace each supplied top-level
+ // field as a whole so removed dates/tombstones inside maps do not linger in Firestore.
+ const fields=Object.keys(patch);
+ writeQueue=writeQueue.catch(()=>{}).then(()=>setDoc(target,patch,{mergeFields:fields}));
+ return writeQueue.then(()=>true).catch(e=>{showCloudError(e);return false});
+}
 function status(user){
  window.googleProfileUser=user||null;g('profileBtn').style.display=user?'block':'none';
  if(user){g('ck').style.display='none';g('av').classList.add('signed');g('an').textContent=user.displayName||'Signed in';g('ae').textContent=user.email||'Cloud sync is on for this account.';g('lgb').style.display='none';g('so').style.display='block';g('avl').textContent='Account';if(user.photoURL){g('avi').src=user.photoURL;g('avi').style.display='block'}else{g('avi').style.display='none';g('avl').textContent=(user.displayName||user.email||'?')[0].toUpperCase()}}
  else{g('av').classList.remove('signed');g('an').textContent='Not signed in';g('ae').textContent='Sign in with Google to save your study log to your cloud account. Sign in to sync it across devices.';g('lgb').style.display='block';g('so').style.display='none';g('avi').style.display='none';g('avl').textContent='Sign in'}
 }
-g('lgb').onclick=()=>{g('mc').innerHTML='<div class="mh"><h2>☁️ Save your progress everywhere</h2><button class="g" id="mx">✕</button></div><p class="sub">While signed out, changes are temporary and will not be saved.</p><p>Sign in with Google to save your study hours to your private cloud account and access them across devices. Guest changes will not be transferred.</p><div class="row" style="justify-content:flex-end;margin-top:16px"><button class="g" id="later">Maybe later</button><button id="cloudlogin">Sign in with Google</button></div><div class="sub" id="cloudmsg" style="margin-top:10px"></div>';window.openMo();g('mx').onclick=window.closeMo;g('later').onclick=window.closeMo;g('cloudlogin').onclick=async()=>{g('cloudmsg').textContent='Opening Google sign-in…';try{const result=await signInWithPopup(auth,new GoogleAuthProvider());window.closeMo();const who=result.user.displayName||'there';g('mc').innerHTML='<div style="text-align:center;font-size:2.5rem;margin:8px 0">☁️✨</div><div class="mh" style="justify-content:center"><h2>Welcome, '+String(who).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))+'!</h2></div><p style="text-align:center">You’re signed in. Your study progress is being saved to your cloud account so you can access it across devices.</p><p class="sub" style="text-align:center">Your account’s existing cloud data will load. Temporary guest changes will not be transferred. 📚</p><div class="row" style="justify-content:center;margin-top:16px"><button id="welcomeok">Let’s go</button></div>';window.openMo();g('welcomeok').onclick=window.closeMo}catch(e){const code=e.code||'unknown';let detail=e.message||'Please try again.';if(code==='auth/unauthorized-domain')detail='This website hostname is not authorized in Firebase. Add it in Firebase Console → Authentication → Settings → Authorized domains.';else if(code==='auth/popup-blocked')detail='Your browser blocked the Google sign-in popup. Allow popups for this website and try again.';else if(code==='auth/operation-not-supported-in-this-environment')detail='Google sign-in needs HTTPS or http://localhost; it cannot run from a file:// page.';g('cloudmsg').textContent='Sign-in failed ('+code+'): '+detail}}};
+g('lgb').onclick=()=>{g('mc').innerHTML='<div class="mh"><h2>☁️ Save your progress everywhere</h2><button class="g" id="mx">✕</button></div><p class="sub">While signed out, your separate guest records are saved in this browser.</p><p>If this is your first time creating a Google account for the tracker, your saved browser records will be imported once. If the account already exists, only its cloud records will load; guest changes will not be merged.</p><div class="row" style="justify-content:flex-end;margin-top:16px"><button class="g" id="later">Maybe later</button><button id="cloudlogin">Sign in with Google</button></div><div class="sub" id="cloudmsg" style="margin-top:10px"></div>';window.openMo();g('mx').onclick=window.closeMo;g('later').onclick=window.closeMo;g('cloudlogin').onclick=async()=>{g('cloudmsg').textContent='Opening Google sign-in…';try{const result=await signInWithPopup(auth,new GoogleAuthProvider());window.closeMo();const who=result.user.displayName||'there';g('mc').innerHTML='<div style="text-align:center;font-size:2.5rem;margin:8px 0">☁️✨</div><div class="mh" style="justify-content:center"><h2>Welcome, '+String(who).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))+'!</h2></div><p style="text-align:center">You’re signed in. Your study progress is being saved to your cloud account so you can access it across devices.</p><p class="sub" style="text-align:center">A brand-new account imports this browser’s saved records once. Existing accounts load cloud data only; guest changes are not merged. 📚</p><div class="row" style="justify-content:center;margin-top:16px"><button id="welcomeok">Let’s go</button></div>';window.openMo();g('welcomeok').onclick=window.closeMo}catch(e){const code=e.code||'unknown';let detail=e.message||'Please try again.';if(code==='auth/unauthorized-domain')detail='This website hostname is not authorized in Firebase. Add it in Firebase Console → Authentication → Settings → Authorized domains.';else if(code==='auth/popup-blocked')detail='Your browser blocked the Google sign-in popup. Allow popups for this website and try again.';else if(code==='auth/operation-not-supported-in-this-environment')detail='Google sign-in needs HTTPS or http://localhost; it cannot run from a file:// page.';g('cloudmsg').textContent='Sign-in failed ('+code+'): '+detail}}};
 g('ckg').onclick=()=>{dismissCloudReminder();g('lgb').click()};
 g('so').onclick=()=>signOut(auth);
 g('av').onclick=e=>{e.stopPropagation();g('am').classList.toggle('o')};g('am').onclick=e=>e.stopPropagation();document.addEventListener('click',()=>g('am').classList.remove('o'));
 let authLoadVersion=0;
-function clearTrackerState(){
- hydrating=true;
- window.setSubjectState({},[],'total');
- window.setData({});
- window.setDeletedLogs({});
- window.setGoal(0);
- window.setBadges({});
- window.setGW({});
- window.setHiddenGW({});
- window.setExam(null);
- hydrating=false;
- render();
-}
+function clearTrackerState(){hydrating=true;ref=null;window.loadGuestState();hydrating=false;render();}
+
 onAuthStateChanged(auth,async u=>{
  const version=++authLoadVersion;
  if(unsub){unsub();unsub=null}
  ref=null;remote={};remoteSubjectData={};status(u);
  if(!u){clearTrackerState();return}
  const accountRef=doc(db,'users',u.uid);
- ref=accountRef;
+ ref=accountRef;hydrating=true;
  try{
   const snap=await getDoc(accountRef);
   if(version!==authLoadVersion)return;
   const cloud=snap.exists()?snap.data():{};
-  const cloudData=cloud.data&&typeof cloud.data==='object'?cloud.data:{};
-  const cloudSubjectData=cloud.subjectData&&typeof cloud.subjectData==='object'?cloud.subjectData:{};
-  const cloudSubjects=Array.isArray(cloud.subjects)?cloud.subjects:[];
-  const cloudMode=cloud.trackingMode==='subjects'?'subjects':'total';
-  const cloudGoal=Math.max(0,+cloud.goal||0);
-  const cloudBadges=cloud.badges&&typeof cloud.badges==='object'?cloud.badges:{};
-  const cloudWeeks=cloud.goalWeeks&&typeof cloud.goalWeeks==='object'?cloud.goalWeeks:{};
-  const cloudHiddenWeeks=cloud.hiddenGoalWeeks&&typeof cloud.hiddenGoalWeeks==='object'?cloud.hiddenGoalWeeks:{};
-  const cloudDeletedLogs=cloud.deletedLogs&&typeof cloud.deletedLogs==='object'?cloud.deletedLogs:{};
-  const cloudExam=cloud.exam||null;
+  // Browser records are imported only when this Google account has no tracker document yet.
+  const source=!snap.exists()?(window.readGuestState()||{}):{};
+  const cloudData=cloud.data&&typeof cloud.data==='object'?cloud.data:(source.data||{});
+  const cloudSubjectData=cloud.subjectData&&typeof cloud.subjectData==='object'?cloud.subjectData:(source.subjectData||{});
+  const cloudSubjects=Array.isArray(cloud.subjects)?cloud.subjects:(source.subjects||[]);
+  const cloudMode=(cloud.trackingMode||source.trackingMode)==='subjects'?'subjects':'total';
+  const cloudGoal=Math.max(0,+(cloud.goal!==undefined?cloud.goal:source.goal)||0);
+  const cloudBadges=cloud.badges&&typeof cloud.badges==='object'?cloud.badges:(source.badges||{});
+  const cloudWeeks=cloud.goalWeeks&&typeof cloud.goalWeeks==='object'?cloud.goalWeeks:(source.goalWeeks||{});
+  const cloudHiddenWeeks=cloud.hiddenGoalWeeks&&typeof cloud.hiddenGoalWeeks==='object'?cloud.hiddenGoalWeeks:(source.hiddenGoalWeeks||{});
+  const cloudDeletedLogs=cloud.deletedLogs&&typeof cloud.deletedLogs==='object'?cloud.deletedLogs:(source.deletedLogs||{});
+  const cloudExam=cloud.exam||source.exam||null;
   for(const k in cloudDeletedLogs)if(cloudDeletedLogs[k]){
    delete cloudData[k];delete cloudSubjectData[k];
   }
+  if(!snap.exists()){await setDoc(accountRef,{data:cloudData,subjectData:cloudSubjectData,subjects:cloudSubjects,trackingMode:cloudMode,goal:cloudGoal,badges:cloudBadges,goalWeeks:cloudWeeks,hiddenGoalWeeks:cloudHiddenWeeks,deletedLogs:cloudDeletedLogs,exam:cloudExam},{merge:true});}
   remote=cloudData;remoteSubjectData=cloudSubjectData;
   hydrating=true;
   window.setSubjectState(cloudSubjectData,cloudSubjects,cloudMode);
@@ -719,11 +724,11 @@ onAuthStateChanged(auth,async u=>{
   alert('Cloud sync could not start: '+(e.code||e.message)+'. No guest data was saved.');
  }
 });
-window.cloudSave=async d=>{if(!ref||hydrating)return;try{const state=window.getSubjectState?window.getSubjectState():{};const sd=state.subjectData||{},sub=state.subjects||[],mode=state.trackingMode||'total',dl=window.getDeletedLogs?window.getDeletedLogs():{};await setDoc(ref,{data:d,deletedLogs:dl,subjectData:sd,subjects:sub,trackingMode:mode},{merge:true});remote={...d};remoteSubjectData=JSON.parse(JSON.stringify(sd))}catch(e){console.error('Cloud save failed',e)}};
-window.saveBadges=async m=>{try{if(ref&&!hydrating)await setDoc(ref,{badges:m},{merge:true})}catch(e){console.error(e)}};
-window.saveExam=async e=>{try{if(ref&&!hydrating)await setDoc(ref,{exam:e||deleteField()},{merge:true})}catch(x){console.error(x)}};
+window.cloudSave=async d=>{if(!ref||hydrating)return false;const state=window.getSubjectState?window.getSubjectState():{};const sd=state.subjectData||{},sub=state.subjects||[],mode=state.trackingMode||'total',dl=window.getDeletedLogs?window.getDeletedLogs():{};const ok=await queueCloudWrite({data:d,deletedLogs:dl,subjectData:sd,subjects:sub,trackingMode:mode});if(ok){remote={...d};remoteSubjectData=JSON.parse(JSON.stringify(sd));const el=g('ae');if(el&&window.googleProfileUser)el.textContent='Cloud sync is on for this account.'}return ok};
+window.saveBadges=async m=>queueCloudWrite({badges:m});
+window.saveExam=async e=>queueCloudWrite({exam:e||deleteField()});
 window.saveWelcomed=async()=>{};
-window.saveGW=async m=>{try{if(ref&&!hydrating)await setDoc(ref,{goalWeeks:m},{merge:true})}catch(e){console.error(e)}};
-window.saveHiddenGW=async m=>{try{if(ref&&!hydrating)await setDoc(ref,{hiddenGoalWeeks:m},{merge:true})}catch(e){console.error(e)}};
-window.saveGoal=async v=>{try{if(ref&&!hydrating)await setDoc(ref,{goal:v},{merge:true})}catch(e){console.error(e)}};
+window.saveGW=async m=>queueCloudWrite({goalWeeks:m});
+window.saveHiddenGW=async m=>queueCloudWrite({hiddenGoalWeeks:m});
+window.saveGoal=async v=>queueCloudWrite({goal:v});
 </script></body></html>
