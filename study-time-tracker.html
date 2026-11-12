@@ -45,6 +45,13 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 .sc,.heat-scroll,.ls,.gwl{-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 button{touch-action:manipulation}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+/* Keep cached guest data hidden until Firebase confirms the active account and cloud data. */
+#authBoot{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--bg1);background-image:radial-gradient(circle at 12% 8%,var(--bg1),transparent 55%),radial-gradient(circle at 90% 20%,var(--bg2),transparent 50%),radial-gradient(circle at 50% 95%,var(--bg3),transparent 55%);opacity:1;visibility:visible;transition:opacity .2s ease,visibility .2s ease}
+#authBoot.done{opacity:0;visibility:hidden;pointer-events:none}
+.authBootBox{text-align:center;max-width:280px;color:var(--tx)}
+.authBootSpin{width:38px;height:38px;margin:0 auto 14px;border:4px solid var(--grid);border-top-color:var(--ac);border-radius:50%;animation:authSpin .8s linear infinite}
+@keyframes authSpin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){#authBoot{transition:none}.authBootSpin{animation:none;border-top-color:var(--grid);border-right-color:var(--ac)}}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
 label{display:flex;flex-direction:column;font-size:.8rem;color:var(--mu);gap:4px}
 input,.dbtn{font:inherit;padding:9px 10px;border:1px solid var(--cb);border-radius:11px;background:var(--in);color:var(--tx);width:100px}
@@ -128,7 +135,7 @@ button:disabled{opacity:.4;cursor:default}
 .pitch-lines *{fill:none;stroke:rgba(255,255,255,.82);stroke-width:3;vector-effect:non-scaling-stroke}
 .heat-legend{display:flex;justify-content:flex-end;align-items:center;gap:7px;margin-top:8px;color:var(--mu);font-size:.7rem}.heat-swatch{width:17px;height:10px;border-radius:50%;display:inline-block}.heat-swatch.low{background:#f8d84b;opacity:.55}.heat-swatch.mid{background:#ff8a28}.heat-swatch.high{background:#ed3028}
 @media(max-width:520px){.modebar{align-items:flex-start}.modebar .actions{width:100%}.modebar button{flex:1}}
-</style></head><body><div class="w">
+</style></head><body><div id="authBoot" role="status" aria-live="polite"><div class="authBootBox"><div class="authBootSpin" aria-hidden="true"></div><strong>Loading your study tracker…</strong><div class="sub" style="margin:7px 0 0">Checking your account and syncing your data</div></div></div><script>window.finishAuthBoot=function(){var e=document.getElementById("authBoot");if(e)e.classList.add("done")};</script><div class="w">
 <div class="top"><div><h1><img class="lgo" src="str/images/study-time-tracker-logo.svg" alt="">Study Time Tracker</h1><div class="sub">Log your daily study time. Guest changes are temporary; sign in with Google to save them to your cloud account.</div></div><div style="display:flex;gap:8px;align-items:center"><button class="tg" id="tg" title="Themes">🎨</button><div class="cw"><button class="av" id="av" title="Account"><img id="avi" alt="" referrerpolicy="no-referrer"><span id="avl"></span></button><div class="pop" id="am" style="width:260px;left:auto;right:0;text-align:center"><div id="an" style="font-weight:600">Not signed in</div><div class="sub" id="ae" style="margin:0 0 10px;word-break:break-word">Sign in with Google to save your study log to your cloud account.</div><button class="g" id="profileBtn" style="display:none;width:100%;margin-bottom:7px">👤 My study profile</button><button id="lgb">☁️ Sign in to sync</button><button class="g" id="so" style="display:none">Sign out</button></div></div></div></div>
 
 <div class="modebar"><div><div class="mode-name" id="modeLabel">Tracking mode · Total study time</div><div class="sub" style="margin:3px 0 0;font-size:.78rem">Choose how you want to record your study time.</div></div><div class="actions"><button id="totalModeBtn" type="button">Total mode</button><button class="g" id="subjectModeBtn" type="button">Subject-wise mode</button><button class="g" id="subjectSetupBtn" style="display:none" type="button">Edit subjects</button></div></div>
@@ -565,7 +572,7 @@ function bstats(){
  ks.forEach(k=>{const c=parse(k);run=(prev&&Math.round((c-prev)/864e5)===1)?run+1:1;if(run>best)best=run;prev=c;tot+=data[k];const w=iso(monday(c));(wkm[w]=wkm[w]||{m:0,d:0});wkm[w].m+=data[k];wkm[w].d++});
  let bw=0,full=false;for(const w in wkm){if(wkm[w].m>bw)bw=wkm[w].m;if(wkm[w].d>=7)full=true}
  return {best,hrs:tot/60,bw:bw/60,full,goalDone:goal>0&&sumRange(monday(todayD()),7)>=goal*60}}
-function toast(l){const t=$('bt');t.innerHTML='<b>🎉 Badge unlocked!</b><br>'+l.map(b=>b[2]+' '+b[1]+' · '+b[4]).join('<br>')+(l.length===1?'<br><button class="g" id="tsh" style="margin-top:6px">Share ↗</button>':'');if(l.length===1)$('tsh').onclick=()=>shareBadge(l[0][0]);t.classList.add('s');clearTimeout(btt);btt=setTimeout(()=>t.classList.remove('s'),5500)}
+function toast(l){/* Intentionally disabled: badge notifications must never interrupt the user. */}
 function renderBadges(){
  const x=bstats(),tc={bronze:'#cd7f32',silver:'#c0c8d4',gold:'#f5c542',diamond:'#67e8f9'};
  const now=BD.filter(b=>b[5](x)).map(b=>b[0]),fresh=[];
@@ -573,7 +580,7 @@ function renderBadges(){
  let n=0,h='';
  BD.forEach(b=>{const u=(bsaved&&bsaved[b[0]])||now.includes(b[0]);if(u)n++;h+='<div class="bd'+(u?'':' lk')+'" style="--rc:'+tc[b[3]]+'" title="'+b[4]+'"><div class="ic">'+(u?b[2]:'🔒')+'</div><b>'+b[1]+'</b><span>'+b[4]+'</span>'+(u?'<button class="g shb" data-sh="'+b[0]+'">Share ↗</button>':'')+'</div>'});
  $('bgd').innerHTML=h;$('bc').textContent=n+' / '+BD.length+' unlocked';
- if(fresh.length&&!bsilent)toast(fresh.map(id=>BD.find(b=>b[0]===id)));
+ /* Automatic badge popups disabled: keep badge tracking and saving, but never show an unlock toast on page load or account sync. */
  if(bsaved!==null)bsilent=false}
 let gws=null,gwBack=false,hiddenGoalWeeks={};
 window.setGW=g=>{gws=g&&typeof g==='object'?JSON.parse(JSON.stringify(g)):{};persistLocal()};
@@ -703,7 +710,7 @@ onAuthStateChanged(auth,async u=>{
  const version=++authLoadVersion;
  if(unsub){unsub();unsub=null}
  ref=null;remote={};remoteSubjectData={};status(u);
- if(!u){clearTrackerState();return}
+ if(!u){clearTrackerState();window.finishAuthBoot();return}
  const accountRef=doc(db,'users',u.uid);
  ref=accountRef;hydrating=true;
  try{
@@ -738,6 +745,7 @@ onAuthStateChanged(auth,async u=>{
   window.setExam(cloudExam);
   hydrating=false;
   render();
+  window.finishAuthBoot();
   unsub=onSnapshot(accountRef,s=>{
    if(version!==authLoadVersion||!s.exists())return;
    const d=s.data()||{};
@@ -762,7 +770,9 @@ onAuthStateChanged(auth,async u=>{
   if(version!==authLoadVersion)return;
   hydrating=false;ref=null;
   console.error(e);
-  alert('Cloud sync could not start: '+(e.code||e.message)+'. No guest data was saved.');
+  window.setData({});window.setSubjectState({},[],'total');window.setDeletedLogs({});window.setGoal(0);window.setBadges({});window.setGW({});window.setHiddenGW({});window.setExam(null);render();
+  window.finishAuthBoot();
+  alert('Cloud sync could not start: '+(e.code||e.message)+'. Your local guest data was kept separate and was not displayed. Please check your connection and reload.');
  }
 });
 window.cloudSave=async d=>{if(!ref||hydrating)return false;const state=window.getSubjectState?window.getSubjectState():{};const sd=state.subjectData||{},sub=state.subjects||[],mode=state.trackingMode||'total',dl=window.getDeletedLogs?window.getDeletedLogs():{};const ok=await queueCloudWrite({data:d,deletedLogs:dl,subjectData:sd,subjects:sub,trackingMode:mode});if(ok){remote={...d};remoteSubjectData=JSON.parse(JSON.stringify(sd));const el=g('ae');if(el&&window.googleProfileUser)el.textContent='Cloud sync is on for this account.'}return ok};
