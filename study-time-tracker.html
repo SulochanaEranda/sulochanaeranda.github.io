@@ -160,7 +160,7 @@ button:disabled{opacity:.4;cursor:default}
 <div class="cd"><div><b id="cd1">0</b><span>days</span></div><div><b id="cd2">0</b><span>hours</span></div><div><b id="cd3">0</b><span>minutes</span></div><div><b id="cd4">0</b><span>seconds</span></div></div>
 <div class="sub" id="cdi" style="margin:10px 0 0"></div></div>
 <div class="card"><h2>Log</h2><div style="margin-bottom:6px"><button class="g" id="bk">⬇ Download backup</button><button class="g" id="rs">Restore backup</button><button class="g" id="im">Import pasted data</button><input type="file" id="rf" accept=".json,application/json" hidden></div><div id="log"></div></div>
-<div class="sub" style="text-align:center;margin:18px 0 8px">Made by SulochanaEranda</div>
+<div class="sub" style="text-align:center;margin:18px 0 8px">Made by <a href="https://sulochanaeranda.github.io/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;font-weight:600">SulochanaEranda</a> <span aria-label="love" style="color:#f472b6">♥</span></div>
 </div>
 <div id="bt"></div>
 <div id="mo"><div id="mc"></div></div>
@@ -330,7 +330,8 @@ function drawDayCard(o){return new Promise(res=>{
  o.week.forEach((v,i)=>{const h=Math.max(v?10:4,(v/60/max)*190);rr(left+i*gap,base-h,bw,h,12);x.fillStyle=i===o.index?'#34d399':'rgba(148,163,184,.48)';x.fill();x.fillStyle=i===o.index?'#fff':'#94a3b8';x.font='600 23px system-ui,"Segoe UI",sans-serif';x.textAlign='center';x.fillText(o.labels[i],left+i*gap+bw/2,base+42);});
  x.textAlign='left';x.fillStyle='#94a3b8';x.font='500 24px system-ui,"Segoe UI",sans-serif';x.fillText('THIS WEEK · DAILY OVERVIEW',112,930);
  x.fillStyle='#cbd5e1';x.font='500 23px system-ui,"Segoe UI",sans-serif';x.fillText(SITE.replace('https://',''),112,984);
- res(c);
+ const photo=window.googleProfileUser&&window.googleProfileUser.photoURL;
+ if(photo){const im=new Image();im.crossOrigin='anonymous';im.onload=()=>{x.save();x.beginPath();x.arc(895,137,48,0,Math.PI*2);x.closePath();x.clip();x.drawImage(im,847,89,96,96);x.restore();x.beginPath();x.arc(895,137,50,0,Math.PI*2);x.strokeStyle='rgba(255,255,255,.8)';x.lineWidth=4;x.stroke();res(c)};im.onerror=()=>res(c);im.src=photo}else res(c);
 })}
 function shareDay(date){
  const d=parse(date),weekStart=monday(d),index=Math.round((d-weekStart)/864e5),labels=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
@@ -529,7 +530,7 @@ function renderStats(){
 window.setGoal=g=>{goal=+g||0;if(document.activeElement!==$('goal'))$('goal').value=goal||'';renderStats();persistLocal()};
 $('goal').onchange=()=>{goal=Math.max(0,Math.floor(+$('goal').value)||0);$('goal').value=goal||'';delete hiddenGoalWeeks[iso(monday(todayD()))];renderStats();renderBadges();trackGW();persistLocal();if(window.saveGoal)window.saveGoal(goal);if(window.saveHiddenGW)window.saveHiddenGW(hiddenGoalWeeks)};
 let bsaved=null,bsilent=false,btt=0;
-window.setBadges=b=>{if(bsaved===null){bsaved=b?{...b}:{};bsilent=!b}else if(b)Object.assign(bsaved,b);persistLocal()};
+window.setBadges=b=>{if(bsaved===null){bsaved=b?{...b}:{};bsilent=true}else if(b){bsaved={...b};bsilent=true}persistLocal()};
 window.resetBadges=()=>{gws=null;gwBack=false;bsaved=null;wshown=false;setExamVal(null);closeMo()};
 const BD=[
 ['s3','Spark','✨','bronze','3-day streak',x=>x.best>=3],
@@ -659,7 +660,7 @@ $('rf').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(imp);e.target.
 $('bk').onclick=()=>{const b=new Blob([JSON.stringify({data,subjectData,subjects,trackingMode},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='study-backup-'+iso(new Date())+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
 window.setData=d=>{data=d||{};render();persistLocal()};window.setDeletedLogs=d=>{deletedLogs=d&&typeof d==='object'?{...d}:{};persistLocal()};window.getDeletedLogs=()=>deletedLogs;window.getData=()=>data;window.getSubjectState=()=>({subjectData,subjects,trackingMode});window.setSubjectState=(sd,sub,mode)=>{subjectData=sd&&typeof sd==='object'?sd:{};subjects=Array.isArray(sub)?sub:[];trackingMode=mode==='subjects'?'subjects':'total';updateModeUI()};
 window.readGuestState=()=>{try{return JSON.parse(localStorage.getItem(K)||localStorage.getItem(LEGACY_K)||'null')}catch(e){return null}};
-window.loadGuestState=()=>{try{const saved=window.readGuestState();if(!saved||typeof saved!=='object')return false;data=saved.data&&typeof saved.data==='object'?{...saved.data}:{};subjectData=saved.subjectData&&typeof saved.subjectData==='object'?JSON.parse(JSON.stringify(saved.subjectData)):{ };subjects=Array.isArray(saved.subjects)?[...saved.subjects]:[];trackingMode=saved.trackingMode==='subjects'?'subjects':'total';goal=Math.max(0,+saved.goal||0);bsaved=saved.badges&&typeof saved.badges==='object'?{...saved.badges}:{};gws=saved.goalWeeks&&typeof saved.goalWeeks==='object'?{...saved.goalWeeks}:{};hiddenGoalWeeks=saved.hiddenGoalWeeks&&typeof saved.hiddenGoalWeeks==='object'?{...saved.hiddenGoalWeeks}:{};deletedLogs=saved.deletedLogs&&typeof saved.deletedLogs==='object'?{...saved.deletedLogs}:{};setExamVal(saved.exam||null);$('goal').value=goal||'';for(const k in deletedLogs)if(deletedLogs[k]){delete data[k];delete subjectData[k]}persistLocal();updateModeUI();render();return true}catch(e){return false}};
+window.loadGuestState=()=>{try{const saved=window.readGuestState();if(!saved||typeof saved!=='object')return false;data=saved.data&&typeof saved.data==='object'?{...saved.data}:{};subjectData=saved.subjectData&&typeof saved.subjectData==='object'?JSON.parse(JSON.stringify(saved.subjectData)):{ };subjects=Array.isArray(saved.subjects)?[...saved.subjects]:[];trackingMode=saved.trackingMode==='subjects'?'subjects':'total';goal=Math.max(0,+saved.goal||0);bsaved=saved.badges&&typeof saved.badges==='object'?{...saved.badges}:{};bsilent=true;gws=saved.goalWeeks&&typeof saved.goalWeeks==='object'?{...saved.goalWeeks}:{};hiddenGoalWeeks=saved.hiddenGoalWeeks&&typeof saved.hiddenGoalWeeks==='object'?{...saved.hiddenGoalWeeks}:{};deletedLogs=saved.deletedLogs&&typeof saved.deletedLogs==='object'?{...saved.deletedLogs}:{};setExamVal(saved.exam||null);$('goal').value=goal||'';for(const k in deletedLogs)if(deletedLogs[k]){delete data[k];delete subjectData[k]}persistLocal();updateModeUI();render();return true}catch(e){return false}};
 window.loadGuestState();
 updateModeUI();render();
 </script>
