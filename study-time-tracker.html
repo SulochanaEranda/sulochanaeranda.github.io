@@ -112,7 +112,7 @@ button:disabled{opacity:.4;cursor:default}
 #ck{display:none;position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:300;width:min(580px,94vw);gap:12px;align-items:center;padding:12px 14px;border-radius:16px;background:var(--pop,#fff);color:var(--tx);border:1px solid var(--cb);box-shadow:var(--sh);font-size:.85rem}#ck>span{flex:1 1 230px;min-width:0}#ck .row{flex:0 0 auto}@media(max-width:520px){#ck{align-items:flex-start;flex-wrap:wrap;gap:8px}#ck .row{width:100%;justify-content:flex-end}}
 .tt em{position:absolute;top:6px;left:8px;font-style:normal;font-size:1.35rem}.chip{flex:0 0 auto;white-space:nowrap}
 .gwl{max-height:240px;overflow-y:auto}.gwr{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--grid)}.gwr:first-child{border-top:0}
-.modebar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:14px 0;padding:10px 12px;border:1px solid var(--grid);border-radius:13px;background:var(--in)}.modebar .actions{display:flex;gap:6px;flex-wrap:wrap}.modebar button{font-size:.82rem;padding:7px 11px}.modebar button.active{background:var(--ac);color:var(--on,#fff);box-shadow:0 0 0 1px var(--ac)}.mode-name{font-weight:650;font-size:.88rem}.subject-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:10px;margin:12px 0}.subject-entry{padding:11px;border:1px solid var(--grid);border-radius:13px;background:var(--in);min-width:0}.subject-entry b{display:block;margin-bottom:8px;font-size:.9rem}.subject-entry .row{gap:7px}.subject-entry label{flex:1;min-width:65px}.subject-entry input{width:100%;min-width:0}.subject-legend{display:flex;gap:8px 14px;flex-wrap:wrap;padding:8px 2px 0;font-size:.78rem;color:var(--mu)}.subject-legend span{display:inline-flex;align-items:center;gap:6px}.subject-legend i{width:9px;height:9px;border-radius:3px;display:inline-block}.heat-scroll{overflow-x:auto;padding:7px 0 10px}
+.modebar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:14px 0;padding:10px 12px;border:1px solid var(--grid);border-radius:13px;background:var(--in)}.modebar .actions{display:flex;gap:6px;flex-wrap:wrap}.modebar button{font-size:.82rem;padding:7px 11px}.modebar button.active{background:var(--ac);color:var(--on,#fff);box-shadow:0 0 0 1px var(--ac)}.mode-name{font-weight:650;font-size:.88rem}.subject-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:10px;margin:12px 0}.subject-entry{padding:11px;border:1px solid var(--grid);border-radius:13px;background:var(--in);min-width:0}.subject-entry b{display:block;margin-bottom:8px;font-size:.9rem}.subject-entry .row{gap:7px}.subject-entry label{flex:1;min-width:65px}.subject-entry input{width:100%;min-width:0}.subject-legend{display:flex;gap:8px 14px;flex-wrap:wrap;padding:8px 2px 0;font-size:.78rem;color:var(--mu)}.subject-legend span{display:inline-flex;align-items:center;gap:6px}.subject-legend i{width:9px;height:9px;border-radius:3px;display:inline-block}.daily-share-row{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-top:8px}.daily-share-btn{width:100%;padding:7px 2px!important;border:1px solid var(--grid)!important;background:var(--in)!important;color:var(--mu)!important;font-size:.72rem!important;line-height:1.25}.daily-share-btn b{display:block;color:var(--tx);font-size:.78rem}.daily-share-btn:disabled{opacity:.28}@media(max-width:420px){.daily-share-row{gap:3px}.daily-share-btn{font-size:.65rem!important;padding:6px 1px!important}}\n.heat-scroll{overflow-x:auto;padding:7px 0 10px}
 .pitch-map{position:relative;width:100%;min-width:620px;aspect-ratio:2/1;border:1px solid rgba(255,255,255,.58);border-radius:14px;overflow:hidden;background:repeating-linear-gradient(90deg,#176b38 0 9%,#1b773e 9% 18%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
 .heatmap{position:absolute;inset:0;z-index:1;overflow:hidden;isolation:isolate}
 .heatmap::before{content:"";position:absolute;inset:-5%;filter:blur(24px);opacity:.98;background:var(--heat-field,none);transform:scale(1.04)}
@@ -145,7 +145,7 @@ button:disabled{opacity:.4;cursor:default}
 <div class="sx"><div class="lb">Current streak</div><div class="bn" id="s4"></div><div class="dots" id="dots"></div><div class="si" id="s4i"></div></div>
 </div>
 
-<div class="card" style="margin-top:14px"><h2>This week, day by day</h2><div class="sc"><svg id="c1" viewBox="0 0 700 260"></svg></div><div id="subjectLegend" class="subject-legend" style="display:none"></div></div>
+<div class="card" style="margin-top:14px"><h2>This week, day by day</h2><div class="sc"><svg id="c1" viewBox="0 0 700 260"></svg></div><div id="dailyShareRow" class="daily-share-row" aria-label="Share daily study time"></div><div id="subjectLegend" class="subject-legend" style="display:none"></div></div>
 <div class="card" id="subjectSummaryCard" style="display:none"><h2>📚 Subject totals</h2><div class="sub">A breakdown of this week and your full study history, calculated from your subject-wise logs.</div><div id="subjectSummary" class="subject-summary"></div></div>
 <div class="card"><h2>This week, trend line</h2><div class="sc"><svg id="c4" viewBox="0 0 700 260"></svg></div></div>
 <div class="card"><h2>Last 30 days (hours per day)</h2><div class="sc"><svg id="c2" viewBox="0 0 700 260"></svg></div></div>
@@ -314,9 +314,42 @@ function drawGoalCard(o){return new Promise(res=>{
  [['Days studied',o.n+' / '+o.elapsed],['Daily average',fmt(o.avg)],['Best day',fmt(o.best)]].forEach((t,i)=>{const cx=270+i*270;x.fillStyle='#fff';x.font='700 44px '+F;x.fillText(t[1],cx,908);x.fillStyle='#94a3b8';x.font='500 24px '+F;x.fillText(t[0],cx,958)});
  x.fillStyle='#64748b';x.font='500 26px '+F;x.fillText(SITE.replace('https://',''),540,1046);
  const im=new Image();im.onload=()=>{x.drawImage(im,110,98,66,66);res(c)};im.onerror=()=>res(c);im.src=LOGO})}
+function drawDayCard(o){return new Promise(res=>{
+ const c=document.createElement('canvas');c.width=1080;c.height=1080;const x=c.getContext('2d');
+ const bg=x.createLinearGradient(0,0,1080,1080);bg.addColorStop(0,'#11152d');bg.addColorStop(1,'#071b2b');x.fillStyle=bg;x.fillRect(0,0,1080,1080);
+ const glow=x.createRadialGradient(850,170,0,850,170,650);glow.addColorStop(0,'rgba(34,211,238,.28)');glow.addColorStop(1,'rgba(34,211,238,0)');x.fillStyle=glow;x.fillRect(0,0,1080,1080);
+ const glow2=x.createRadialGradient(160,900,0,160,900,560);glow2.addColorStop(0,'rgba(139,92,246,.3)');glow2.addColorStop(1,'rgba(139,92,246,0)');x.fillStyle=glow2;x.fillRect(0,0,1080,1080);
+ const rr=(a,b,w,h,r)=>{x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()};
+ rr(58,58,964,964,42);x.fillStyle='rgba(255,255,255,.045)';x.fill();x.strokeStyle='rgba(255,255,255,.13)';x.lineWidth=2;x.stroke();
+ x.fillStyle='#e2e8f0';x.font='700 34px system-ui,"Segoe UI",sans-serif';x.fillText('STUDY TIME TRACKER',112,142);
+ x.fillStyle='#94a3b8';x.font='600 25px system-ui,"Segoe UI",sans-serif';x.fillText('DAILY STUDY REPORT',112,205);
+ x.fillStyle='#fff';x.font='700 62px system-ui,"Segoe UI",sans-serif';x.fillText(o.day,112,310);
+ x.fillStyle='#22d3ee';x.font='800 150px system-ui,"Segoe UI",sans-serif';x.fillText(o.total,112,505);
+ x.fillStyle='#94a3b8';x.font='500 30px system-ui,"Segoe UI",sans-serif';x.fillText('FOCUSED STUDY TIME',116,565);
+ const vals=o.week.map(v=>v/60),max=Math.max(1,...vals),base=820,left=130,gap=112,bw=58;
+ o.week.forEach((v,i)=>{const h=Math.max(v?10:4,(v/60/max)*190);rr(left+i*gap,base-h,bw,h,12);x.fillStyle=i===o.index?'#34d399':'rgba(148,163,184,.48)';x.fill();x.fillStyle=i===o.index?'#fff':'#94a3b8';x.font='600 23px system-ui,"Segoe UI",sans-serif';x.textAlign='center';x.fillText(o.labels[i],left+i*gap+bw/2,base+42);});
+ x.textAlign='left';x.fillStyle='#94a3b8';x.font='500 24px system-ui,"Segoe UI",sans-serif';x.fillText('THIS WEEK · DAILY OVERVIEW',112,930);
+ x.fillStyle='#cbd5e1';x.font='500 23px system-ui,"Segoe UI",sans-serif';x.fillText(SITE.replace('https://',''),112,984);
+ res(c);
+})}
+function shareDay(date){
+ const d=parse(date),weekStart=monday(d),index=Math.round((d-weekStart)/864e5),labels=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+ const week=labels.map((_,i)=>{const day=addD(weekStart,i),k=iso(day);return Math.max(val(day),subjectTotal(subjectData[k]||{}))});
+ const total=week[index],day=d.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'});
+ const txt='My study time on '+day+': '+fmt(total)+'. Track your study time for free: '+SITE;
+ shareDlg({kind:'day',day:day,total:fmt(total),week:week,labels:labels,index,slug:'daily-'+date},txt);
+}
+function renderDailyShareButtons(){
+ const host=$('dailyShareRow');if(!host)return;
+ const wk=monday(todayD()),today=todayD();
+ host.innerHTML=Array.from({length:7},(_,i)=>{const d=addD(wk,i),k=iso(d),mins=Math.max(val(d),subjectTotal(subjectData[k]||{})),future=d>today;
+ return '<button type="button" class="daily-share-btn" data-share-day="'+k+'" '+(future?'disabled':'')+' title="Share '+k+'"><b>↗ '+['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i]+'</b>'+(mins?fmt(mins):'Share')+'</button>';
+ }).join('');
+}
+$('dailyShareRow').onclick=e=>{const b=e.target.closest('[data-share-day]');if(b)shareDay(b.dataset.shareDay)};
 async function shareDlg(o,text){
  try{
-  const c=await (o.kind==='goal'?drawGoalCard(o):drawCard(o)),url=c.toDataURL('image/png'),name='study-tracker-'+o.slug+'.png';
+  const c=await (o.kind==='goal'?drawGoalCard(o):o.kind==='day'?drawDayCard(o):drawCard(o)),url=c.toDataURL('image/png'),name='study-tracker-'+o.slug+'.png';
   const blob=await new Promise(r=>c.toBlob(r,'image/png')),file=new File([blob],name,{type:'image/png'});
   const can=!!(navigator.canShare&&navigator.canShare({files:[file]})),E=encodeURIComponent;
   openMo();
@@ -585,6 +618,7 @@ function render(){
  
  const dl=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
  if(trackingMode==='subjects')stackedBarChart('c1',dl,dl.map((_,i)=>addD(wk,i)),dn-1);else{ $('subjectLegend').style.display='none';chart('c1',dl,dl.map((_,i)=>val(addD(wk,i))),'bar',dn-1)}
+ renderDailyShareButtons();
  chart('c4',dl.slice(0,dn),dl.slice(0,dn).map((_,i)=>val(addD(wk,i))),'line');
  const ds=[...Array(30)].map((_,i)=>addD(today,i-29));
  chart('c2',ds.map(x=>(x.getMonth()+1)+'/'+x.getDate()),ds.map(val),'line');
