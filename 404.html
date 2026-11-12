@@ -1,7 +1,153 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<body>
-Error 404 - Sorry, Check your spelling again on the Url
-</body>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <title>404 — Page Not Found</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1020;
+      --text: #f5f7ff;
+      --muted: #a6aec7;
+      --accent: #9b8cff;
+      --accent2: #57d6c5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 28px;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 18% 20%, rgba(117, 91, 255, .19), transparent 38%),
+        radial-gradient(ellipse at 85% 78%, rgba(45, 205, 184, .12), transparent 35%),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .stars, .stars::before, .stars::after {
+      position: fixed; inset: 0; pointer-events: none; content: "";
+      background-image: radial-gradient(2px 2px at 20% 30%, #ffffff88 50%, transparent 55%),
+                        radial-gradient(1px 1px at 70% 20%, #ffffff88 50%, transparent 55%),
+                        radial-gradient(1.5px 1.5px at 82% 62%, #ffffff77 50%, transparent 55%),
+                        radial-gradient(1px 1px at 36% 78%, #ffffff88 50%, transparent 55%),
+                        radial-gradient(1px 1px at 55% 48%, #ffffff66 50%, transparent 55%);
+      background-size: 360px 360px;
+      opacity: .55;
+    }
+    .stars::before { transform: translate(90px, 50px); opacity: .35; }
+    .stars::after { transform: translate(-70px, -40px); opacity: .25; }
+    main {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 680px);
+      text-align: center;
+      padding: clamp(30px, 6vw, 62px);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 30px;
+      background: linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.025));
+      box-shadow: 0 30px 100px rgba(0,0,0,.35), inset 0 1px rgba(255,255,255,.08);
+      backdrop-filter: blur(18px);
+      animation: rise .8s cubic-bezier(.2,.8,.2,1) both;
+    }
+    .orbit {
+      width: 150px; height: 150px; margin: 0 auto 20px;
+      position: relative; display: grid; place-items: center;
+      border: 1px solid rgba(155,140,255,.38); border-radius: 50%;
+      box-shadow: 0 0 55px rgba(155,140,255,.13), inset 0 0 35px rgba(155,140,255,.08);
+      animation: float 5s ease-in-out infinite;
+    }
+    .orbit::before, .orbit::after {
+      content: ""; position: absolute; border: 1px solid rgba(87,214,197,.35);
+      border-radius: 50%; transform: rotate(-28deg);
+    }
+    .orbit::before { width: 190px; height: 65px; }
+    .orbit::after { width: 210px; height: 85px; transform: rotate(48deg); opacity: .55; }
+    .planet {
+      width: 76px; height: 76px; border-radius: 50%;
+      background: radial-gradient(circle at 30% 25%, #d9d1ff, #8c7af2 48%, #5145a8 78%);
+      box-shadow: inset -10px -12px 20px #211b5c88, 0 0 35px #9b8cff66;
+      position: relative;
+    }
+    .planet::after {
+      content: ""; position: absolute; width: 24px; height: 24px; border-radius: 50%;
+      background: #5145a8; top: 15px; right: 12px; opacity: .6;
+      box-shadow: -28px 27px 0 -7px #5145a8;
+    }
+    .satellite {
+      position: absolute; width: 11px; height: 11px; border-radius: 50%;
+      background: var(--accent2); top: 15px; right: 17px;
+      box-shadow: 0 0 15px var(--accent2);
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: #c6c0ff; font-size: 12px; font-weight: 750;
+      letter-spacing: .19em; text-transform: uppercase;
+      padding: 8px 12px; border: 1px solid #9b8cff40;
+      border-radius: 999px; background: #9b8cff12;
+    }
+    h1 {
+      margin: 17px 0 4px; font-size: clamp(76px, 17vw, 132px);
+      line-height: .95; letter-spacing: -.085em; font-weight: 850;
+      background: linear-gradient(120deg, #fff 15%, #b9afff 58%, #69e3d1);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    h2 { margin: 18px 0 10px; font-size: clamp(22px, 4vw, 30px); letter-spacing: -.035em; }
+    p {
+      max-width: 430px; margin: 0 auto; color: var(--muted);
+      font-size: 15px; line-height: 1.75;
+    }
+    .actions {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 30px;
+    }
+    a {
+      min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      padding: 0 20px; border-radius: 14px; text-decoration: none;
+      font-size: 14px; font-weight: 700; transition: transform .2s, box-shadow .2s, background .2s;
+    }
+    a:hover { transform: translateY(-3px); }
+    .primary {
+      color: #111329; background: linear-gradient(120deg, #c5bcff, #75e5d4);
+      box-shadow: 0 9px 28px rgba(116,210,205,.18);
+    }
+    .primary:hover { box-shadow: 0 13px 34px rgba(116,210,205,.28); }
+    .secondary { color: #e7e9f7; border: 1px solid #ffffff24; background: #ffffff08; }
+    .secondary:hover { background: #ffffff12; }
+    .hint { margin-top: 26px; font-size: 12px; color: #737d9b; }
+    @keyframes rise { from { opacity: 0; transform: translateY(18px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes float { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-9px) rotate(4deg); } }
+    @media (max-width: 480px) {
+      body { padding: 16px; }
+      main { border-radius: 24px; padding: 32px 20px; }
+      .orbit { transform: scale(.85); margin-bottom: 8px; }
+      .actions { flex-direction: column; }
+      a { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
 </head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+  <main>
+    <div class="orbit" aria-hidden="true">
+      <div class="planet"></div>
+      <div class="satellite"></div>
+    </div>
+    <div class="eyebrow"><span>✦</span> Lost in space</div>
+    <h1>404</h1>
+    <h2>Well, this is awkward.</h2>
+    <p>The page you're looking for seems to have drifted into another galaxy. It may have moved, or the link might be taking a little vacation.</p>
+    <div class="actions">
+      <a class="primary" href="/" aria-label="Go back to homepage">⌂ <span>Back to home</span> <span aria-hidden="true">↗</span></a>
+      <a class="secondary" href="javascript:history.back()">← <span>Go back</span></a>
+    </div>
+    <div class="hint">ERROR 404 · PAGE NOT FOUND</div>
+  </main>
+</body>
 </html>
