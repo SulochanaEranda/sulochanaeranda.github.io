@@ -102,6 +102,20 @@ table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{text-align:left;
 .tm button:hover{background:var(--in)}.tm button.a{box-shadow:inset 0 0 0 1.5px var(--ac)}.tm hr{border:0;border-top:1px solid var(--grid);margin:6px 0}
 .lgo{width:34px;height:34px;vertical-align:-9px;margin-right:8px;border-radius:9px}.lgo.big{width:72px;height:72px;display:block;margin:0 auto 10px;border-radius:18px}
 .bdg{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:10px}
+.badges-panel>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;user-select:none}
+.badges-panel>summary::-webkit-details-marker{display:none}
+.badges-heading{display:flex;align-items:baseline;gap:10px;font-weight:750}
+.badges-toggle{font-size:.78rem;color:var(--ac);font-weight:700;white-space:nowrap}
+.badges-panel[open] .badges-toggle{font-size:0}
+.badges-panel[open] .badges-toggle:after{content:"－ Close";font-size:.78rem}
+.badges-panel .bdg{margin-top:14px}
+.bd .ic{box-shadow:inset 0 2px 7px rgba(255,255,255,.16),0 3px 10px rgba(0,0,0,.12);background:radial-gradient(circle at 32% 24%,rgba(255,255,255,.22),transparent 58%),var(--card)}
+.bd:not(.lk) .ic{outline:2px solid color-mix(in srgb,var(--rc) 22%,transparent);outline-offset:3px}
+.bd .shb{margin-top:8px;border-radius:999px!important;padding:6px 12px!important;font-size:.74rem!important;background:color-mix(in srgb,var(--rc) 13%,var(--in))!important;border-color:color-mix(in srgb,var(--rc) 42%,var(--grid))!important}
+.daily-share-btn{border-radius:11px!important;box-shadow:0 2px 7px rgba(0,0,0,.08);font-weight:650!important;transition:transform .15s ease,box-shadow .15s ease}
+.daily-share-btn:not(:disabled):active{transform:scale(.96)}
+.daily-share-btn b{font-size:.76rem!important}
+
 .bd{text-align:center;padding:12px 6px;border-radius:14px;background:var(--in)}
 .bd .ic{width:54px;height:54px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;border:3px solid var(--rc);background:var(--card)}
 .bd b{display:block;font-size:.8rem}.bd span{font-size:.7rem;color:var(--mu)}
@@ -167,12 +181,15 @@ button:disabled{opacity:.4;cursor:default}
 <div class="card"><h2>⚽ Study activity · Heatmap</h2><div class="sub">Hotspots show which weekdays you tend to study more. Brighter, warmer zones mean higher average study time over the last 4 weeks.</div><div class="heat-scroll"><div class="pitch-map"><div class="heatmap" id="heatmap" aria-label="Study activity heatmap by weekday"></div><svg class="pitch-lines" viewBox="0 0 1000 500" preserveAspectRatio="none" aria-hidden="true"><rect x="3" y="3" width="994" height="494" rx="4"/><line x1="500" y1="3" x2="500" y2="497"/><circle cx="500" cy="250" r="82"/><circle cx="500" cy="250" r="4" fill="rgba(255,255,255,.9)"/><rect x="3" y="125" width="145" height="250"/><rect x="852" y="125" width="145" height="250"/><rect x="3" y="190" width="55" height="120"/><rect x="942" y="190" width="55" height="120"/><path d="M148 175 Q225 250 148 325 M852 175 Q775 250 852 325"/></svg></div></div><div class="heat-legend"><span>Less activity</span><i class="heat-swatch low"></i><i class="heat-swatch mid"></i><i class="heat-swatch high"></i><span>More activity</span></div><div class="sub" style="margin-top:7px">This uses weekday totals from your study log; it does not represent literal physical positions or session locations.</div></div>
 
 <div class="card"><div class="lb">All-time total</div><div class="bn" id="s5"></div><div class="si" id="s5i"></div><button class="g" id="ash" style="margin-top:10px">Share all-time hours ↗</button></div>
-<div class="card"><h2 style="display:flex;justify-content:space-between;align-items:baseline;margin:0"><span>🏅 Badges</span><span class="sub" id="bc" style="margin:0"></span></h2><div class="bdg" id="bgd"></div></div>
 <div class="card"><h2 style="display:flex;justify-content:space-between;align-items:baseline;margin:0"><span>🎯 Completed weekly goals</span><span class="sub" id="gwc" style="margin:0"></span></h2><div class="gwl" id="gwl"></div></div>
 
 <div class="card"><h2 style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><span id="cdt">⏳ Exam countdown</span><button class="g" id="exb">Set exam date</button></h2>
 <div class="cd"><div><b id="cd1">0</b><span>days</span></div><div><b id="cd2">0</b><span>hours</span></div><div><b id="cd3">0</b><span>minutes</span></div><div><b id="cd4">0</b><span>seconds</span></div></div>
 <div class="sub" id="cdi" style="margin:10px 0 0"></div></div>
+<details class="card badges-panel" id="badgesPanel">
+<summary><span class="badges-heading">🏅 Badges <span class="sub" id="bc" style="margin:0"></span></span><span class="badges-toggle">＋ View badges</span></summary>
+<div class="bdg" id="bgd"></div>
+</details>
 <div class="card"><h2>Log</h2><div style="margin-bottom:6px"><button class="g" id="bk">⬇ Download backup</button><button class="g" id="rs">Restore backup</button><button class="g" id="im">Import pasted data</button><input type="file" id="rf" accept=".json,application/json" hidden></div><div id="log"></div></div>
 <div class="sub" style="text-align:center;margin:18px 0 8px">Made by <a href="https://sulochanaeranda.github.io/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;font-weight:600">SulochanaEranda</a> <span aria-label="love" style="color:#f472b6">♥</span></div>
 </div>
@@ -358,7 +375,7 @@ function renderDailyShareButtons(){
  const host=$('dailyShareRow');if(!host)return;
  const wk=monday(todayD()),today=todayD();
  host.innerHTML=Array.from({length:7},(_,i)=>{const d=addD(wk,i),k=iso(d),mins=Math.max(val(d),subjectTotal(subjectData[k]||{})),future=d>today;
- return '<button type="button" class="daily-share-btn" data-share-day="'+k+'" '+(future?'disabled':'')+' title="Share '+k+'"><b>↗ '+['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i]+'</b>'+(mins?fmt(mins):'Share')+'</button>';
+ return '<button type="button" class="daily-share-btn" data-share-day="'+k+'" '+(future?'disabled':'')+' title="Share '+k+'"><b>📤 '+['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i]+'</b>'+(mins?fmt(mins):'Share')+'</button>';
  }).join('');
 }
 $('dailyShareRow').onclick=e=>{const b=e.target.closest('[data-share-day]');if(b)shareDay(b.dataset.shareDay)};
@@ -579,7 +596,7 @@ function renderBadges(){
  const now=BD.filter(b=>b[5](x)).map(b=>b[0]),fresh=[];
  if(bsaved!==null){const td=iso(new Date());now.forEach(id=>{if(!bsaved[id]){bsaved[id]=td;fresh.push(id)}});if(fresh.length&&window.saveBadges)window.saveBadges(bsaved);if(fresh.length)persistLocal()}
  let n=0,h='';
- BD.forEach(b=>{const u=(bsaved&&bsaved[b[0]])||now.includes(b[0]);if(u)n++;h+='<div class="bd'+(u?'':' lk')+'" style="--rc:'+tc[b[3]]+'" title="'+b[4]+'"><div class="ic">'+(u?b[2]:'🔒')+'</div><b>'+b[1]+'</b><span>'+b[4]+'</span>'+(u?'<button class="g shb" data-sh="'+b[0]+'">Share ↗</button>':'')+'</div>'});
+ BD.forEach(b=>{const u=(bsaved&&bsaved[b[0]])||now.includes(b[0]);if(u)n++;h+='<div class="bd'+(u?'':' lk')+'" style="--rc:'+tc[b[3]]+'" title="'+b[4]+'"><div class="ic">'+(u?b[2]:'🔒')+'</div><b>'+b[1]+'</b><span>'+b[4]+'</span>'+(u?'<button class="g shb" data-sh="'+b[0]+'">📤 Share</button>':'')+'</div>'});
  $('bgd').innerHTML=h;$('bc').textContent=n+' / '+BD.length+' unlocked';
  /* Automatic badge popups disabled: keep badge tracking and saving, but never show an unlock toast on page load or account sync. */
  if(bsaved!==null)bsilent=false}
