@@ -138,7 +138,14 @@ button:disabled{opacity:.4;cursor:default}
 #bt.s{pointer-events:auto}
 #ck{display:none;position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:300;width:min(580px,94vw);gap:12px;align-items:center;padding:12px 14px;border-radius:16px;background:var(--pop,#fff);color:var(--tx);border:1px solid var(--cb);box-shadow:var(--sh);font-size:.85rem}#ck>span{flex:1 1 230px;min-width:0}#ck .row{flex:0 0 auto}@media(max-width:520px){#ck{align-items:flex-start;flex-wrap:wrap;gap:8px}#ck .row{width:100%;justify-content:flex-end}}
 .tt em{position:absolute;top:6px;left:8px;font-style:normal;font-size:1.35rem}.chip{flex:0 0 auto;white-space:nowrap}
-.gwl{max-height:240px;overflow-y:auto}.gwr{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--grid)}.gwr:first-child{border-top:0}
+.gwsum{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.gwsum span{padding:5px 11px;border-radius:999px;font-size:.78rem;font-weight:650;border:1px solid}
+.gwsum .ok{color:#10b981;background:rgba(16,185,129,.14);border-color:rgba(16,185,129,.5)}.gwsum .bad{color:#ef4444;background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.5)}.gwsum .cur{color:var(--mu);background:var(--in);border-color:var(--grid)}
+.gwr2{padding:10px 12px;border-radius:13px;border:1px solid;margin-bottom:8px}.gwr2.ok{background:rgba(16,185,129,.13);border-color:rgba(16,185,129,.55)}.gwr2.bad{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.55)}.gwr2.cur{background:var(--in);border-color:var(--grid)}
+.gwr2 .gh{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}.gwr2 .tag{font-size:.74rem;font-weight:700;white-space:nowrap}.gwr2.ok .tag{color:#10b981}.gwr2.bad .tag{color:#ef4444}.gwr2.cur .tag{color:var(--mu)}
+.gwr2 .gb{height:6px;border-radius:99px;background:var(--grid);overflow:hidden;margin-top:8px}.gwr2 .gb i{display:block;height:100%;border-radius:99px}.gwr2.ok .gb i{background:#10b981}.gwr2.bad .gb i{background:#ef4444}.gwr2.cur .gb i{background:var(--ac)}
+.gwr2 .ga{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap;font-size:.78rem;color:var(--mu)}.gwr2 input.gwin{width:64px;padding:5px 7px}
+#gmList{max-height:min(56vh,520px);overflow-y:auto;padding-right:4px;overscroll-behavior:contain}
+.gwr{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--grid)}.gwr:first-child{border-top:0}
 .modebar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:14px 0;padding:10px 12px;border:1px solid var(--grid);border-radius:13px;background:var(--in)}.modebar .actions{display:flex;gap:6px;flex-wrap:wrap}.modebar button{font-size:.82rem;padding:7px 11px}.modebar button.active{background:var(--ac);color:var(--on,#fff);box-shadow:0 0 0 1px var(--ac)}.mode-name{font-weight:650;font-size:.88rem}.subject-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:10px;margin:12px 0}.subject-entry{padding:11px;border:1px solid var(--grid);border-radius:13px;background:var(--in);min-width:0}.subject-entry b{display:block;margin-bottom:8px;font-size:.9rem}.subject-entry .row{gap:7px}.subject-entry label{flex:1;min-width:65px}.subject-entry input{width:100%;min-width:0}.subject-legend{display:flex;gap:8px 14px;flex-wrap:wrap;padding:8px 2px 0;font-size:.78rem;color:var(--mu)}.subject-legend span{display:inline-flex;align-items:center;gap:6px}.subject-legend i{width:9px;height:9px;border-radius:3px;display:inline-block}.daily-share-row{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-top:8px}.daily-share-btn{width:100%;padding:7px 2px!important;border:1px solid var(--grid)!important;background:var(--in)!important;color:var(--mu)!important;font-size:.72rem!important;line-height:1.25}.daily-share-btn b{display:block;color:var(--tx);font-size:.78rem}.daily-share-btn:disabled{opacity:.28}@media(max-width:420px){.daily-share-row{gap:3px}.daily-share-btn{font-size:.65rem!important;padding:6px 1px!important}}\n.heat-scroll{overflow-x:auto;padding:7px 0 10px}
 .pitch-map{position:relative;width:100%;min-width:0;aspect-ratio:2/1;border:1px solid rgba(255,255,255,.58);border-radius:14px;overflow:hidden;background:repeating-linear-gradient(90deg,#176b38 0 9%,#1b773e 9% 18%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
 .heatmap{position:absolute;inset:0;z-index:1;overflow:hidden;isolation:isolate}
@@ -181,7 +188,7 @@ button:disabled{opacity:.4;cursor:default}
 <div class="card"><h2>⚽ Study activity · Heatmap</h2><div class="sub">Hotspots show which weekdays you tend to study more. Brighter, warmer zones mean higher average study time over the last 4 weeks.</div><div class="heat-scroll"><div class="pitch-map"><div class="heatmap" id="heatmap" aria-label="Study activity heatmap by weekday"></div><svg class="pitch-lines" viewBox="0 0 1000 500" preserveAspectRatio="none" aria-hidden="true"><rect x="3" y="3" width="994" height="494" rx="4"/><line x1="500" y1="3" x2="500" y2="497"/><circle cx="500" cy="250" r="82"/><circle cx="500" cy="250" r="4" fill="rgba(255,255,255,.9)"/><rect x="3" y="125" width="145" height="250"/><rect x="852" y="125" width="145" height="250"/><rect x="3" y="190" width="55" height="120"/><rect x="942" y="190" width="55" height="120"/><path d="M148 175 Q225 250 148 325 M852 175 Q775 250 852 325"/></svg></div></div><div class="heat-legend"><span>Less activity</span><i class="heat-swatch low"></i><i class="heat-swatch mid"></i><i class="heat-swatch high"></i><span>More activity</span></div><div class="sub" style="margin-top:7px">This uses weekday totals from your study log; it does not represent literal physical positions or session locations.</div></div>
 
 <div class="card"><div class="lb">All-time total</div><div class="bn" id="s5"></div><div class="si" id="s5i"></div><button class="g" id="ash" style="margin-top:10px">Share all-time hours ↗</button></div>
-<div class="card"><h2 style="display:flex;justify-content:space-between;align-items:baseline;margin:0"><span>🎯 Completed weekly goals</span><span class="sub" id="gwc" style="margin:0"></span></h2><div class="gwl" id="gwl"></div></div>
+<div class="card"><h2 style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>🎯 Weekly goals</span><button class="g" id="gwx" type="button">⤢ Expand</button></h2><div class="gwsum" id="gwsum"></div><div id="gwl"></div></div>
 
 <div class="card"><h2 style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><span id="cdt">⏳ Exam countdown</span><button class="g" id="exb">Set exam date</button></h2>
 <div class="cd"><div><b id="cd1">0</b><span>days</span></div><div><b id="cd2">0</b><span>hours</span></div><div><b id="cd3">0</b><span>minutes</span></div><div><b id="cd4">0</b><span>seconds</span></div></div>
@@ -190,16 +197,16 @@ button:disabled{opacity:.4;cursor:default}
 <summary><span class="badges-heading">🏅 Badges <span class="sub" id="bc" style="margin:0"></span></span><span class="badges-toggle">＋ View badges</span></summary>
 <div class="bdg" id="bgd"></div>
 </details>
-<div class="card"><h2>Log</h2><div style="margin-bottom:6px"><button class="g" id="bk">⬇ Download backup</button><button class="g" id="rs">Restore backup</button><button class="g" id="im">Import pasted data</button><input type="file" id="rf" accept=".json,application/json" hidden></div><div id="log"></div></div>
+<div class="card"><h2 style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>Log</span><button class="g" id="lgx" type="button">⤢ Expand</button></h2><div style="margin-bottom:6px"><button class="g" id="bk">⬇ Download backup</button><button class="g" id="rs">Restore backup</button><button class="g" id="im">Import pasted data</button><input type="file" id="rf" accept=".json,application/json" hidden></div><div id="log"></div></div>
 <div class="sub" style="text-align:center;margin:18px 0 8px">Made by <a href="https://sulochanaeranda.github.io/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;font-weight:600">SulochanaEranda</a> <span aria-label="love" style="color:#f472b6">♥</span></div>
 </div>
 <div id="bt"></div>
 <div id="mo"><div id="mc"></div></div>
 <div id="ck"><span><b>Welcome!</b> Sign in with Google to save your study hours in the cloud and sync across devices. Your data stays in this browser if you choose later.</span><div class="row" style="gap:6px;flex-wrap:nowrap;align-items:center"><button id="ckg" style="white-space:nowrap;padding:8px 12px">Sign in with Google</button><button class="g" id="cka" style="white-space:nowrap">Maybe later</button></div></div>
 <script>
-const K='studytracker.guest.v1',LEGACY_K='studytracker.v1',TK='studytracker.theme';let data={},goal=0,sel=null,view=null,trackingMode='total',subjects=[],subjectData={},deletedLogs={};
+const K='studytracker.guest.v1',LEGACY_K='studytracker.v1',TK='studytracker.theme';let data={},goal=0,sel=null,view=null,trackingMode='total',subjects=[],subjectData={},deletedLogs={},weeklyGoals={};
 
-function persistLocal(){if(window.googleProfileUser)return;try{localStorage.setItem(K,JSON.stringify({data,subjectData,subjects,trackingMode,goal:goal||0,badges:bsaved||{},goalWeeks:gws||{},hiddenGoalWeeks:hiddenGoalWeeks||{},deletedLogs:deletedLogs||{},exam:exam||null}))}catch(e){}} function save(){if(window.googleProfileUser){if(window.cloudSave)window.cloudSave(data)}else{persistLocal()}}
+function persistLocal(){if(window.googleProfileUser)return;try{localStorage.setItem(K,JSON.stringify({data,subjectData,subjects,trackingMode,goal:goal||0,weeklyGoals:weeklyGoals||{},badges:bsaved||{},goalWeeks:gws||{},hiddenGoalWeeks:hiddenGoalWeeks||{},deletedLogs:deletedLogs||{},exam:exam||null}))}catch(e){}} function save(){if(window.googleProfileUser){if(window.cloudSave)window.cloudSave(data)}else{persistLocal()}}
 const $=id=>document.getElementById(id);
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const parse=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
@@ -582,7 +589,8 @@ function renderStats(){
  $('gt').innerHTML=!gm?'Set a weekly goal below to start tracking.':done?'<span class="gdone">🎉 Weekly goal completed!</span> '+fmt(tw)+' of '+goal+'h':'of your '+goal+'h weekly goal · '+fmt(gm-tw)+' to go';
 }
 window.setGoal=g=>{goal=+g||0;if(document.activeElement!==$('goal'))$('goal').value=goal||'';renderStats();persistLocal()};
-$('goal').onchange=()=>{goal=Math.max(0,Math.floor(+$('goal').value)||0);$('goal').value=goal||'';delete hiddenGoalWeeks[iso(monday(todayD()))];renderStats();renderBadges();trackGW();persistLocal();if(window.saveGoal)window.saveGoal(goal);if(window.saveHiddenGW)window.saveHiddenGW(hiddenGoalWeeks)};
+$('goal').onchange=()=>{goal=Math.max(0,Math.floor(+$('goal').value)||0);$('goal').value=goal||'';weeklyGoals[iso(monday(todayD()))]=goal;persistLocal();render();if(window.saveGoal)window.saveGoal(goal);if(window.saveWeeklyGoals)window.saveWeeklyGoals(weeklyGoals)};
+window.setWeeklyGoals=g=>{weeklyGoals=g&&typeof g==='object'?JSON.parse(JSON.stringify(g)):{};persistLocal()};window.getWeeklyGoals=()=>JSON.parse(JSON.stringify(weeklyGoals));
 let bsaved=null,bsilent=false,btt=0;
 window.setBadges=b=>{if(bsaved===null){bsaved=b?{...b}:{};bsilent=true}else if(b){bsaved={...b};bsilent=true}persistLocal()};
 window.resetBadges=()=>{gws=null;gwBack=false;bsaved=null;wshown=false;setExamVal(null);closeMo()};
@@ -612,7 +620,7 @@ function bstats(){
  let best=0,run=0,prev=null,tot=0;const wkm={};
  ks.forEach(k=>{const c=parse(k);run=(prev&&Math.round((c-prev)/864e5)===1)?run+1:1;if(run>best)best=run;prev=c;tot+=data[k];const w=iso(monday(c));(wkm[w]=wkm[w]||{m:0,d:0});wkm[w].m+=data[k];wkm[w].d++});
  let bw=0,full=false;for(const w in wkm){if(wkm[w].m>bw)bw=wkm[w].m;if(wkm[w].d>=7)full=true}
- return {best,hrs:tot/60,bw:bw/60,full,goalDone:goal>0&&sumRange(monday(todayD()),7)>=goal*60}}
+ return {best,hrs:tot/60,bw:bw/60,full,goalDone:(goal>0&&sumRange(monday(todayD()),7)>=goal*60)||weekRows().some(r=>r.st==='done')}}
 function toast(l){/* Intentionally disabled: badge notifications must never interrupt the user. */}
 function renderBadges(){
  const x=bstats(),tc={bronze:'#cd7f32',silver:'#c0c8d4',gold:'#f5c542',diamond:'#67e8f9'};
@@ -629,46 +637,77 @@ window.setHiddenGW=g=>{hiddenGoalWeeks=g&&typeof g==='object'?{...g}:{};persistL
 function weekLabel(mon){const e=addD(mon,6),y=mon.getFullYear()!==e.getFullYear(),o={day:'numeric',month:'short'};
  return mon.toLocaleDateString([],y?{...o,year:'numeric'}:o)+' – '+e.toLocaleDateString([],{...o,year:'numeric'})}
 function weekSums(){const w={};for(const k in data){if(data[k]>0){const m=iso(monday(parse(k)));w[m]=(w[m]||0)+data[k]}}return w}
-function trackGW(){
- if(gws===null)gws={};
+// Every week keeps its own goal (weeklyGoals: {mondayISO: hours}). Progress is always
+// recalculated from the study log, so adding old data later fills in that week's goal.
+function ensureWG(){
+ let ch=false;const cur=iso(monday(todayD()));
+ if(gws)for(const k in gws){const g=+((gws[k]||{}).g);if(g>0&&weeklyGoals[k]===undefined){weeklyGoals[k]=g;ch=true}}
+ for(const k in hiddenGoalWeeks){if(hiddenGoalWeeks[k]&&weeklyGoals[k]===undefined){weeklyGoals[k]=0;ch=true}}
+ if(goal>0&&weeklyGoals[cur]===undefined){weeklyGoals[cur]=goal;ch=true}
+ // Weeks that passed without opening the tracker keep the goal that was active.
+ const ks=Object.keys(weeklyGoals).filter(k=>+weeklyGoals[k]>0).sort();
+ if(ks.length){let last=null;for(let d=parse(ks[0]);iso(d)<cur;d=addD(d,7)){const k=iso(d);if(weeklyGoals[k]!==undefined)last=+weeklyGoals[k];else if(last>0){weeklyGoals[k]=last;ch=true}}}
+ if(ch){persistLocal();if(window.saveWeeklyGoals)window.saveWeeklyGoals(weeklyGoals)}
+}
+function weekRows(){
  const ws=weekSums(),cur=iso(monday(todayD()));
- let changed=false;
- // Recalculate every saved completion from the current logs. The active
- // week's record always follows the currently selected weekly target.
- for(const k of Object.keys(gws)){
-  const record=gws[k]||{},target=k===cur?goal:Math.max(0,+record.g||0),actual=ws[k]||0;
-  if(hiddenGoalWeeks[k]||!target||actual<target*60){delete gws[k];changed=true}
-  else if(+record.m!==actual||+record.g!==target){gws[k]={m:actual,g:target};changed=true}
- }
- if(goal>0){
-  const actual=ws[cur]||0;
-  if(actual>=goal*60&&!hiddenGoalWeeks[cur]&&!gws[cur]){gws[cur]={m:actual,g:goal};changed=true}
- }
- if(changed){persistLocal();if(window.saveGW)window.saveGW(gws)}
- drawGW()}
+ return Object.keys(weeklyGoals).filter(k=>+weeklyGoals[k]>0&&k<=cur).sort().reverse().map(k=>{
+  const g=+weeklyGoals[k],m=ws[k]||0;
+  return {k,g,m,st:m>=g*60?'done':(k===cur?'prog':'miss')}});
+}
+function gwRowHTML(r,full){
+ const cls=r.st==='done'?'ok':r.st==='miss'?'bad':'cur',tag=r.st==='done'?'✓ Completed':r.st==='miss'?'✗ Missed':'● In progress';
+ const pct=Math.floor(r.m/(r.g*60)*100);
+ let h='<div class="gwr2 '+cls+'"><div class="gh"><div><b>'+weekLabel(parse(r.k))+'</b><div class="si" style="margin:2px 0 0">'+fmt(r.m)+' of '+r.g+'h goal · '+pct+'%</div></div><span class="tag">'+tag+'</span></div><div class="gb"><i style="width:'+Math.min(100,pct)+'%"></i></div>';
+ if(full)h+='<div class="ga"><span>Goal</span><input type="number" class="gwin" min="1" step="1" value="'+r.g+'" data-gw-goal="'+r.k+'"><span>h</span><span style="flex:1"></span>'+(r.st==='done'?'<button class="g" data-gw="'+r.k+'">Share ↗</button>':'')+'<button class="g" data-gw-delete="'+r.k+'" title="Remove this week\'s goal" aria-label="Remove this week\'s goal">✕</button></div>';
+ return h+'</div>'}
+function gwSumHTML(rows){
+ const c={done:0,miss:0,prog:0};rows.forEach(r=>c[r.st]++);
+ return '<span class="ok">✓ '+c.done+' completed</span><span class="bad">✗ '+c.miss+' missed</span>'+(c.prog?'<span class="cur">● '+c.prog+' in progress</span>':'')}
+let gmFilter='all';
+function drawGM(rows){
+ const list=$('gmList');if(!list)return;
+ $('gmSum').innerHTML=gwSumHTML(rows);
+ const f=rows.filter(r=>gmFilter==='all'||(gmFilter==='done'&&r.st==='done')||(gmFilter==='miss'&&r.st==='miss'));
+ list.innerHTML=f.length?f.map(r=>gwRowHTML(r,true)).join(''):'<div class="si" style="padding:10px 0;text-align:center">Nothing to show here yet.</div>'}
 function drawGW(){
- const ks=gws?Object.keys(gws).sort().reverse():[];
- $('gwc').textContent=ks.length+(ks.length===1?' week':' weeks');
- $('gwl').innerHTML=ks.length?ks.map(k=>{const r=gws[k];return '<div class="gwr"><div><b>'+weekLabel(parse(k))+'</b><div class="si" style="margin:2px 0 0">'+fmt(r.m)+' of '+r.g+'h goal · '+Math.floor(r.m/(r.g*60)*100)+'%</div></div><div class="row" style="gap:3px;flex-wrap:nowrap"><button class="g" data-gw="'+k+'">Share ↗</button><button class="g" data-gw-delete="'+k+'" title="Remove this completed goal" aria-label="Remove this completed goal">✕</button></div></div>'}).join(''):'<div class="si" style="padding:8px 0">Finish a weekly goal and it will appear here, ready to share.</div>'}
+ const rows=weekRows();
+ $('gwsum').innerHTML=rows.length?gwSumHTML(rows):'';
+ $('gwl').innerHTML=rows.length?rows.slice(0,3).map(r=>gwRowHTML(r,false)).join('')+(rows.length>3?'<div class="si" style="text-align:center">Showing latest 3 of '+rows.length+' weeks · tap Expand to see all</div>':''):'<div class="si" style="padding:8px 0">Set a weekly goal above. Every week keeps its own goal, so you can always look back at it here.</div>';
+ drawGM(rows)}
+function trackGW(){ensureWG();drawGW()}
+function openGoals(){
+ gmFilter='all';openMo();
+ $('mc').innerHTML='<div class="mh"><h2>🎯 Weekly goals</h2><button class="g" id="mx">✕</button></div><div class="gwsum" id="gmSum"></div><div class="row" style="gap:6px;margin:0 0 10px"><button class="g chip a" data-gf="all">All</button><button class="g chip" data-gf="done">Completed</button><button class="g chip" data-gf="miss">Missed</button></div><div id="gmList"></div><div class="sub" style="margin:10px 0 0;font-size:.78rem">Green = goal reached · Red = week ended without reaching it. Add or fix old study days in the log and the weeks update automatically.</div>';
+ $('mx').onclick=closeMo;drawGM(weekRows())}
+$('gwx').onclick=openGoals;
 function shareGoalWeek(k){
- const mon=parse(k),r=(gws&&gws[k])||{},g=r.g||goal;let tot=0,best=0,n=0;
+ const mon=parse(k),g=+weeklyGoals[k]||goal;let tot=0,best=0,n=0;
  for(let i=0;i<7;i++){const v=val(addD(mon,i));tot+=v;if(v>0)n++;if(v>best)best=v}
- const m=Math.max(tot,r.m||0),el=Math.max(1,Math.min(7,Math.floor((todayD()-mon)/864e5)+1)),wk=weekLabel(mon),pct=Math.floor(m/(g*60)*100);
+ const m=tot,el=Math.max(1,Math.min(7,Math.floor((todayD()-mon)/864e5)+1)),wk=weekLabel(mon),pct=Math.floor(m/(g*60)*100);
  shareDlg({kind:'goal',week:wk,m:m,g:g,pct:pct,n:n,avg:m/el,best:best,elapsed:el,slug:'weekly-goal-'+k},'I completed my weekly study goal 🎯 '+wk+': '+fmt(m)+' studied (goal '+g+'h, '+pct+'%). Track yours for free: '+SITE)}
-$('gwl').onclick=e=>{
- const remove=e.target.closest('[data-gw-delete]');
- if(remove){
-  const k=remove.dataset.gwDelete;
-  delete gws[k];hiddenGoalWeeks[k]=true;
-  persistLocal();if(window.saveGW)window.saveGW(gws);if(window.saveHiddenGW)window.saveHiddenGW(hiddenGoalWeeks);
-  drawGW();return;
- }
- const b=e.target.closest('[data-gw]');if(b)shareGoalWeek(b.dataset.gw)
-};
+$('mc').addEventListener('click',e=>{
+ if(!$('gmList'))return;
+ const f=e.target.closest('[data-gf]');
+ if(f){gmFilter=f.dataset.gf;document.querySelectorAll('[data-gf]').forEach(b=>b.classList.toggle('a',b===f));drawGM(weekRows());return}
+ const del=e.target.closest('[data-gw-delete]');
+ if(del){
+  if(!confirm('Remove the goal for this week?'))return;
+  const k=del.dataset.gwDelete;weeklyGoals[k]=0;
+  if(k===iso(monday(todayD()))){goal=0;$('goal').value='';if(window.saveGoal)window.saveGoal(0)}
+  persistLocal();if(window.saveWeeklyGoals)window.saveWeeklyGoals(weeklyGoals);render();return}
+ const b=e.target.closest('[data-gw]');if(b)shareGoalWeek(b.dataset.gw)});
+$('mc').addEventListener('change',e=>{
+ const i=e.target.closest&&e.target.closest('[data-gw-goal]');if(!i)return;
+ const k=i.dataset.gwGoal,v=Math.floor(+i.value)||0;
+ if(v<1){drawGM(weekRows());return}
+ weeklyGoals[k]=v;
+ if(k===iso(monday(todayD()))){goal=v;$('goal').value=v;if(window.saveGoal)window.saveGoal(v)}
+ persistLocal();if(window.saveWeeklyGoals)window.saveWeeklyGoals(weeklyGoals);render()});
 $('gsh').onclick=()=>shareGoalWeek(iso(monday(todayD())));
 function render(){
  const today=todayD(),wk=monday(today),tw=sumRange(wk,7),lw=sumRange(addD(wk,-7),7),dn=Math.floor((today-wk)/864e5)+1;
- renderStats();renderBadges();trackGW();
+ renderStats();trackGW();renderBadges();
  
  
  const dl=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
@@ -682,7 +721,10 @@ function render(){
  const ws=[...Array(cnt)].map((_,i)=>addD(first,i*7));
  chart('c3',ws.map(x=>(x.getMonth()+1)+'/'+x.getDate()),ws.map(x=>sumRange(x,7)),'line');
  renderHeatmap();renderSubjectSummary();
- $('log').innerHTML=ks.length?'<div class="ls"><table><tr><th>Date</th><th>Time / subject split</th><th></th></tr>'+ks.slice().reverse().map(k=>{const sd=subjectData[k]||{},parts=Object.entries(sd).filter(([,v])=>+v>0).map(([n,v])=>esc(n)+' '+fmt(+v));return '<tr><td>'+parse(k).toDateString()+'</td><td>'+fmt(data[k])+(parts.length?'<div class="sub" style="margin:3px 0 0;font-size:.75rem">'+parts.join(' · ')+'</div>':'')+'</td><td><button class="g" data-k="'+k+'">Delete</button></td></tr>'}).join('')+'</table></div>':'<div class="empty">No entries yet. Add your first day above.</div>';
+ const logTable=list=>'<table><tr><th>Date</th><th>Time / subject split</th><th></th></tr>'+list.map(k=>{const sd=subjectData[k]||{},parts=Object.entries(sd).filter(([,v])=>+v>0).map(([n,v])=>esc(n)+' '+fmt(+v));return '<tr><td>'+parse(k).toDateString()+'</td><td>'+fmt(data[k])+(parts.length?'<div class="sub" style="margin:3px 0 0;font-size:.75rem">'+parts.join(' · ')+'</div>':'')+'</td><td><button class="g" data-k="'+k+'">Delete</button></td></tr>'}).join('')+'</table>';
+ const newest=ks.slice().reverse();
+ $('log').innerHTML='';
+ if($('lgList')){$('lgSum').textContent=newest.length+(newest.length===1?' entry':' entries');$('lgList').innerHTML=newest.length?logTable(newest):'<div class="empty">No entries yet.</div>'}
  syncDateButton()}
 // Date selection: use the browser native date picker for reliable positioning.
 sel=todayD();
@@ -740,16 +782,19 @@ $('add').onclick=()=>{const k=iso(sel);let t=0;
  if(trackingMode==='subjects'){const record={};subjects.forEach((name,i)=>{const h=+($('subj_'+i+'_h')||{}).value||0,m=+($('subj_'+i+'_m')||{}).value||0;record[name]=Math.max(0,h*60+m);t+=record[name]});if(t<=0){$('msg').textContent='Enter study time for at least one subject.';return}subjectData[k]=record}
  else{const h=+$('h').value||0,m=+$('m').value||0;t=h*60+m;if(t<=0){$('msg').textContent='Enter some study time first.';return}delete subjectData[k]}
  const had=data[k];data[k]=t;delete deletedLogs[k];save();$('msg').textContent=(had?'Updated ':'Saved ')+fmt(t)+' total for '+sel.toDateString()+'.';if(trackingMode==='subjects')drawSubjectInputs();else{$('h').value='';$('m').value=''}render()};
-$('log').onclick=e=>{const k=e.target.dataset&&e.target.dataset.k;if(k){delete data[k];delete subjectData[k];deletedLogs[k]=true;save();render()}};
+function delLog(e){const k=e.target.dataset&&e.target.dataset.k;if(k){delete data[k];delete subjectData[k];deletedLogs[k]=true;save();render()}}
+$('log').onclick=delLog;
+$('mc').addEventListener('click',e=>{if($('lgList')&&$('lgList').contains(e.target))delLog(e)});
+$('lgx').onclick=()=>{openMo();$('mc').innerHTML='<div class="mh"><h2>Log <span class="sub" id="lgSum" style="margin:0;font-size:.85rem"></span></h2><button class="g" id="mx">✕</button></div><div id="lgList" style="max-height:min(62vh,560px);overflow-y:auto;padding-right:4px;overscroll-behavior:contain"></div>';$('mx').onclick=closeMo;render()};
 
-function imp(t){try{const o=JSON.parse(t);if(typeof o!=='object'||!o)throw 0;if(o.data&&typeof o.data==='object'){for(const k in o.data)if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&+o.data[k]>0)data[k]=+o.data[k];delete deletedLogs[k];if(o.subjectData)subjectData={...subjectData,...o.subjectData};if(Array.isArray(o.subjects)&&o.subjects.length)subjects=o.subjects;if(o.trackingMode)trackingMode=o.trackingMode}else{for(const k in o){if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&+o[k]>0)data[k]=+o[k];delete deletedLogs[k]}}save();updateModeUI();render();alert('Imported!')}catch(e){alert('That data was not valid.')}}
+function imp(t){try{const o=JSON.parse(t);if(typeof o!=='object'||!o)throw 0;if(o.data&&typeof o.data==='object'){for(const k in o.data)if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&+o.data[k]>0)data[k]=+o.data[k];delete deletedLogs[k];if(o.subjectData)subjectData={...subjectData,...o.subjectData};if(o.weeklyGoals&&typeof o.weeklyGoals==='object')weeklyGoals={...o.weeklyGoals,...weeklyGoals};if(Array.isArray(o.subjects)&&o.subjects.length)subjects=o.subjects;if(o.trackingMode)trackingMode=o.trackingMode}else{for(const k in o){if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&+o[k]>0)data[k]=+o[k];delete deletedLogs[k]}}save();updateModeUI();render();alert('Imported!')}catch(e){alert('That data was not valid.')}}
 $('im').onclick=()=>{const t=prompt('Paste the data you copied from your old tracker:');if(t)imp(t)};
 $('rs').onclick=()=>$('rf').click();
 $('rf').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(imp);e.target.value=''};
-$('bk').onclick=()=>{const b=new Blob([JSON.stringify({data,subjectData,subjects,trackingMode},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='study-backup-'+iso(new Date())+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+$('bk').onclick=()=>{const b=new Blob([JSON.stringify({data,subjectData,subjects,trackingMode,weeklyGoals},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='study-backup-'+iso(new Date())+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
 window.setData=d=>{data=d||{};render();persistLocal()};window.setDeletedLogs=d=>{deletedLogs=d&&typeof d==='object'?{...d}:{};persistLocal()};window.getDeletedLogs=()=>deletedLogs;window.getData=()=>data;window.getSubjectState=()=>({subjectData,subjects,trackingMode});window.setSubjectState=(sd,sub,mode)=>{subjectData=sd&&typeof sd==='object'?sd:{};subjects=Array.isArray(sub)?sub:[];trackingMode=mode==='subjects'?'subjects':'total';updateModeUI()};
 window.readGuestState=()=>{try{return JSON.parse(localStorage.getItem(K)||localStorage.getItem(LEGACY_K)||'null')}catch(e){return null}};
-window.loadGuestState=()=>{try{const saved=window.readGuestState();if(!saved||typeof saved!=='object')return false;data=saved.data&&typeof saved.data==='object'?{...saved.data}:{};subjectData=saved.subjectData&&typeof saved.subjectData==='object'?JSON.parse(JSON.stringify(saved.subjectData)):{ };subjects=Array.isArray(saved.subjects)?[...saved.subjects]:[];trackingMode=saved.trackingMode==='subjects'?'subjects':'total';goal=Math.max(0,+saved.goal||0);bsaved=saved.badges&&typeof saved.badges==='object'?{...saved.badges}:{};bsilent=true;gws=saved.goalWeeks&&typeof saved.goalWeeks==='object'?{...saved.goalWeeks}:{};hiddenGoalWeeks=saved.hiddenGoalWeeks&&typeof saved.hiddenGoalWeeks==='object'?{...saved.hiddenGoalWeeks}:{};deletedLogs=saved.deletedLogs&&typeof saved.deletedLogs==='object'?{...saved.deletedLogs}:{};setExamVal(saved.exam||null);$('goal').value=goal||'';for(const k in deletedLogs)if(deletedLogs[k]){delete data[k];delete subjectData[k]}persistLocal();updateModeUI();render();return true}catch(e){return false}};
+window.loadGuestState=()=>{try{const saved=window.readGuestState();if(!saved||typeof saved!=='object')return false;data=saved.data&&typeof saved.data==='object'?{...saved.data}:{};subjectData=saved.subjectData&&typeof saved.subjectData==='object'?JSON.parse(JSON.stringify(saved.subjectData)):{ };subjects=Array.isArray(saved.subjects)?[...saved.subjects]:[];trackingMode=saved.trackingMode==='subjects'?'subjects':'total';goal=Math.max(0,+saved.goal||0);bsaved=saved.badges&&typeof saved.badges==='object'?{...saved.badges}:{};bsilent=true;weeklyGoals=saved.weeklyGoals&&typeof saved.weeklyGoals==='object'?{...saved.weeklyGoals}:{};gws=saved.goalWeeks&&typeof saved.goalWeeks==='object'?{...saved.goalWeeks}:{};hiddenGoalWeeks=saved.hiddenGoalWeeks&&typeof saved.hiddenGoalWeeks==='object'?{...saved.hiddenGoalWeeks}:{};deletedLogs=saved.deletedLogs&&typeof saved.deletedLogs==='object'?{...saved.deletedLogs}:{};setExamVal(saved.exam||null);$('goal').value=goal||'';for(const k in deletedLogs)if(deletedLogs[k]){delete data[k];delete subjectData[k]}persistLocal();updateModeUI();render();return true}catch(e){return false}};
 window.loadGuestState();
 updateModeUI();render();
 </script>
@@ -803,24 +848,27 @@ onAuthStateChanged(auth,async u=>{
   const cloudBadges=cloud.badges&&typeof cloud.badges==='object'?cloud.badges:(source.badges||{});
   const cloudWeeks=cloud.goalWeeks&&typeof cloud.goalWeeks==='object'?cloud.goalWeeks:(source.goalWeeks||{});
   const cloudHiddenWeeks=cloud.hiddenGoalWeeks&&typeof cloud.hiddenGoalWeeks==='object'?cloud.hiddenGoalWeeks:(source.hiddenGoalWeeks||{});
+  const cloudWeeklyGoals=cloud.weeklyGoals&&typeof cloud.weeklyGoals==='object'?cloud.weeklyGoals:(source.weeklyGoals||{});
   const cloudDeletedLogs=cloud.deletedLogs&&typeof cloud.deletedLogs==='object'?cloud.deletedLogs:(source.deletedLogs||{});
   const cloudExam=cloud.exam||source.exam||null;
   for(const k in cloudDeletedLogs)if(cloudDeletedLogs[k]){
    delete cloudData[k];delete cloudSubjectData[k];
   }
-  if(!snap.exists()){await setDoc(accountRef,{data:cloudData,subjectData:cloudSubjectData,subjects:cloudSubjects,trackingMode:cloudMode,goal:cloudGoal,badges:cloudBadges,goalWeeks:cloudWeeks,hiddenGoalWeeks:cloudHiddenWeeks,deletedLogs:cloudDeletedLogs,exam:cloudExam},{merge:true});}
+  if(!snap.exists()){await setDoc(accountRef,{data:cloudData,subjectData:cloudSubjectData,subjects:cloudSubjects,trackingMode:cloudMode,goal:cloudGoal,weeklyGoals:cloudWeeklyGoals,badges:cloudBadges,goalWeeks:cloudWeeks,hiddenGoalWeeks:cloudHiddenWeeks,deletedLogs:cloudDeletedLogs,exam:cloudExam},{merge:true});}
   remote=cloudData;remoteSubjectData=cloudSubjectData;
   hydrating=true;
   window.setSubjectState(cloudSubjectData,cloudSubjects,cloudMode);
-  window.setData(cloudData);
-  window.setDeletedLogs(cloudDeletedLogs);
+  window.setWeeklyGoals(cloudWeeklyGoals);
   window.setGoal(cloudGoal);
-  window.setBadges(cloudBadges);
   window.setGW(cloudWeeks);
   window.setHiddenGW(cloudHiddenWeeks);
+  window.setData(cloudData);
+  window.setDeletedLogs(cloudDeletedLogs);
+  window.setBadges(cloudBadges);
   window.setExam(cloudExam);
   hydrating=false;
   render();
+  syncWG(cloudWeeklyGoals);
   window.finishAuthBoot();
   unsub=onSnapshot(accountRef,s=>{
    if(version!==authLoadVersion||!s.exists())return;
@@ -832,15 +880,18 @@ onAuthStateChanged(auth,async u=>{
    remote=nextData;remoteSubjectData=nextSubjectData;
    hydrating=true;
    window.setSubjectState(nextSubjectData,Array.isArray(d.subjects)?d.subjects:[],d.trackingMode==='subjects'?'subjects':'total');
-   window.setData({...nextData});
-   window.setDeletedLogs(nextDeleted);
-   window.setBadges(d.badges||{});
+   const nextWG=d.weeklyGoals&&typeof d.weeklyGoals==='object'?d.weeklyGoals:{};
+   window.setWeeklyGoals(nextWG);
    window.setGW(d.goalWeeks||{});
    window.setHiddenGW(d.hiddenGoalWeeks||{});
    window.setGoal(d.goal||0);
+   window.setData({...nextData});
+   window.setDeletedLogs(nextDeleted);
+   window.setBadges(d.badges||{});
    window.setExam(d.exam||null);
    hydrating=false;
    render();
+   syncWG(nextWG);
   },e=>console.error('Cloud listener failed',e));
  }catch(e){
   if(version!==authLoadVersion)return;
@@ -858,4 +909,8 @@ window.saveWelcomed=async()=>{};
 window.saveGW=async m=>queueCloudWrite({goalWeeks:m});
 window.saveHiddenGW=async m=>queueCloudWrite({hiddenGoalWeeks:m});
 window.saveGoal=async v=>queueCloudWrite({goal:v});
+window.saveWeeklyGoals=async m=>queueCloudWrite({weeklyGoals:m});
+// Weekly goals filled in or migrated while loading are pushed to the cloud once.
+const canonWG=o=>JSON.stringify(Object.keys(o||{}).sort().map(k=>[k,+o[k]||0]));
+function syncWG(cloudWG){const cur=window.getWeeklyGoals();if(canonWG(cur)!==canonWG(cloudWG))window.saveWeeklyGoals(cur)}
 </script></body></html>
